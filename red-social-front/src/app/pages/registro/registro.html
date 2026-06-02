@@ -1,0 +1,310 @@
+<div class="register-page">
+
+    <div class="register-card">
+
+        <h2>Crear cuenta</h2>
+
+        <span class="subtitle">
+            Completá tus datos para comenzar.
+        </span>
+
+        <form [formGroup]="registroForm"
+            (ngSubmit)="registrarse()">
+
+            <div class="double-row">
+
+                <div class="field">
+
+                    <label>Nombre</label>
+
+                    <input
+                        type="text"
+                        formControlName="nombre"
+                        maxlength="25"
+                        [class.error-input]="registroForm.get('nombre')?.invalid && registroForm.get('nombre')?.touched">
+
+                    @if(registroForm.get('nombre')?.invalid && registroForm.get('nombre')?.touched){
+
+                        <div class="error-message">
+
+                            @if(registroForm.get('nombre')?.errors?.['required']){
+                                Debe ingresar un nombre.
+                            }
+
+                            @if(registroForm.get('nombre')?.errors?.['pattern']){
+                                Solo se permiten letras.
+                            }
+
+                            @if(registroForm.get('nombre')?.errors?.['minlength']){
+                                Mínimo 2 caracteres.
+                            }
+
+                            @if(registroForm.get('nombre')?.errors?.['maxlength']){
+                                Máximo 25 caracteres.
+                            }
+
+                        </div>
+
+                    }
+
+                </div>
+
+                <div class="field">
+
+                    <label>Apellido</label>
+
+                    <input
+                        type="text"
+                        formControlName="apellido"
+                        maxlength="25"
+                        [class.error-input]="registroForm.get('apellido')?.invalid && registroForm.get('apellido')?.touched">
+
+                    @if(registroForm.get('apellido')?.invalid && registroForm.get('apellido')?.touched){
+
+                        <div class="error-message">
+
+                            @if(registroForm.get('apellido')?.errors?.['required']){
+                                Debe ingresar un apellido.
+                            }
+
+                            @if(registroForm.get('apellido')?.errors?.['pattern']){
+                                Solo se permiten letras.
+                            }
+
+                            @if(registroForm.get('apellido')?.errors?.['minlength']){
+                                Mínimo 2 caracteres.
+                            }
+
+                            @if(registroForm.get('apellido')?.errors?.['maxlength']){
+                                Máximo 25 caracteres.
+                            }
+
+                        </div>
+
+                    }
+
+                </div>
+
+            </div>
+
+            <div class="double-row">
+
+                <div class="field">
+
+                    <label>Correo electrónico</label>
+
+                    <input
+                        type="email"
+                        formControlName="correo"
+                        maxlength="50"
+                        [class.error-input]="registroForm.get('correo')?.invalid && registroForm.get('correo')?.touched">
+
+                    @if(registroForm.get('correo')?.invalid && registroForm.get('correo')?.touched){
+
+                        <div class="error-message">
+
+                            @if(registroForm.get('correo')?.errors?.['required']){
+                                Debe ingresar un correo electrónico.
+                            }
+
+                            @if(registroForm.get('correo')?.errors?.['email']){
+                                Correo electrónico inválido.
+                            }
+
+                            @if(registroForm.get('correo')?.errors?.['maxlength']){
+                                Máximo 50 caracteres.
+                            }
+
+                        </div>
+
+                    }
+
+                </div>
+
+                <div class="field">
+
+                    <label>Usuario</label>
+
+                    <input
+                        type="text"
+                        formControlName="usuario"
+                        maxlength="20"
+                        [class.error-input]="registroForm.get('usuario')?.invalid && registroForm.get('usuario')?.touched">
+
+                    @if(registroForm.get('usuario')?.invalid && registroForm.get('usuario')?.touched){
+
+                        <div class="error-message">
+
+                            @if(registroForm.get('usuario')?.errors?.['required']){
+                                Debe ingresar un usuario.
+                            }
+
+                            @if(registroForm.get('usuario')?.errors?.['minlength']){
+                                Mínimo 4 caracteres.
+                            }
+
+                            @if(registroForm.get('usuario')?.errors?.['maxlength']){
+                                Máximo 20 caracteres.
+                            }
+
+                        </div>
+
+                    }
+
+                </div>
+
+            </div>
+
+            <div class="double-row">
+
+                <div class="field">
+
+                    <label>Contraseña</label>
+
+                    <input
+                        type="password"
+                        formControlName="password"
+                        [class.error-input]="registroForm.get('password')?.invalid && registroForm.get('password')?.touched">
+
+                    @if(registroForm.get('password')?.invalid && registroForm.get('password')?.touched){
+
+                        <div class="error-message">
+                            Debe tener 8 caracteres, una mayúscula y un número.
+                        </div>
+
+                    }
+
+                </div>
+
+                <div class="field">
+
+                    <label>Repetir contraseña</label>
+                    @if(
+                            registroForm.errors?.['passwordsMismatch'] &&
+                            registroForm.get('repetirPassword')?.touched
+                        ){
+
+                            <div class="error-message">
+                                Las contraseñas no coinciden.
+                            </div>
+
+                        }
+
+                    <input
+                        type="password"
+                        formControlName="repetirPassword"
+                        [class.error-input]="registroForm.get('repetirPassword')?.invalid && registroForm.get('repetirPassword')?.touched">
+
+                    @if(registroForm.get('repetirPassword')?.invalid && registroForm.get('repetirPassword')?.touched){
+
+                        <div class="error-message">
+                            Debe repetir la contraseña.
+                        </div>
+
+                    }
+
+                </div>
+
+            </div>
+
+            <div class="double-row">
+
+                <div class="field">
+
+                    <label>Fecha de nacimiento</label>
+
+                    <input
+                        type="date"
+                        formControlName="fechaNacimiento"
+                        [class.error-input]="registroForm.get('fechaNacimiento')?.invalid && registroForm.get('fechaNacimiento')?.touched">
+
+                    @if(registroForm.get('fechaNacimiento')?.invalid && registroForm.get('fechaNacimiento')?.touched){
+
+                        <div class="error-message">
+                            Debe ingresar una fecha.
+                        </div>
+
+                    }
+
+                </div>
+
+                <div class="field">
+
+                    <label>Foto de perfil</label>
+
+                    <input type="file">
+
+                </div>
+
+            </div>
+
+            <div class="field">
+
+                <label>Descripción breve</label>
+
+                <textarea
+                    rows="3"
+                    maxlength="150"
+                    formControlName="descripcion"
+                    [class.error-input]="registroForm.get('descripcion')?.invalid && registroForm.get('descripcion')?.touched">
+                </textarea>
+
+                @if(registroForm.get('descripcion')?.invalid && registroForm.get('descripcion')?.touched){
+
+                    <div class="error-message">
+
+                        @if(registroForm.get('descripcion')?.errors?.['required']){
+                            Debe ingresar una descripción.
+                        }
+
+                        @if(registroForm.get('descripcion')?.errors?.['maxlength']){
+                            Máximo 150 caracteres.
+                        }
+
+                    </div>
+
+                }
+
+            </div>
+
+            <button
+                class="register-btn"
+                type="submit">
+
+                Crear mi cuenta
+
+            </button>
+
+        </form>
+
+    </div>
+
+    @if(mostrarModal){
+
+<div class="modal-overlay">
+
+    <div class="modal-custom">
+
+        <h2>Registro exitoso</h2>
+
+        <p>
+            Tu cuenta fue creada correctamente.
+        </p>
+
+        <button
+            type="button"
+            class="modal-btn"
+            (click)="cerrarModal()">
+
+            Continuar
+
+        </button>
+
+    </div>
+
+</div>
+
+    }
+
+</div>
+
