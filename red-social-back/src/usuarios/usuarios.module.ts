@@ -20,6 +20,6 @@ import { Usuario, UsuarioSchema } from './schemas/usuario.schema';
 
   providers: [UsuariosService],
 
-  exports: [MongooseModule],
+  exports: [MongooseModule, UsuariosService],
 })
 export class UsuariosModule {}

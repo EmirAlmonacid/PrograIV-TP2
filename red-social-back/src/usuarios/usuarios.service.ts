@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-
+import * as bcrypt from 'bcrypt';
 import { Usuario } from './schemas/usuario.schema';
 
 @Injectable()
@@ -13,8 +13,15 @@ export class UsuariosService {
   ) {}
 
   async crear(usuario: any) {
-    return await this.usuarioModel.create(usuario);
-  }
+
+  const passwordEncriptada =
+    await bcrypt.hash(usuario.password, 10);
+
+  usuario.password = passwordEncriptada;
+
+  return await this.usuarioModel.create(usuario);
+
+}
 
   async login(usuario: string, password: string) {
 
@@ -29,12 +36,23 @@ export class UsuariosService {
     return null;
   }
 
-  if (usuarioEncontrado.password !== password) {
+  const passwordCorrecta =
+  await bcrypt.compare(
+    password,
+    usuarioEncontrado.password
+  );
+
+  if (!passwordCorrecta) {
     return null;
   }
 
   return usuarioEncontrado;
 
+  
+}
+
+async obtenerTodos() {
+  return await this.usuarioModel.find();
 }
 
 }

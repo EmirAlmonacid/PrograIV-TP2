@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 
 @Controller('usuarios')
@@ -21,6 +21,12 @@ login(@Body() datos: any) {
     datos.password
   );
 
+  
+
 }
+    @Get()
+    obtenerTodos() {
+      return this.usuariosService.obtenerTodos();
+    }
 
 }
