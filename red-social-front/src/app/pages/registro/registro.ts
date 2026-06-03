@@ -143,9 +143,9 @@ export class Registro {
       ],
 
       fechaNacimiento: [
-        '',
+        '',[
         Validators.required,
-        edadValidaValidator()
+        edadValidaValidator()]
       ],
 
       descripcion: [

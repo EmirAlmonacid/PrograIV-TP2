@@ -1,25 +1,19 @@
 import { NestFactory } from '@nestjs/core';
-import { INestApplication } from '@nestjs/common';
 import { AppModule } from './app.module';
 
-let app: INestApplication;
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
 
-async function createApp(): Promise<INestApplication> {
-  if (!app) {
-    app = await NestFactory.create(AppModule);
+  app.enableCors({
+    origin: [
+      'http://localhost:4200',
+      'https://progra-iv-tp-2-front-ph64b5nib-emiralmonacid-7158s-projects.vercel.app'
+    ],
+  });
 
-    app.enableCors();
+  await app.listen(3000);
 
-    await app.init();
-  }
-
-  return app;
+  console.log('Servidor iniciado en puerto 3000');
 }
 
-export default async function handler(req: any, res: any) {
-  const app = await createApp();
-
-  const server = app.getHttpAdapter().getInstance();
-
-  return server(req, res);
-}
+bootstrap();
