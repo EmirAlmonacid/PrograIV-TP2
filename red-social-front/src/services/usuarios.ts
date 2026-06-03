@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UsuariosService {
 
-  private apiUrl = 'http://localhost:3000/usuarios';
+  private apiUrl = 'http://localhost:3000/usuarios, https://progra-iv-tp-2-back-omega.vercel.app/usuarios';
 
   constructor(
     private http: HttpClient
