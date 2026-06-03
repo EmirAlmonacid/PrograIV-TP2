@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class UsuariosService {
 
   private apiUrl = 'https://progra-iv-tp-2-back-omega.vercel.app/usuarios';
+
   constructor(
     private http: HttpClient
   ) {}
@@ -16,10 +17,10 @@ export class UsuariosService {
   }
 
   login(datos: any) {
-  return this.http.post(
-    'https://progra-iv-tp-2-back-omega.vercel.app/usuarios',
-    datos
-  );
-}
+    return this.http.post(
+      'https://progra-iv-tp-2-back-omega.vercel.app/usuarios/login',
+      datos
+    );
+  }
 
 }
