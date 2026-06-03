@@ -32,6 +32,42 @@ function passwordsMatchValidator(): ValidatorFn {
 
 }
 
+function edadValidaValidator(): ValidatorFn {
+
+  return (control: AbstractControl): ValidationErrors | null => {
+
+    if (!control.value) {
+      return null;
+    }
+
+    const fechaNacimiento = new Date(control.value);
+    const hoy = new Date();
+
+    let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+
+    const mes = hoy.getMonth() - fechaNacimiento.getMonth();
+
+    if (
+      mes < 0 ||
+      (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())
+    ) {
+      edad--;
+    }
+
+    if (edad < 13) {
+      return { menorDeEdad: true };
+    }
+
+    if (edad > 110) {
+      return { edadInvalida: true };
+    }
+
+    return null;
+
+  };
+
+}
+
 @Component({
   selector: 'app-registro',
   imports: [
@@ -108,7 +144,8 @@ export class Registro {
 
       fechaNacimiento: [
         '',
-        Validators.required
+        Validators.required,
+        edadValidaValidator()
       ],
 
       descripcion: [
