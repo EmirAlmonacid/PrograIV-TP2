@@ -6,13 +6,16 @@ let app: INestApplication;
 
 async function createApp(): Promise<INestApplication> {
     if (!app) {
+
     app = await NestFactory.create(AppModule);
 
     app.enableCors({
         origin: [
         'http://localhost:4200',
-        'https://progra-iv-tp-2-front-ph64b5nib-emiralmonacid-7158s-projects.vercel.app'
+        'https://progra-iv-tp-2-front-woad.vercel.app'
         ],
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+        allowedHeaders: ['Content-Type'],
     });
 
     await app.init();
