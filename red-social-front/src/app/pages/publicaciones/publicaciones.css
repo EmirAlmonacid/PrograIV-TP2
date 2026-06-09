@@ -1,0 +1,49 @@
+*{
+    box-sizing:border-box;
+}
+
+body{
+    background:#f5f7fa;
+}
+
+.contenedor{
+    max-width:1000px;
+    margin:40px auto;
+    padding:0 20px;
+}
+
+.acciones{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:35px;
+}
+
+.acciones button{
+    height:50px;
+    padding:0 24px;
+
+    border:none;
+    border-radius:12px;
+
+    background:white;
+    color:#111827;
+
+    font-size:15px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+    transition:.2s;
+}
+
+.acciones button:hover{
+    transform:translateY(-2px);
+}
+
+.acciones button.activo{
+    background:#111827;
+    color:white;
+}

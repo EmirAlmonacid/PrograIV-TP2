@@ -1,1 +1,23 @@
-<p>publicaciones works!</p>
+<div class="contenedor">
+
+    <div class="acciones">
+
+        <button
+            [class.activo]="orden === 'fecha'">
+            Más recientes
+        </button>
+
+        <button
+            [class.activo]="orden === 'likes'">
+            Más populares
+        </button>
+
+    </div>
+
+    <app-publicacion-card></app-publicacion-card>
+
+    <app-publicacion-card></app-publicacion-card>
+
+    <app-publicacion-card></app-publicacion-card>
+
+</div>

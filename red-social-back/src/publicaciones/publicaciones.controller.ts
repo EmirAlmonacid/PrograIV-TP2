@@ -1,10 +1,11 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Delete,
-  Param,
-  Body
+    Controller,
+    Get,
+    Post,
+    Delete,
+    Param,
+    Body,
+    Query
 } from '@nestjs/common';
 
 import { PublicacionesService } from './publicaciones.service';
@@ -18,30 +19,66 @@ export class PublicacionesController {
 
     @Post()
     crear(
-    @Body() publicacion: any
+        @Body() publicacion: any
     ) {
 
-    return this.publicacionesService.crear(
-        publicacion
-    );
+        return this.publicacionesService.crear(
+            publicacion
+        );
 
     }
 
     @Get()
-    obtenerTodas() {
+    obtenerTodas(
+        @Query('orden') orden?: string,
+        @Query('usuarioId') usuarioId?: string,
+        @Query('offset') offset?: number,
+        @Query('limit') limit?: number
+    ) {
 
-    return this.publicacionesService.obtenerTodas();
+        return this.publicacionesService.obtenerTodas(
+            orden,
+            usuarioId,
+            offset,
+            limit
+        );
 
     }
 
     @Delete(':id')
     eliminar(
-    @Param('id') id: string
+        @Param('id') id: string
     ) {
 
         return this.publicacionesService.eliminar(
-        id
-    );
+            id
+        );
+
+    }
+
+    @Post(':id/like')
+    darLike(
+        @Param('id') id: string,
+        @Body() body: any
+    ) {
+
+        return this.publicacionesService.darLike(
+            id,
+            body.usuarioId
+        );
+
+    }
+
+    @Delete(':id/like/:usuarioId')
+    quitarLike(
+        @Param('id') id: string,
+        @Param('usuarioId') usuarioId: string
+    ) {
+
+        return this.publicacionesService.quitarLike(
+            id,
+            usuarioId
+        );
 
     }
 

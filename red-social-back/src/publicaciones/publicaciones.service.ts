@@ -12,38 +12,91 @@ export class PublicacionesService {
         private publicacionModel: Model<Publicacion>
     ) {}
 
-
     async crear(publicacion: any) {
 
-    return await this.publicacionModel.create(
-        publicacion
-    );
+        return await this.publicacionModel.create(
+            publicacion
+        );
 
     }
 
-    async obtenerTodas() {
+    async obtenerTodas(
+        orden?: string,
+        usuarioId?: string,
+        offset = 0,
+        limit = 5
+    ) {
+
+        const filtro: any = {
+            activo: true
+        };
+
+        if (usuarioId) {
+            filtro.usuarioId = usuarioId;
+        }
+
+        const criterioOrden =
+            orden === 'likes'
+                ? { likes: -1 }
+                : { fechaCreacion: -1 };
 
         return await this.publicacionModel
-        .find({
-        activo: true
-        })
-        .sort({
-        fechaCreacion: -1
-        });
+            .find(filtro)
+            .sort(criterioOrden as any)
+            .skip(Number(offset))
+            .limit(Number(limit));
 
     }
 
     async eliminar(id: string) {
 
-    return await this.publicacionModel.findByIdAndUpdate(
-        id,
-        {
-        activo: false
-        },
-        {
-        new: true
-        }
-    );
+        return await this.publicacionModel.findByIdAndUpdate(
+            id,
+            {
+                activo: false
+            },
+            {
+                new: true
+            }
+        );
+
+    }
+
+    async darLike(
+        publicacionId: string,
+        usuarioId: string
+    ) {
+
+        return await this.publicacionModel.findByIdAndUpdate(
+            publicacionId,
+            {
+                $addToSet: {
+                    likes: usuarioId
+                }
+            },
+            {
+                new: true
+            }
+        );
+
+    }
+
+    async quitarLike(
+        publicacionId: string,
+        usuarioId: string
+    ) {
+
+        return await this.publicacionModel.findByIdAndUpdate(
+            publicacionId,
+            {
+                $pull: {
+                    likes: usuarioId
+                }
+            },
+            {
+                new: true
+            }
+        );
 
     }
 
