@@ -45,7 +45,26 @@ export class UsuariosService {
     usuario.foto = (imagenSubida as any).secure_url;
 
   }
+const usuarioExistente =
+  await this.usuarioModel.findOne({
+    $or: [
+      { usuario: usuario.usuario },
+      { correo: usuario.correo }
+    ]
+  });
 
+console.log('USUARIO EXISTENTE:', usuarioExistente);
+
+if (usuarioExistente) {
+
+  console.log('ENTRO AL IF');
+
+  return {
+    error: true,
+    mensaje: 'Usuario o correo ya existe'
+  };
+
+}
   const passwordEncriptada =
     await bcrypt.hash(usuario.password, 10);
 
