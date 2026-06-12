@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { UsuariosService } from '../../../services/usuarios';
 import {
   AbstractControl,
@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   ValidationErrors,
   ValidatorFn,
-  Validators
+  Validators,
 } from '@angular/forms';
 
 import { Navbar } from '../../components/navbar/navbar';
@@ -91,7 +91,8 @@ export class Registro {
   constructor(
     private fb: FormBuilder,
     private usuariosService: UsuariosService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
 
     // Configuración del formulario y sus validaciones
@@ -264,23 +265,22 @@ this.usuariosService.crear(formData).subscribe({
 
   next: (respuesta: any) => {
 
-  console.log(respuesta);
+  console.log('NEXT');
 
   if (respuesta.error) {
 
-    this.mensajeModal =
-      respuesta.mensaje;
-
+    this.mensajeModal = respuesta.mensaje;
     this.mostrarModal = true;
 
-    return;
+    this.cdr.detectChanges();
 
+    return;
   }
 
-  this.mensajeModal =
-    'Registro exitoso';
-
+  this.mensajeModal = 'Registro exitoso';
   this.mostrarModal = true;
+
+  this.cdr.detectChanges();
 
 },
 
