@@ -178,9 +178,14 @@ export class Registro {
 
   cerrarModal() {
 
+  console.log('CERRAR MODAL');
+  console.log(this.mensajeModal);
+
   this.mostrarModal = false;
 
   if (this.mensajeModal === 'Registro exitoso') {
+
+    console.log('NAVEGANDO LOGIN');
 
     this.router.navigate(['/login']);
 
