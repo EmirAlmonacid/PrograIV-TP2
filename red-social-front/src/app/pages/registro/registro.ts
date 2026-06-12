@@ -280,7 +280,9 @@ this.usuariosService.crear(formData).subscribe({
   error: (error) => {
 
     console.error(error);
-
+    console.log(error);
+console.log(error.status);
+console.log(error.error);
     this.mensajeModal =
       'Usuario o correo ya existe';
 
