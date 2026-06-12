@@ -16,27 +16,44 @@ export class UsuariosService {
   ) {}
 
   async crear(
-    usuario: any,
-    file?: any,
-  ) {
+  usuario: any,
+  file?: any,
+) {
 
-    if (file) {
+  const usuarioExistente =
+    await this.usuarioModel.findOne({
+      $or: [
+        { usuario: usuario.usuario },
+        { correo: usuario.correo }
+      ]
+    });
 
-      const imagenSubida =
-        await this.cloudinaryService.uploadImage(file);
+  if (usuarioExistente) {
 
-      usuario.foto = (imagenSubida as any).secure_url;
-
-    }
-
-    const passwordEncriptada =
-      await bcrypt.hash(usuario.password, 10);
-
-    usuario.password = passwordEncriptada;
-
-    return await this.usuarioModel.create(usuario);
+    return {
+      error: true,
+      mensaje: 'Usuario o correo ya existe'
+    };
 
   }
+
+  if (file) {
+
+    const imagenSubida =
+      await this.cloudinaryService.uploadImage(file);
+
+    usuario.foto = (imagenSubida as any).secure_url;
+
+  }
+
+  const passwordEncriptada =
+    await bcrypt.hash(usuario.password, 10);
+
+  usuario.password = passwordEncriptada;
+
+  return await this.usuarioModel.create(usuario);
+
+}
 
   async login(usuario: string, password: string) {
 
