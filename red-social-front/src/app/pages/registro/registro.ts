@@ -258,7 +258,8 @@ formData.append(
 this.usuariosService.crear(formData).subscribe({
 
   next: (respuesta: any) => {
-
+    alert('ENTRO AL NEXT');
+    console.log(respuesta);
     if (respuesta.error) {
 
       this.mensajeModal =
@@ -278,7 +279,7 @@ this.usuariosService.crear(formData).subscribe({
   },
 
   error: (error) => {
-
+    alert('ENTRO AL ERROR');
     console.error(error);
     console.log(error);
 console.log(error.status);
