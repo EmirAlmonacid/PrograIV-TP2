@@ -309,10 +309,20 @@
 
     <div class="modal-custom">
 
-        <h2>Registro exitoso</h2>
+                    <h2>{{ mensajeModal }}</h2>
 
-        <p>
-            Tu cuenta fue creada correctamente.
+            <p>
+
+            @if(mensajeModal === 'Registro exitoso'){
+
+                Tu cuenta fue creada correctamente.
+
+            } @else {
+
+                Intente con otro usuario o correo electrónico.
+
+            }
+
         </p>
 
         <button

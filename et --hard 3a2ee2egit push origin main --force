@@ -1,0 +1,19 @@
+[33m1ca271f[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Control usuario duplicado
+[33m3a2ee2e[m remove cloudinary debug
+[33m32d5b02[m debug env
+[33m1705b65[m Debug Cloudinary env vars
+[33mb511038[m Cloudinary perfil
+[33md5bd332[m Mejoras en css
+[33m44e83d7[m Sprint 1 terminado
+[33m74c8fcf[m agrego vercel config
+[33m382da25[m cors open
+[33m4861a3d[m Fix CORS Vercel
+[33m81d7635[m Cambios en el localhost back
+[33mcdbeda2[m Se agrega validators a la fecha en el registro
+[33mcf5da48[m Corrijo ruta login
+[33m4714ace[m Corrijo CORS
+[33m832cfef[m Conecto frontend con backend Vercel
+[33m04377eb[m Cambio front vercel link
+[33m50ca19f[m Adaptacion Nest para Vercel
+[33m75aa265[m Agrego GET usuarios
+[33m3a162b6[m Sprint 1

@@ -10,8 +10,8 @@ import {
   Validators
 } from '@angular/forms';
 
-import { RouterLink } from '@angular/router';
 import { Navbar } from '../../components/navbar/navbar';
+import { Router, RouterLink } from '@angular/router';
 
 // Valida que ambas contraseñas ingresadas sean iguales
 function passwordsMatchValidator(): ValidatorFn {
@@ -86,10 +86,12 @@ export class Registro {
   registroForm: FormGroup;
   mostrarModal = false;
   fotoSeleccionada: File | null = null;
+  mensajeModal = '';
 
   constructor(
     private fb: FormBuilder,
-    private usuariosService: UsuariosService
+    private usuariosService: UsuariosService,
+    private router: Router
   ) {
 
     // Configuración del formulario y sus validaciones
@@ -175,8 +177,16 @@ export class Registro {
   }
 
   cerrarModal() {
-    this.mostrarModal = false;
+
+  this.mostrarModal = false;
+
+  if (this.mensajeModal === 'Registro exitoso') {
+
+    this.router.navigate(['/login']);
+
   }
+
+}
 
   seleccionarFoto(event: Event) {
 
@@ -246,20 +256,37 @@ formData.append(
 }
 
 this.usuariosService.crear(formData).subscribe({
-next: (respuesta) => {
 
+  next: (respuesta: any) => {
 
-  console.log('Usuario creado', respuesta);
+    if (respuesta.error) {
 
-  this.mostrarModal = true;
+      this.mensajeModal =
+        respuesta.mensaje;
 
-},
-error: (error) => {
+      this.mostrarModal = true;
 
-  console.error(error);
+      return;
 
-}
+    }
 
+    this.mensajeModal =
+      'Registro exitoso';
+
+    this.mostrarModal = true;
+
+  },
+
+  error: (error) => {
+
+    console.error(error);
+
+    this.mensajeModal =
+      'Usuario o correo ya existe';
+
+    this.mostrarModal = true;
+
+  }
 
 });
 
