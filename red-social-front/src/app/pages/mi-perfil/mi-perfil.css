@@ -1,0 +1,139 @@
+.perfil-page{
+    width:100%;
+    min-height:100vh;
+    background:#f4f6fb;
+    display:flex;
+    justify-content:center;
+    padding:20px 10px;
+}
+
+.perfil-card{
+    width:100%;
+    max-width:800px;
+    background:#fff;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 6px 20px rgba(0,0,0,.08);
+}
+
+.banner{
+    height:140px;
+    background:linear-gradient(
+        135deg,
+        #0d1b4c,
+        #17368f,
+        #4f77ff
+    );
+}
+
+.perfil-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    padding:0 25px;
+    margin-top:-50px;
+}
+
+.foto-perfil{
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid #fff;
+    background:#fff;
+}
+
+.logout-btn{
+    border:none;
+    background:#0d1b4c;
+    color:#fff;
+    padding:10px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+    font-size:14px;
+    transition:.2s;
+}
+
+.logout-btn:hover{
+    opacity:.9;
+}
+
+.perfil-info{
+    padding:15px 25px;
+}
+
+.perfil-info h1{
+    margin:0;
+    color:#0d1b4c;
+    font-size:24px;
+}
+
+.usuario{
+    display:block;
+    margin-top:3px;
+    color:#666;
+    font-size:14px;
+}
+
+.descripcion{
+    margin-top:12px;
+    line-height:1.4;
+    color:#333;
+    font-size:14px;
+}
+
+.estadisticas{
+    padding:20px 25px;
+    border-top:1px solid #e8e8e8;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+}
+
+.dato{
+    background:#f8f9ff;
+    border-radius:12px;
+    padding:15px;
+}
+
+.titulo{
+    display:block;
+    font-weight:700;
+    color:#0d1b4c;
+    margin-bottom:6px;
+    font-size:14px;
+}
+
+.dato span,
+.dato p{
+    font-size:14px;
+    margin:0;
+    word-break:break-word;
+}
+
+@media(max-width:768px){
+
+    .perfil-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+    }
+
+    .perfil-info h1{
+        font-size:20px;
+    }
+
+    .foto-perfil{
+        width:85px;
+        height:85px;
+    }
+
+    .banner{
+        height:120px;
+    }
+
+    .estadisticas{
+        grid-template-columns:1fr;
+    }
+}

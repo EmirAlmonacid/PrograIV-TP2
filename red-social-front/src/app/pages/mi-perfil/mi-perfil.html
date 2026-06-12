@@ -1,0 +1,61 @@
+<div class="perfil-page" *ngIf="usuario">
+
+    <div class="perfil-card">
+
+        <div class="banner"></div>
+
+        <div class="perfil-header">
+
+            <img
+                class="foto-perfil"
+                [src]="usuario.foto"
+                alt="Foto perfil">
+
+            <button
+                class="logout-btn"
+                (click)="cerrarSesion()">
+
+                Cerrar sesión
+
+            </button>
+
+        </div>
+
+        <div class="perfil-info">
+
+            <h1>
+                {{ usuario.nombre }} {{ usuario.apellido }}
+            </h1>
+
+            <span class="usuario">
+                &#64;{{ usuario.usuario }}
+            </span>
+
+            <p class="descripcion">
+                {{ usuario.descripcion }}
+            </p>
+
+        </div>
+
+        <div class="estadisticas">
+
+            <div class="dato">
+                <span class="titulo">Correo</span>
+                <span>{{ usuario.correo }}</span>
+            </div>
+
+            <div class="dato">
+                <span class="titulo">Fecha nacimiento</span>
+                <span>{{ formatearFecha(usuario.fechaNacimiento) }}</span>
+            </div>
+
+            <div class="dato">
+                <span class="titulo">Perfil</span>
+                <span>{{ usuario.perfil }}</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -37,14 +37,19 @@ export class UsuariosService {
 
   }
 
-  if (file) {
+      if (file) {
 
-    const imagenSubida =
-      await this.cloudinaryService.uploadImage(file);
+      const imagenSubida =
+        await this.cloudinaryService.uploadImage(file);
 
-    usuario.foto = (imagenSubida as any).secure_url;
+      usuario.foto = (imagenSubida as any).secure_url;
 
-  }
+    } else {
+
+      usuario.foto =
+        'https://res.cloudinary.com/drh8becix/image/upload/v1781308140/avatar_kvowju.webp';
+
+    }
 
   const passwordEncriptada =
     await bcrypt.hash(usuario.password, 10);

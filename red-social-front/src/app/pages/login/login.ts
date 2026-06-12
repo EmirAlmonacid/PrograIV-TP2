@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsuariosService } from '../../../services/usuarios';
 
@@ -15,7 +15,7 @@ import { Navbar } from '../../components/navbar/navbar';
   selector: 'app-login',
   imports: [
     Navbar,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './login.html',
   styleUrl: './login.css'
@@ -29,7 +29,8 @@ export class Login {
   constructor(
     private fb: FormBuilder,
     private usuariosService: UsuariosService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
 
     // Configuración del formulario de inicio de sesión
@@ -65,6 +66,7 @@ export class Login {
 
           this.mostrarModal = true;
 
+          this.cdr.detectChanges();
           return;
 
         }
@@ -79,6 +81,7 @@ export class Login {
           'Inicio de sesión exitoso';
 
         this.mostrarModal = true;
+        this.cdr.detectChanges();
 
       },
 
