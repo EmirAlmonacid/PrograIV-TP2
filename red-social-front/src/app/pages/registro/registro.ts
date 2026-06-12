@@ -259,10 +259,7 @@ this.usuariosService.crear(formData).subscribe({
 
   next: (respuesta: any) => {
 
-  console.log('RESPUESTA COMPLETA');
   console.log(respuesta);
-
-  alert(JSON.stringify(respuesta));
 
   if (respuesta.error) {
 
@@ -283,17 +280,15 @@ this.usuariosService.crear(formData).subscribe({
 },
 
   error: (error) => {
-    alert('ENTRO AL ERROR');
-    console.error(error);
-    console.log(error);
-console.log(error.status);
-console.log(error.error);
-    this.mensajeModal =
-      'Usuario o correo ya existe';
 
-    this.mostrarModal = true;
+  console.error(error);
 
-  }
+  this.mensajeModal =
+    'Usuario o correo ya existe';
+
+  this.mostrarModal = true;
+
+}
 
 });
 
