@@ -44,8 +44,11 @@ export class Usuario {
   })
   descripcion!: string;
 
-  @Prop()
-  foto!: string;
+  @Prop({
+  default:
+    'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg',
+})
+foto!: string;
 
   @Prop({
     default: 'usuario'

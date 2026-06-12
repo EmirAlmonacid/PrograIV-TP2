@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { UsuariosService } from './usuarios.service';
 
 @Controller('usuarios')
@@ -9,24 +17,27 @@ export class UsuariosController {
   ) {}
 
   @Post()
-  crear(@Body() usuario: any) {
-    return this.usuariosService.crear(usuario);
+  @UseInterceptors(FileInterceptor('foto'))
+  crear(
+    @Body() usuario: any,
+    @UploadedFile() file?: any,
+  ) {
+    return this.usuariosService.crear(usuario, file);
   }
 
   @Post('login')
-login(@Body() datos: any) {
+  login(@Body() datos: any) {
 
-  return this.usuariosService.login(
-    datos.usuario,
-    datos.password
-  );
+    return this.usuariosService.login(
+      datos.usuario,
+      datos.password
+    );
 
-  
+  }
 
-}
-    @Get()
-    obtenerTodos() {
-      return this.usuariosService.obtenerTodos();
-    }
+  @Get()
+  obtenerTodos() {
+    return this.usuariosService.obtenerTodos();
+  }
 
 }

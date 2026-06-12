@@ -85,6 +85,7 @@ export class Registro {
 
   registroForm: FormGroup;
   mostrarModal = false;
+  fotoSeleccionada: File | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -177,41 +178,92 @@ export class Registro {
     this.mostrarModal = false;
   }
 
-  registrarse() {
+  seleccionarFoto(event: Event) {
 
-    // Si existen errores, muestra las validaciones
-    if (this.registroForm.invalid) {
-      this.registroForm.markAllAsTouched();
-      return;
-    }
+  const input = event.target as HTMLInputElement;
 
-    const usuario = {
-      nombre: this.registroForm.value.nombre,
-      apellido: this.registroForm.value.apellido,
-      correo: this.registroForm.value.correo,
-      usuario: this.registroForm.value.usuario,
-      password: this.registroForm.value.password,
-      fechaNacimiento: this.registroForm.value.fechaNacimiento,
-      descripcion: this.registroForm.value.descripcion,
-      foto: this.registroForm.value.foto
-    };
+  if (input.files && input.files.length > 0) {
 
-    // Envía los datos al servicio para crear el usuario
-    this.usuariosService.crear(usuario).subscribe({
-      next: (respuesta) => {
-
-        console.log('Usuario creado', respuesta);
-
-        this.mostrarModal = true;
-
-      },
-      error: (error) => {
-
-        console.error(error);
-
-      }
-    });
+    this.fotoSeleccionada = input.files[0];
 
   }
+
+}
+
+  registrarse() {
+
+if (this.registroForm.invalid) {
+this.registroForm.markAllAsTouched();
+return;
+}
+
+const formData = new FormData();
+
+formData.append(
+'nombre',
+this.registroForm.value.nombre
+);
+
+formData.append(
+'apellido',
+this.registroForm.value.apellido
+);
+
+formData.append(
+'correo',
+this.registroForm.value.correo
+);
+
+formData.append(
+'usuario',
+this.registroForm.value.usuario
+);
+
+formData.append(
+'password',
+this.registroForm.value.password
+);
+
+formData.append(
+'fechaNacimiento',
+this.registroForm.value.fechaNacimiento
+);
+
+formData.append(
+'descripcion',
+this.registroForm.value.descripcion
+);
+
+if (this.fotoSeleccionada) {
+
+
+formData.append(
+  'foto',
+  this.fotoSeleccionada
+);
+
+
+}
+
+this.usuariosService.crear(formData).subscribe({
+next: (respuesta) => {
+
+
+  console.log('Usuario creado', respuesta);
+
+  this.mostrarModal = true;
+
+},
+error: (error) => {
+
+  console.error(error);
+
+}
+
+
+});
+
+}
+
 
 }
