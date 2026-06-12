@@ -258,25 +258,29 @@ formData.append(
 this.usuariosService.crear(formData).subscribe({
 
   next: (respuesta: any) => {
-    alert('ENTRO AL NEXT');
-    console.log(respuesta);
-    if (respuesta.error) {
 
-      this.mensajeModal =
-        respuesta.mensaje;
+  console.log('RESPUESTA COMPLETA');
+  console.log(respuesta);
 
-      this.mostrarModal = true;
+  alert(JSON.stringify(respuesta));
 
-      return;
-
-    }
+  if (respuesta.error) {
 
     this.mensajeModal =
-      'Registro exitoso';
+      respuesta.mensaje;
 
     this.mostrarModal = true;
 
-  },
+    return;
+
+  }
+
+  this.mensajeModal =
+    'Registro exitoso';
+
+  this.mostrarModal = true;
+
+},
 
   error: (error) => {
     alert('ENTRO AL ERROR');
