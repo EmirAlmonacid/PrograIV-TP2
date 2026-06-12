@@ -15,7 +15,7 @@ import { Navbar } from '../../components/navbar/navbar';
   selector: 'app-login',
   imports: [
     Navbar,
-    ReactiveFormsModule 
+    ReactiveFormsModule
   ],
   templateUrl: './login.html',
   styleUrl: './login.css'
@@ -25,12 +25,14 @@ export class Login {
   loginForm: FormGroup;
   mostrarModal = false;
   mensajeModal = "";
-  constructor(
-  private fb: FormBuilder,
-  private usuariosService: UsuariosService,
-  private router: Router
-) {
 
+  constructor(
+    private fb: FormBuilder,
+    private usuariosService: UsuariosService,
+    private router: Router
+  ) {
+
+    // Configuración del formulario de inicio de sesión
     this.loginForm = this.fb.group({
       usuario: ['', Validators.required],
       password: ['', Validators.required]
@@ -38,72 +40,72 @@ export class Login {
 
   }
 
-  
-
   iniciarSesion() {
 
-  if (this.loginForm.invalid) {
-    this.loginForm.markAllAsTouched();
-    return;
-  }
+    // Si hay campos inválidos, muestra los errores
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
 
-  this.usuariosService.login({
-    usuario: this.loginForm.value.usuario,
-    password: this.loginForm.value.password
-  })
-  .subscribe({
+    // Envía las credenciales al servicio
+    this.usuariosService.login({
+      usuario: this.loginForm.value.usuario,
+      password: this.loginForm.value.password
+    })
+    .subscribe({
 
-    next: (usuario: any) => {
+      next: (usuario: any) => {
 
-      if (!usuario) {
+        // Verifica si el usuario existe
+        if (!usuario) {
+
+          this.mensajeModal =
+            'Usuario o contraseña incorrectos';
+
+          this.mostrarModal = true;
+
+          return;
+
+        }
+
+        // Guarda la sesión del usuario
+        localStorage.setItem(
+          'usuarioLogueado',
+          JSON.stringify(usuario)
+        );
 
         this.mensajeModal =
-          'Usuario o contraseña incorrectos';
+          'Inicio de sesión exitoso';
 
         this.mostrarModal = true;
 
-        return;
+      },
+
+      error: (error) => {
+
+        console.error(error);
+
+        this.mensajeModal =
+          'Error al iniciar sesión';
+
+        this.mostrarModal = true;
 
       }
 
-      localStorage.setItem(
-        'usuarioLogueado',
-        JSON.stringify(usuario)
-      );
+    });
 
-      this.mensajeModal =
-        'Inicio de sesión exitoso';
+  }
 
-      this.mostrarModal = true;
+  cerrarModal() {
 
-    },
+    this.mostrarModal = false;
 
-    error: (error) => {
-
-      console.error(error);
-
-      this.mensajeModal =
-        'Error al iniciar sesión';
-
-      this.mostrarModal = true;
-
+    // Redirige al usuario luego de iniciar sesión
+    if (this.mensajeModal === 'Inicio de sesión exitoso') {
+      this.router.navigate(['/publicaciones']);
     }
 
-  });
-
-}
-
-    cerrarModal() {
-
-  this.mostrarModal = false;
-
-  if (this.mensajeModal === 'Inicio de sesión exitoso') {
-    this.router.navigate(['/publicaciones']);
   }
 
 }
-
-}
-
-
-

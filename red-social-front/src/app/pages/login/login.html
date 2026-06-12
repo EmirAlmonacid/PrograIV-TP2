@@ -11,30 +11,98 @@
             de una comunidad creada por los usuarios.
         </p>
 
+        <div class="features">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    E
+                </div>
+
+                <div class="feature-content">
+
+                    <h3>
+                        Conectá con otros usuarios
+                    </h3>
+
+                    <span>
+                        Seguinos, descubrí perfiles y ampliá tu red.
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    E
+                </div>
+
+                <div class="feature-content">
+
+                    <h3>
+                        Compartí publicaciones
+                    </h3>
+
+                    <span>
+                        Mostrá ideas, fotos y opiniones.
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    E
+                </div>
+
+                <div class="feature-content">
+
+                    <h3>
+                        Interactuá con la comunidad
+                    </h3>
+
+                    <span>
+                        Comentá y reaccioná a los contenidos.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
     <div class="login-form-container">
 
         <div class="login-card">
 
-            <h2>Bienvenido</h2>
+            <h2>
+                Bienvenido
+            </h2>
 
-            <span>
+            <span class="subtitle">
                 Ingresá para continuar
             </span>
 
-            <form [formGroup]="loginForm"
+            <form
+                [formGroup]="loginForm"
                 (ngSubmit)="iniciarSesion()">
-                
 
                 <div class="form-group">
 
-                    <label>Usuario o correo</label>
+                    <label>
+                        Usuario o correo
+                    </label>
 
                     <input
                         type="text"
                         formControlName="usuario"
-                        maxlength="50"
+                        placeholder="Ingresá tu usuario o correo"
                         [class.error-input]="loginForm.get('usuario')?.invalid && loginForm.get('usuario')?.touched">
 
                     @if(
@@ -43,11 +111,7 @@
                     ){
 
                         <div class="error-message">
-
-                            @if(loginForm.get('usuario')?.errors?.['required']){
-                                Debe ingresar un usuario.
-                            }
-
+                            Debe ingresar un usuario.
                         </div>
 
                     }
@@ -56,11 +120,14 @@
 
                 <div class="form-group">
 
-                    <label>Contraseña</label>
+                    <label>
+                        Contraseña
+                    </label>
 
                     <input
                         type="password"
                         formControlName="password"
+                        placeholder="Ingresá tu contraseña"
                         [class.error-input]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
 
                     @if(
@@ -69,56 +136,54 @@
                     ){
 
                         <div class="error-message">
-
-                            @if(loginForm.get('password')?.errors?.['required']){
-                                Debe ingresar una contraseña.
-                            }
-
+                            Debe ingresar una contraseña.
                         </div>
 
                     }
 
                 </div>
 
-                    <button
-                        class="login-btn"
-                        type="submit">
+                <button
+                    class="login-btn"
+                    type="submit">
 
-                        Ingresar
+                    Ingresar
 
-                    </button>
-
+                </button>
 
             </form>
 
         </div>
 
-        
     </div>
+
     @if(mostrarModal){
 
-<div class="modal-overlay">
+    <div class="modal-overlay">
 
-    <div class="modal-custom">
+        <div class="modal-custom">
 
-        <h2>RedSocial</h2>
+            <h2>
+                Encuentro
+            </h2>
 
-        <p>
-            {{ mensajeModal }}
-        </p>
+            <p>
+                {{ mensajeModal }}
+            </p>
 
-        <button
-            type="button"
-            class="modal-btn"
-            (click)="cerrarModal()">
+            <button
+                type="button"
+                class="modal-btn"
+                (click)="cerrarModal()">
 
-            Continuar
+                Continuar
 
-        </button>
+            </button>
+
+        </div>
 
     </div>
 
-</div>
+    }
 
-}
 </div>

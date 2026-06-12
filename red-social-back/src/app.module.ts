@@ -10,27 +10,21 @@ import { PublicacionesModule } from './publicaciones/publicaciones.module';
 
 @Module({
   imports: [
+    // Carga las variables de entorno de forma global
     ConfigModule.forRoot({
       isGlobal: true,
     }),
 
+    // Conexión a MongoDB usando la variable DATABASE_URL
     MongooseModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => {
-        const uri = configService.get<string>('DATABASE_URL');
-
-        console.log('URI:', uri);
-
-        return {
-          uri,
-        };
-      },
+      useFactory: (configService: ConfigService) => ({
+        uri: configService.get<string>('DATABASE_URL'),
+      }),
     }),
 
     UsuariosModule,
-
     AuthModule,
-
     PublicacionesModule,
   ],
 

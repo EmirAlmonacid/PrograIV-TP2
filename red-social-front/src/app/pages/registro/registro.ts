@@ -13,6 +13,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { Navbar } from '../../components/navbar/navbar';
 
+// Valida que ambas contraseñas ingresadas sean iguales
 function passwordsMatchValidator(): ValidatorFn {
 
   return (control: AbstractControl): ValidationErrors | null => {
@@ -32,6 +33,7 @@ function passwordsMatchValidator(): ValidatorFn {
 
 }
 
+// Valida que la edad esté entre 13 y 110 años
 function edadValidaValidator(): ValidatorFn {
 
   return (control: AbstractControl): ValidationErrors | null => {
@@ -47,6 +49,7 @@ function edadValidaValidator(): ValidatorFn {
 
     const mes = hoy.getMonth() - fechaNacimiento.getMonth();
 
+    // Ajusta la edad si todavía no cumplió años este año
     if (
       mes < 0 ||
       (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())
@@ -82,11 +85,13 @@ export class Registro {
 
   registroForm: FormGroup;
   mostrarModal = false;
+
   constructor(
     private fb: FormBuilder,
     private usuariosService: UsuariosService
   ) {
 
+    // Configuración del formulario y sus validaciones
     this.registroForm = this.fb.group({
 
       nombre: [
@@ -133,7 +138,7 @@ export class Registro {
           Validators.required,
           Validators.pattern(
             /^(?=.*[A-Z])(?=.*\d).{8,}$/
-          )
+          ) // Al menos 8 caracteres, una mayúscula y un número
         ]
       ],
 
@@ -143,9 +148,11 @@ export class Registro {
       ],
 
       fechaNacimiento: [
-        '',[
-        Validators.required,
-        edadValidaValidator()]
+        '',
+        [
+          Validators.required,
+          edadValidaValidator()
+        ]
       ],
 
       descripcion: [
@@ -160,16 +167,19 @@ export class Registro {
 
     },
     {
+      // Verifica que password y repetirPassword sean iguales
       validators: passwordsMatchValidator()
     });
 
   }
 
   cerrarModal() {
-  this.mostrarModal = false;
-}
+    this.mostrarModal = false;
+  }
+
   registrarse() {
 
+    // Si existen errores, muestra las validaciones
     if (this.registroForm.invalid) {
       this.registroForm.markAllAsTouched();
       return;
@@ -186,6 +196,7 @@ export class Registro {
       foto: this.registroForm.value.foto
     };
 
+    // Envía los datos al servicio para crear el usuario
     this.usuariosService.crear(usuario).subscribe({
       next: (respuesta) => {
 
@@ -196,7 +207,7 @@ export class Registro {
       },
       error: (error) => {
 
-    console.error(error);
+        console.error(error);
 
       }
     });
