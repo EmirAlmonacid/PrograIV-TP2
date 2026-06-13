@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-publicacion-card',
@@ -8,12 +8,16 @@ import { Component } from '@angular/core';
 })
 export class PublicacionCard {
 
-  titulo = 'Mi primera publicación';
+  @Input()
+  titulo!: string;
 
-  descripcion = 'Probando Angular y MongoDB';
+  @Input()
+  descripcion!: string;
 
-  imagen = 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=1200';
+  @Input()
+  imagen!: string;
 
-  likes = 15;
+  @Input()
+  likes!: string[];
 
 }

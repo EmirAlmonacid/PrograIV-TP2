@@ -73,5 +73,4 @@ export class Publicaciones implements OnInit {
 
   }
 
-
 }

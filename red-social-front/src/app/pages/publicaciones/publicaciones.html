@@ -3,21 +3,28 @@
     <div class="acciones">
 
         <button
-            [class.activo]="orden === 'fecha'">
+            [class.activo]="orden === 'fecha'"
+            (click)="ordenarPorFecha()">
             Más recientes
         </button>
 
         <button
-            [class.activo]="orden === 'likes'">
+            [class.activo]="orden === 'likes'"
+            (click)="ordenarPorLikes()">
             Más populares
         </button>
 
     </div>
 
-    <app-publicacion-card></app-publicacion-card>
+    @for (publicacion of publicaciones; track publicacion._id) {
 
-    <app-publicacion-card></app-publicacion-card>
+        <app-publicacion-card
+            [titulo]="publicacion.titulo"
+            [descripcion]="publicacion.descripcion"
+            [imagen]="publicacion.imagen"
+            [likes]="publicacion.likes">
+        </app-publicacion-card>
 
-    <app-publicacion-card></app-publicacion-card>
+    }
 
 </div>
