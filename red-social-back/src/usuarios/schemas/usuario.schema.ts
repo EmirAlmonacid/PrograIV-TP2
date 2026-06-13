@@ -50,10 +50,13 @@ export class Usuario {
 })
 foto!: string;
 
+
   @Prop({
-    default: 'usuario'
-  })
-  perfil!: string;
+  enum: ['usuario', 'administrador'],
+  default: 'usuario'
+})
+perfil!: string;
+
 }
 
 export const UsuarioSchema = SchemaFactory.createForClass(Usuario);
