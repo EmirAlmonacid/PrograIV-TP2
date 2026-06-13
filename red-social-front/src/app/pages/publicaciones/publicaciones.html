@@ -1,5 +1,17 @@
 <div class="contenedor">
 
+    <div class="cabecera">
+
+        <h1>Publicaciones</h1>
+
+        <button
+            class="btn-nueva-publicacion"
+            (click)="abrirModal()">
+            + Nueva publicación
+        </button>
+
+    </div>
+
     <div class="acciones">
 
         <button
@@ -19,11 +31,90 @@
     @for (publicacion of publicaciones; track publicacion._id) {
 
         <app-publicacion-card
+            [id]="publicacion._id"
             [titulo]="publicacion.titulo"
             [descripcion]="publicacion.descripcion"
             [imagen]="publicacion.imagen"
             [likes]="publicacion.likes">
         </app-publicacion-card>
+
+    }
+
+    @if(mostrarModal){
+
+        <div class="modal-overlay">
+
+            <div class="modal-publicacion">
+
+                <h2>
+                    Crear publicación
+                </h2>
+
+                <span class="subtitle">
+                    Compartí algo con la comunidad.
+                </span>
+
+                <div class="field">
+
+                    <label>Título</label>
+
+                    <input
+                        type="text">
+
+                </div>
+
+                <div class="field">
+
+                    <label>Descripción</label>
+
+                    <textarea></textarea>
+
+                </div>
+
+                <div class="field">
+
+                    <label>Imagen</label>
+
+                    <div class="upload-box">
+
+                        <div class="upload-icon">
+                            +
+                        </div>
+
+                        <div class="upload-content">
+
+                            <span class="upload-title">
+                                Seleccionar imagen
+                            </span>
+
+                            <small>
+                                JPG, PNG o WEBP
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-actions">
+
+                    <button
+                        class="btn-cancelar"
+                        (click)="cerrarModal()">
+                        Cancelar
+                    </button>
+
+                    <button
+                        class="btn-publicar">
+                        Publicar
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
 
     }
 

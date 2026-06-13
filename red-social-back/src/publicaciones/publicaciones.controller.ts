@@ -5,8 +5,12 @@ import {
     Delete,
     Param,
     Body,
-    Query
+    Query,
+    UploadedFile,
+    UseInterceptors
 } from '@nestjs/common';
+
+import { FileInterceptor } from '@nestjs/platform-express';
 
 import { PublicacionesService } from './publicaciones.service';
 
@@ -18,12 +22,15 @@ export class PublicacionesController {
     ) {}
 
     @Post()
+    @UseInterceptors(FileInterceptor('imagen'))
     crear(
-        @Body() publicacion: any
+        @Body() publicacion: any,
+        @UploadedFile() file?: any
     ) {
 
         return this.publicacionesService.crear(
-            publicacion
+            publicacion,
+            file
         );
 
     }
@@ -50,9 +57,7 @@ export class PublicacionesController {
         @Param('id') id: string
     ) {
 
-        return this.publicacionesService.eliminar(
-            id
-        );
+        return this.publicacionesService.eliminar(id);
 
     }
 

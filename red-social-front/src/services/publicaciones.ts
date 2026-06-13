@@ -25,7 +25,7 @@ export class PublicacionesService {
 
   }
 
-  crear(publicacion: any) {
+  crear(publicacion: FormData) {
 
     return this.http.post(
       this.apiUrl,
@@ -48,7 +48,7 @@ export class PublicacionesService {
   ) {
 
     return this.http.post(
-      `${this.apiUrl}/${publicacionId}/likes`,
+      `${this.apiUrl}/${publicacionId}/like`,
       { usuarioId }
     );
 
@@ -60,7 +60,7 @@ export class PublicacionesService {
   ) {
 
     return this.http.delete(
-      `${this.apiUrl}/${publicacionId}/likes/${usuarioId}`
+      `${this.apiUrl}/${publicacionId}/like/${usuarioId}`
     );
 
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { Publicacion } from './schemas/publicacion.schema';
 
 @Injectable()
@@ -9,16 +9,30 @@ export class PublicacionesService {
 
     constructor(
         @InjectModel(Publicacion.name)
-        private publicacionModel: Model<Publicacion>
+        private publicacionModel: Model<Publicacion>,
+        private readonly cloudinaryService: CloudinaryService
     ) {}
 
-    async crear(publicacion: any) {
+    async crear(
+    publicacion: any,
+    file?: any
+) {
 
-        return await this.publicacionModel.create(
-            publicacion
-        );
+    if (file) {
+
+        const imagenSubida =
+            await this.cloudinaryService.uploadImage(file);
+
+        publicacion.imagen =
+            (imagenSubida as any).secure_url;
 
     }
+
+    return await this.publicacionModel.create(
+        publicacion
+    );
+
+}
 
     async obtenerTodas(
         orden?: string,

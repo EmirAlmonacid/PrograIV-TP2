@@ -9,6 +9,8 @@ import {
   PublicacionSchema
 } from './schemas/publicacion.schema';
 
+import { CloudinaryModule } from '../cloudinary/cloudinary.module';
+
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -16,9 +18,14 @@ import {
         name: Publicacion.name,
         schema: PublicacionSchema
       }
-    ])
+    ]),
+    CloudinaryModule
   ],
-  controllers: [PublicacionesController],
-  providers: [PublicacionesService]
+  controllers: [
+    PublicacionesController
+  ],
+  providers: [
+    PublicacionesService
+  ]
 })
 export class PublicacionesModule {}

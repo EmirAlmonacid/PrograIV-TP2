@@ -36,7 +36,19 @@ export class Publicaciones implements OnInit {
     this.cargarPublicaciones();
 
   }
+mostrarModal = false;
 
+abrirModal() {
+
+  this.mostrarModal = true;
+
+}
+
+cerrarModal() {
+
+  this.mostrarModal = false;
+
+}
   cargarPublicaciones() {
 
     this.publicacionesService

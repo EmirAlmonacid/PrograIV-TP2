@@ -17,9 +17,38 @@
 
         <div class="footer">
 
-            <span class="likes">
-                ❤️ {{ likes.length }}
-            </span>
+            <div class="contador-likes">
+
+                {{ likes.length }}
+                Me gusta
+
+            </div>
+
+            @if(!tieneLike){
+
+                <button
+                    class="btn-like"
+                    type="button"
+                    (click)="darLike()">
+
+                    Me gusta
+
+                </button>
+
+            }
+
+            @if(tieneLike){
+
+                <button
+                    class="btn-unlike"
+                    type="button"
+                    (click)="quitarLike()">
+
+                    Quitar me gusta
+
+                </button>
+
+            }
 
         </div>
 
