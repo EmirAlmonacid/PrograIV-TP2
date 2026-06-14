@@ -13,20 +13,14 @@ export class PublicacionesService {
         private readonly cloudinaryService: CloudinaryService
     ) {}
 
-    async crear(
-    publicacion: any,
-    file?: any
+    
+
+async crear(
+  publicacion: any,
+  file?: any
 ) {
 
-    if (file) {
-
-        const imagenSubida =
-            await this.cloudinaryService.uploadImage(file);
-
-        publicacion.imagen =
-            (imagenSubida as any).secure_url;
-
-    }
+    console.log(file);
 
     return await this.publicacionModel.create(
         publicacion

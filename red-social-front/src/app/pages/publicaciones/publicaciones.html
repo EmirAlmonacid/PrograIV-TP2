@@ -59,7 +59,8 @@
                     <label>Título</label>
 
                     <input
-                        type="text">
+                        type="text"
+                        [(ngModel)]="titulo">
 
                 </div>
 
@@ -67,7 +68,8 @@
 
                     <label>Descripción</label>
 
-                    <textarea></textarea>
+                    <textarea
+                        [(ngModel)]="descripcion"></textarea>
 
                 </div>
 
@@ -75,16 +77,34 @@
 
                     <label>Imagen</label>
 
-                    <div class="upload-box">
+                    <label class="upload-box">
 
-                        <div class="upload-icon">
-                            +
+                        <input
+                            #fileInput
+                            type="file"
+                            accept="image/*"
+                            hidden
+                            (change)="seleccionarImagen($event)">
+
+                        <div
+                            class="upload-box"
+                            (click)="fileInput.click()">
                         </div>
 
                         <div class="upload-content">
 
                             <span class="upload-title">
-                                Seleccionar imagen
+
+                                @if(imagenSeleccionada){
+
+                                    {{ imagenSeleccionada.name }}
+
+                                } @else {
+
+                                    Seleccionar imagen
+
+                                }
+
                             </span>
 
                             <small>
@@ -93,7 +113,7 @@
 
                         </div>
 
-                    </div>
+                    </label>
 
                 </div>
 
@@ -106,7 +126,8 @@
                     </button>
 
                     <button
-                        class="btn-publicar">
+                        class="btn-publicar"
+                        (click)="crearPublicacion()">
                         Publicar
                     </button>
 
