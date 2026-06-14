@@ -10,24 +10,48 @@ body{
     min-height:calc(100vh - 72px);
 
     background:
-    radial-gradient(
-        circle at top left,
-        rgba(37,99,235,.12),
-        transparent 35%
-    ),
-    radial-gradient(
-        circle at bottom right,
-        rgba(8,21,47,.10),
-        transparent 40%
-    ),
+    radial-gradient(circle at top left,
+    rgba(37,99,235,.18),
+    transparent 35%),
+
+    radial-gradient(circle at top right,
+    rgba(59,130,246,.12),
+    transparent 30%),
+
+    radial-gradient(circle at bottom right,
+    rgba(8,21,47,.12),
+    transparent 40%),
+
     linear-gradient(
         135deg,
-        #f9fbff 0%,
-        #edf3ff 55%,
+        #f8fbff 0%,
+        #eef4ff 45%,
         #e7efff 100%
     );
 
-    padding:40px 70px 60px;
+    padding:40px 70px 80px;
+
+    position:relative;
+}
+
+.contenedor::before{
+    content:'';
+
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:320px;
+
+    background:linear-gradient(
+        180deg,
+        rgba(255,255,255,.65),
+        transparent
+    );
+
+    pointer-events:none;
 }
 
 .cabecera{
@@ -37,31 +61,68 @@ body{
 
     max-width:1100px;
 
-    margin:0 auto 40px auto;
+    margin:0 auto 30px auto;
 }
 
 .cabecera h1{
     margin:0;
 
-    font-size:56px;
+    font-size:42px;
 
     font-weight:900;
 
-    letter-spacing:-2px;
+    letter-spacing:-1.5px;
 
     color:#08152f;
 
     line-height:1;
+
+    position:relative;
+
+    display:flex;
+    flex-direction:column;
+}
+
+.cabecera h1::before{
+    content:'COMUNIDAD';
+
+    font-size:11px;
+
+    font-weight:700;
+
+    letter-spacing:3px;
+
+    color:#2563eb;
+
+    margin-bottom:8px;
+}
+
+.cabecera h1::after{
+    content:'';
+
+    width:90px;
+
+    height:5px;
+
+    margin-top:12px;
+
+    border-radius:999px;
+
+    background:linear-gradient(
+        90deg,
+        #08152f,
+        #2563eb
+    );
 }
 
 .btn-nueva-publicacion{
-    height:56px;
+    height:58px;
 
-    padding:0 28px;
+    padding:0 30px;
 
     border:none;
 
-    border-radius:16px;
+    border-radius:18px;
 
     cursor:pointer;
 
@@ -78,39 +139,44 @@ body{
     );
 
     box-shadow:
-    0 12px 30px rgba(37,99,235,.28);
+    0 18px 40px rgba(37,99,235,.25);
 
     transition:.25s;
 }
 
 .btn-nueva-publicacion:hover{
-    transform:translateY(-2px);
+    transform:translateY(-3px);
 
     box-shadow:
-    0 16px 35px rgba(37,99,235,.35);
+    0 22px 45px rgba(37,99,235,.35);
 }
 
 .acciones{
     display:flex;
     justify-content:center;
 
-    gap:14px;
+    gap:16px;
 
-    margin-bottom:40px;
+    margin-bottom:50px;
+
+    position:relative;
+    z-index:2;
 }
 
 .acciones button{
-    height:52px;
+    height:54px;
 
-    min-width:180px;
+    min-width:190px;
 
     padding:0 24px;
 
-    border:1px solid #dbe3ee;
+    border:1px solid rgba(219,227,238,.8);
 
-    border-radius:14px;
+    border-radius:16px;
 
-    background:white;
+    background:rgba(255,255,255,.8);
+
+    backdrop-filter:blur(12px);
 
     color:#475569;
 
@@ -123,7 +189,7 @@ body{
     transition:.25s;
 
     box-shadow:
-    0 4px 15px rgba(15,23,42,.05);
+    0 10px 25px rgba(15,23,42,.06);
 }
 
 .acciones button:hover{
@@ -144,14 +210,25 @@ body{
     );
 
     box-shadow:
-    0 10px 25px rgba(37,99,235,.25);
+    0 12px 30px rgba(37,99,235,.25);
+}
+
+app-publicacion-card{
+    display:block;
+
+    max-width:850px;
+
+    margin:0 auto 28px auto;
 }
 
 .modal-overlay{
     position:fixed;
+
     inset:0;
 
-    background:rgba(0,0,0,.55);
+    background:rgba(3,7,18,.60);
+
+    backdrop-filter:blur(6px);
 
     display:flex;
     justify-content:center;
@@ -162,16 +239,16 @@ body{
 
 .modal-publicacion{
     width:100%;
-    max-width:620px;
+    max-width:650px;
 
     background:white;
 
-    border-radius:24px;
+    border-radius:28px;
 
-    padding:28px;
+    padding:32px;
 
     box-shadow:
-    0 20px 50px rgba(15,23,42,.15);
+    0 30px 80px rgba(15,23,42,.25);
 }
 
 .modal-publicacion h2{
@@ -179,7 +256,7 @@ body{
 
     color:#08152f;
 
-    font-size:32px;
+    font-size:34px;
 
     font-weight:800;
 }
@@ -187,8 +264,8 @@ body{
 .subtitle{
     display:block;
 
-    margin-top:6px;
-    margin-bottom:24px;
+    margin-top:8px;
+    margin-bottom:28px;
 
     color:#64748b;
 
@@ -199,17 +276,17 @@ body{
     display:flex;
     flex-direction:column;
 
-    margin-bottom:14px;
+    margin-bottom:18px;
 }
 
 .field label{
     font-size:13px;
 
-    font-weight:600;
+    font-weight:700;
 
     color:#334155;
 
-    margin-bottom:6px;
+    margin-bottom:8px;
 }
 
 .field input,
@@ -218,19 +295,21 @@ body{
 
     border:1px solid #dbe3ee;
 
-    border-radius:12px;
+    border-radius:14px;
 
-    padding:12px 14px;
+    padding:14px 16px;
 
     font-size:14px;
 
-    transition:.2s;
+    background:#fbfdff;
+
+    transition:.25s;
 }
 
 .field textarea{
     resize:none;
 
-    min-height:120px;
+    min-height:130px;
 }
 
 .field input:focus,
@@ -239,29 +318,31 @@ body{
 
     border-color:#2563eb;
 
+    background:white;
+
     box-shadow:
-    0 0 0 3px rgba(37,99,235,.10);
+    0 0 0 4px rgba(37,99,235,.10);
 }
 
 .upload-box{
-    height:82px;
+    min-height:88px;
 
     border:2px dashed #cbd5e1;
 
-    border-radius:14px;
+    border-radius:16px;
 
     background:#f8fbff;
 
     display:flex;
     align-items:center;
 
-    gap:14px;
+    gap:16px;
 
-    padding:0 18px;
+    padding:18px;
 
     cursor:pointer;
 
-    transition:.2s;
+    transition:.25s;
 }
 
 .upload-box:hover{
@@ -271,10 +352,10 @@ body{
 }
 
 .upload-icon{
-    width:42px;
-    height:42px;
+    width:48px;
+    height:48px;
 
-    border-radius:12px;
+    border-radius:14px;
 
     background:linear-gradient(
         135deg,
@@ -288,9 +369,11 @@ body{
 
     color:white;
 
-    font-size:22px;
+    font-size:24px;
 
     font-weight:700;
+
+    flex-shrink:0;
 }
 
 .upload-content{
@@ -318,17 +401,17 @@ body{
 
     gap:12px;
 
-    margin-top:24px;
+    margin-top:28px;
 }
 
 .btn-cancelar{
-    height:48px;
+    height:50px;
 
-    padding:0 22px;
+    padding:0 24px;
 
     border:none;
 
-    border-radius:12px;
+    border-radius:14px;
 
     background:#e5e7eb;
 
@@ -337,16 +420,22 @@ body{
     font-weight:700;
 
     cursor:pointer;
+
+    transition:.2s;
+}
+
+.btn-cancelar:hover{
+    background:#dbe1e8;
 }
 
 .btn-publicar{
-    height:48px;
+    height:50px;
 
-    padding:0 24px;
+    padding:0 28px;
 
     border:none;
 
-    border-radius:12px;
+    border-radius:14px;
 
     color:white;
 
@@ -359,16 +448,24 @@ body{
         #08152f,
         #2563eb
     );
+
+    box-shadow:
+    0 10px 25px rgba(37,99,235,.25);
+
+    transition:.25s;
 }
 
 .btn-publicar:hover{
-    opacity:.95;
+    transform:translateY(-2px);
+
+    box-shadow:
+    0 15px 30px rgba(37,99,235,.35);
 }
 
 @media(max-width:768px){
 
     .contenedor{
-        padding:25px 20px 40px;
+        padding:25px 20px 50px;
     }
 
     .cabecera{
@@ -378,11 +475,17 @@ body{
     }
 
     .cabecera h1{
-        font-size:42px;
+        font-size:46px;
+    }
+
+    .acciones{
+        flex-wrap:wrap;
     }
 
     .modal-publicacion{
         margin:15px;
-        padding:22px;
+        padding:24px;
     }
+
+    
 }
