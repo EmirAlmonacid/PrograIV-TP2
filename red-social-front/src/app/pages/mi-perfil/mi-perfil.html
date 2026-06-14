@@ -56,6 +56,40 @@
 
         </div>
 
+        <div class="mis-publicaciones">
+
+            <h2>
+                Mis últimas publicaciones
+            </h2>
+
+            <div
+                class="publicacion"
+                *ngFor="let publicacion of publicaciones">
+
+                <img
+                    [src]="publicacion.imagen"
+                    alt="publicacion">
+
+                <div class="publicacion-info">
+
+                    <h3>
+                        {{ publicacion.titulo }}
+                    </h3>
+
+                    <p>
+                        {{ publicacion.descripcion }}
+                    </p>
+
+                    <span>
+                        {{ publicacion.likes.length }} Me gusta
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>

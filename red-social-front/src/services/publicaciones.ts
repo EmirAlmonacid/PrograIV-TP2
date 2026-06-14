@@ -42,6 +42,15 @@ export class PublicacionesService {
 
   }
 
+  obtenerPublicacionesUsuario(
+  usuarioId: string
+) {
+
+  return this.http.get<any[]>(
+    `${this.apiUrl}?usuarioId=${usuarioId}&orden=fecha&offset=0&limit=3`
+  );
+
+}
   darLike(
     publicacionId: string,
     usuarioId: string

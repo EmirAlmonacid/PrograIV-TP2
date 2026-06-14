@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import { Navbar } from '../../components/navbar/navbar';
 
@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     Navbar,
     PublicacionCard,
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './publicaciones.html',
   styleUrl: './publicaciones.css'
@@ -39,10 +39,12 @@ export class Publicaciones implements OnInit {
 
   constructor(
     private publicacionesService:
-    PublicacionesService
+    PublicacionesService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
+      console.log('INICIO');
 
     this.cargarPublicaciones();
 
@@ -84,14 +86,11 @@ export class Publicaciones implements OnInit {
   }
 
   crearPublicacion() {
-
-  console.log('ENTRO CREAR');
-
-  console.log(this.titulo);
-
-  console.log(this.descripcion);
-
-  console.log(this.imagenSeleccionada);
+    console.log(localStorage.getItem('usuarioLogueado'));
+  const usuario =
+    JSON.parse(
+      localStorage.getItem('usuarioLogueado') || '{}'
+    );
 
   const formData = new FormData();
 
@@ -103,6 +102,11 @@ export class Publicaciones implements OnInit {
   formData.append(
     'descripcion',
     this.descripcion
+  );
+
+  formData.append(
+    'usuarioId',
+    usuario._id
   );
 
   if (this.imagenSeleccionada) {
@@ -118,17 +122,18 @@ export class Publicaciones implements OnInit {
     .crear(formData)
     .subscribe({
 
-      next: (respuesta) => {
+      next: () => {
 
-        console.log('OK');
+        this.cerrarModal();
 
-        console.log(respuesta);
+        this.cargarPublicaciones();
+
+        this.cdr.detectChanges();
+
 
       },
 
       error: (error) => {
-
-        console.log('ERROR');
 
         console.log(error);
 
@@ -140,7 +145,9 @@ export class Publicaciones implements OnInit {
 
   cargarPublicaciones() {
 
-    this.publicacionesService
+  console.log('CARGANDO');
+
+  this.publicacionesService
     .obtenerPublicaciones(
       this.orden,
       this.offset,
@@ -150,13 +157,23 @@ export class Publicaciones implements OnInit {
 
       next: (respuesta: any[]) => {
 
-        this.publicaciones = respuesta;
+        console.log(respuesta);
+
+        this.publicaciones = [...respuesta];
+
+        this.cdr.detectChanges();
+
+      },
+
+      error: (error) => {
+
+        console.log(error);
 
       }
 
     });
 
-  }
+}
 
   ordenarPorFecha() {
 

@@ -28,17 +28,19 @@
 
     </div>
 
-    @for (publicacion of publicaciones; track publicacion._id) {
+    @for (publicacion of publicaciones; track $index) {
 
-        <app-publicacion-card
-            [id]="publicacion._id"
-            [titulo]="publicacion.titulo"
-            [descripcion]="publicacion.descripcion"
-            [imagen]="publicacion.imagen"
-            [likes]="publicacion.likes">
-        </app-publicacion-card>
+    <app-publicacion-card
+        [id]="publicacion._id"
+        [titulo]="publicacion.titulo"
+        [descripcion]="publicacion.descripcion"
+        [imagen]="publicacion.imagen"
+        [likes]="publicacion.likes">
+    </app-publicacion-card>
 
-    }
+}
+
+    
 
     @if(mostrarModal){
 

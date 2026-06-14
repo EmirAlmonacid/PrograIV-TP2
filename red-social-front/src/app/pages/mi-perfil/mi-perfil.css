@@ -112,6 +112,53 @@
     word-break:break-word;
 }
 
+.mis-publicaciones{
+    border-top:1px solid #e8e8e8;
+    padding:25px;
+}
+
+.mis-publicaciones h2{
+    margin:0 0 20px;
+    color:#0d1b4c;
+    font-size:22px;
+}
+
+.publicacion{
+    display:flex;
+    gap:16px;
+    background:#f8f9ff;
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:15px;
+}
+
+.publicacion img{
+    width:110px;
+    height:110px;
+    border-radius:12px;
+    object-fit:cover;
+}
+
+.publicacion-info{
+    flex:1;
+}
+
+.publicacion-info h3{
+    margin:0 0 8px;
+    color:#0d1b4c;
+}
+
+.publicacion-info p{
+    margin:0 0 10px;
+    color:#475569;
+    line-height:1.5;
+}
+
+.publicacion-info span{
+    font-weight:700;
+    color:#2563eb;
+}
+
 @media(max-width:768px){
 
     .perfil-header{
@@ -136,4 +183,14 @@
     .estadisticas{
         grid-template-columns:1fr;
     }
+
+    .publicacion{
+        flex-direction:column;
+    }
+
+    .publicacion img{
+        width:100%;
+        height:220px;
+    }
+
 }

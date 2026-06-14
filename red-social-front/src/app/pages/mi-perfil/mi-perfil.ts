@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+
 import { Navbar } from '../../components/navbar/navbar';
+import { PublicacionesService } from '../../../services/publicaciones';
 
 @Component({
   selector: 'app-mi-perfil',
@@ -16,8 +18,12 @@ export class MiPerfil implements OnInit {
 
   usuario: any = null;
 
+  publicaciones: any[] = [];
+
   constructor(
-    private router: Router
+    private router: Router,
+    private publicacionesService: PublicacionesService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -30,6 +36,8 @@ export class MiPerfil implements OnInit {
       this.usuario =
         JSON.parse(usuarioGuardado);
 
+      this.cargarPublicaciones();
+
     } else {
 
       this.router.navigate(['/login']);
@@ -38,9 +46,41 @@ export class MiPerfil implements OnInit {
 
   }
 
+ cargarPublicaciones() {
+
+  console.log('CARGANDO PERFIL');
+
+  this.publicacionesService
+    .obtenerPublicacionesUsuario(
+      this.usuario._id
+    )
+    .subscribe({
+
+      next: (respuesta: any[]) => {
+
+        console.log(respuesta);
+
+        this.publicaciones = [...respuesta];
+
+        this.cdr.detectChanges();
+
+      },
+
+      error: (error) => {
+
+        console.log(error);
+
+      }
+
+    });
+
+}
+
   cerrarSesion() {
 
-    localStorage.removeItem('usuarioLogueado');
+    localStorage.removeItem(
+      'usuarioLogueado'
+    );
 
     this.router.navigate(['/login']);
 
