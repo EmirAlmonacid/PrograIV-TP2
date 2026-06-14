@@ -35,32 +35,50 @@ export class PublicacionesService {
 }
 
     async obtenerTodas(
-        orden?: string,
-        usuarioId?: string,
-        offset = 0,
-        limit = 5
-    ) {
+    orden?: string,
+    usuarioId?: string,
+    offset = 0,
+    limit = 5
+) {
 
-        const filtro: any = {
-            activo: true
-        };
+    const filtro: any = {
+        activo: true
+    };
 
-        if (usuarioId) {
-            filtro.usuarioId = usuarioId;
-        }
+    if (usuarioId) {
 
-        const criterioOrden =
-            orden === 'likes'
-                ? { likes: -1 }
-                : { fechaCreacion: -1 };
-
-        return await this.publicacionModel
-            .find(filtro)
-            .sort(criterioOrden as any)
-            .skip(Number(offset))
-            .limit(Number(limit));
+        filtro.usuarioId = usuarioId;
 
     }
+
+    const publicaciones =
+        await this.publicacionModel
+            .find(filtro);
+
+    if (orden === 'likes') {
+
+        publicaciones.sort(
+            (a: any, b: any) =>
+                b.likes.length - a.likes.length
+        );
+
+    } else {
+
+        publicaciones.sort(
+            (a: any, b: any) =>
+                new Date(b.fechaCreacion).getTime()
+                -
+                new Date(a.fechaCreacion).getTime()
+        );
+
+    }
+
+    return publicaciones.slice(
+        Number(offset),
+        Number(offset) + Number(limit)
+    );
+
+}
 
     async eliminar(id: string) {
 

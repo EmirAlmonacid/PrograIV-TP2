@@ -8,6 +8,8 @@ import { PublicacionCard } from '../../components/publicacion-card/publicacion-c
 
 import { FormsModule } from '@angular/forms';
 
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-publicaciones',
   standalone: true,
@@ -40,7 +42,8 @@ export class Publicaciones implements OnInit {
   constructor(
     private publicacionesService:
     PublicacionesService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -52,9 +55,24 @@ export class Publicaciones implements OnInit {
 
   abrirModal() {
 
-    this.mostrarModal = true;
+  const usuario =
+    localStorage.getItem(
+      'usuarioLogueado'
+    );
+
+  if (!usuario) {
+
+    this.router.navigate([
+      '/login'
+    ]);
+
+    return;
 
   }
+
+  this.mostrarModal = true;
+
+}
 
   cerrarModal() {
 

@@ -30,7 +30,7 @@ export class PublicacionCard implements OnInit {
   @Input()
   likes!: string[];
 
-  usuarioActual = 'usuario1';
+  usuarioActual = '';
 
   tieneLike = false;
 
@@ -41,49 +41,91 @@ export class PublicacionCard implements OnInit {
 
   ngOnInit() {
 
-    this.tieneLike =
-      this.likes.includes(this.usuarioActual);
+  const usuario =
+    JSON.parse(
+      localStorage.getItem(
+        'usuarioLogueado'
+      ) || '{}'
+    );
 
-  }
+  this.usuarioActual =
+    usuario._id;
+
+  this.tieneLike =
+    this.likes.includes(
+      this.usuarioActual
+    );
+
+}
 
   darLike() {
 
-    this.publicacionesService
-      .darLike(this.id, this.usuarioActual)
-      .subscribe({
+  const usuario =
+    JSON.parse(
+      localStorage.getItem(
+        'usuarioLogueado'
+      ) || '{}'
+    );
 
-        next: (respuesta: any) => {
-
-          this.likes = [...respuesta.likes];
-
-          this.tieneLike = true;
-
-          this.cdr.detectChanges();
-
-        }
-
-      });
-
+  if (!usuario._id) {
+    return;
   }
+
+  this.publicacionesService
+    .darLike(
+      this.id,
+      usuario._id
+    )
+    .subscribe({
+
+      next: (respuesta: any) => {
+
+        this.likes =
+          [...respuesta.likes];
+
+        this.tieneLike = true;
+
+        this.cdr.detectChanges();
+
+      }
+
+    });
+
+}
 
   quitarLike() {
 
-    this.publicacionesService
-      .quitarLike(this.id, this.usuarioActual)
-      .subscribe({
+  const usuario =
+    JSON.parse(
+      localStorage.getItem(
+        'usuarioLogueado'
+      ) || '{}'
+    );
 
-        next: (respuesta: any) => {
-
-          this.likes = [...respuesta.likes];
-
-          this.tieneLike = false;
-
-          this.cdr.detectChanges();
-
-        }
-
-      });
-
+  if (!usuario._id) {
+    return;
   }
+
+  this.publicacionesService
+    .quitarLike(
+      this.id,
+      usuario._id
+    )
+    .subscribe({
+
+      next: (respuesta: any) => {
+
+        this.likes =
+          [...respuesta.likes];
+
+        this.tieneLike = false;
+
+        this.cdr.detectChanges();
+
+      }
+
+    });
+
+}
 
 }
