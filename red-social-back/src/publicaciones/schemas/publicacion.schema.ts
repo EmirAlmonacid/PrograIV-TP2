@@ -38,6 +38,16 @@ export class Publicacion {
     })
     fechaCreacion!: Date;
 
+    @Prop({
+        default: []
+        })
+        comentarios!: {
+        usuarioId: string;
+        usuario: string;
+        texto: string;
+        fecha: Date;
+        }[];
+
 }
 
 export const PublicacionSchema =

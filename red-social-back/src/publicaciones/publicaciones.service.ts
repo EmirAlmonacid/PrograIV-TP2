@@ -132,4 +132,28 @@ export class PublicacionesService {
 
     }
 
+    async comentar(
+        publicacionId: string,
+        comentario: any
+) {
+
+    return await this.publicacionModel.findByIdAndUpdate(
+        publicacionId,
+        {
+        $push: {
+            comentarios: {
+            usuarioId: comentario.usuarioId,
+            usuario: comentario.usuario,
+            texto: comentario.texto,
+            fecha: new Date()
+            }
+        }
+        },
+        {
+        new: true
+        }
+    );
+
+    }
+
 }

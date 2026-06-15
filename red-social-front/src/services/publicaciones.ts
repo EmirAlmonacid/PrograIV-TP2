@@ -74,4 +74,16 @@ export class PublicacionesService {
 
   }
 
+  comentar(
+  publicacionId: string,
+  comentario: any
+) {
+
+  return this.http.post(
+    `${this.apiUrl}/${publicacionId}/comentario`,
+    comentario
+  );
+
+}
+
 }

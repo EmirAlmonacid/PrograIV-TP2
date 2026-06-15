@@ -154,6 +154,8 @@ export class Publicaciones implements OnInit {
 
         this.cargarPublicaciones();
 
+        this.cargarUsuarios();
+
         this.cdr.detectChanges();
 
 

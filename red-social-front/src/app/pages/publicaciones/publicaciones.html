@@ -39,20 +39,20 @@
                     [titulo]="publicacion.titulo"
                     [descripcion]="publicacion.descripcion"
                     [imagen]="publicacion.imagen"
-                    [likes]="publicacion.likes">
+                    [likes]="publicacion.likes"
+                    [comentarios]="publicacion.comentarios"
+                    [usuarioId]="publicacion.usuarioId">
                 </app-publicacion-card>
 
             }
 
         </div>
 
-        <div class="sidebar">
+        <aside class="sidebar">
 
-            <div class="usuarios-card">
+            <div class="sidebar-card">
 
-                <h3>
-                    Nuevos miembros
-                </h3>
+                <h3>Nuevos miembros</h3>
 
                 @for(usuario of usuariosRecientes; track usuario._id){
 
@@ -69,9 +69,7 @@
                                 {{ usuario.apellido }}
                             </strong>
 
-                            <span>
-                                @{{ usuario.usuario }}
-                            </span>
+                            <span>&#64;{{ usuario.usuario }}</span>
 
                         </div>
 
@@ -81,7 +79,7 @@
 
             </div>
 
-        </div>
+        </aside>
 
     </div>
 
@@ -91,9 +89,7 @@
 
             <div class="modal-publicacion">
 
-                <h2>
-                    Crear publicación
-                </h2>
+                <h2>Crear publicación</h2>
 
                 <span class="subtitle">
                     Compartí algo con la comunidad.
@@ -132,8 +128,9 @@
                             (change)="seleccionarImagen($event)">
 
                         <div
-                            class="upload-box"
+                            class="upload-icon"
                             (click)="fileInput.click()">
+                            📎
                         </div>
 
                         <div class="upload-content">
@@ -152,9 +149,7 @@
 
                             </span>
 
-                            <small>
-                                JPG, PNG o WEBP
-                            </small>
+                            <small>JPG, PNG o WEBP — máx. 5 MB</small>
 
                         </div>
 

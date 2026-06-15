@@ -87,4 +87,17 @@ export class PublicacionesController {
 
     }
 
+    @Post(':id/comentario')
+    comentar(
+        @Param('id') id: string,
+        @Body() body: any
+        ) {
+
+        return this.publicacionesService.comentar(
+            id,
+            body
+        );
+
+}
+
 }

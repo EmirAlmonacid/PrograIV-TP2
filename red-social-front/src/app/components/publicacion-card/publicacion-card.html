@@ -24,33 +24,91 @@
 
             </div>
 
-            @if(!tieneLike){
+            <div class="acciones-publicacion">
 
-                <button
-                    class="btn-like"
-                    type="button"
-                    (click)="darLike()">
+                @if(usuarioId === usuarioActual){
 
-                    Me gusta
+                    <button
+                        class="btn-eliminar"
+                        type="button"
+                        (click)="eliminarPublicacion()">
 
-                </button>
+                        Eliminar
 
-            }
+                    </button>
 
-            @if(tieneLike){
+                }
 
-                <button
-                    class="btn-unlike"
-                    type="button"
-                    (click)="quitarLike()">
+                @if(!tieneLike){
 
-                    Quitar me gusta
+                    <button
+                        class="btn-like"
+                        type="button"
+                        (click)="darLike()">
 
-                </button>
+                        Me gusta
+
+                    </button>
+
+                }
+
+                @if(tieneLike){
+
+                    <button
+                        class="btn-unlike"
+                        type="button"
+                        (click)="quitarLike()">
+
+                        Quitar me gusta
+
+                    </button>
+
+                }
+
+            </div>
+
+        </div>
+
+        <div class="comentarios">
+
+            @for(comentario of comentarios; track $index){
+
+                <div class="comentario">
+
+                    <strong>
+                        &#64;{{ comentario.usuario }}
+                    </strong>
+
+                    <p>
+                        {{ comentario.texto }}
+                    </p>
+
+                </div>
 
             }
 
         </div>
+
+        @if(usuarioActual){
+
+            <div class="nuevo-comentario">
+
+                <input
+                    type="text"
+                    placeholder="Escribí un comentario..."
+                    [(ngModel)]="nuevoComentario">
+
+                <button
+                    type="button"
+                    (click)="agregarComentario()">
+
+                    Comentar
+
+                </button>
+
+            </div>
+
+        }
 
     </div>
 
