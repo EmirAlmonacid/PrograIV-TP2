@@ -91,4 +91,15 @@ export class UsuariosService {
     return await this.usuarioModel.find();
   }
 
+  async obtenerUltimos() {
+
+  return await this.usuarioModel
+    .find()
+    .sort({
+      _id: -1
+    })
+    .limit(10);
+
+}
+
 }

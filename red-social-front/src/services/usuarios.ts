@@ -23,4 +23,12 @@ export class UsuariosService {
     );
   }
 
+  obtenerUltimosUsuarios() {
+
+  return this.http.get<any[]>(
+    'https://progra-iv-tp-2-back-omega.vercel.app/usuarios/ultimos'
+  );
+
+}
+
 }

@@ -40,4 +40,10 @@ export class UsuariosController {
     return this.usuariosService.obtenerTodos();
   }
 
+  @Get('ultimos')
+obtenerUltimos() {
+
+  return this.usuariosService.obtenerUltimos();
+
+}
 }

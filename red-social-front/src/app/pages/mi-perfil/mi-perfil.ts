@@ -86,6 +86,33 @@ export class MiPerfil implements OnInit {
 
   }
 
+  eliminarPublicacion(id: string) {
+
+  this.publicacionesService
+    .eliminar(id)
+    .subscribe({
+
+      next: () => {
+
+        this.publicaciones =
+          this.publicaciones.filter(
+            p => p._id !== id
+          );
+
+        this.cdr.detectChanges();
+
+      },
+
+      error: (error) => {
+
+        console.log(error);
+
+      }
+
+    });
+
+}
+
   formatearFecha(fecha: string): string {
 
     return new Date(fecha)

@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 
 import { Router } from '@angular/router';
 
+import { UsuariosService } from '../../../services/usuarios';
+
 @Component({
   selector: 'app-publicaciones',
   standalone: true,
@@ -39,17 +41,23 @@ export class Publicaciones implements OnInit {
 
   imagenSeleccionada: File | null = null;
 
+  usuariosRecientes: any[] = [];
+
   constructor(
     private publicacionesService:
     PublicacionesService,
     private cdr: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private usuariosService: UsuariosService,
   ) {}
 
   ngOnInit() {
       console.log('INICIO');
 
     this.cargarPublicaciones();
+
+    this.cargarUsuarios();
+
 
   }
 
@@ -208,5 +216,21 @@ export class Publicaciones implements OnInit {
     this.cargarPublicaciones();
 
   }
+
+  cargarUsuarios() {
+
+  this.usuariosService
+    .obtenerUltimosUsuarios()
+    .subscribe({
+
+      next: (respuesta: any[]) => {
+
+        this.usuariosRecientes = respuesta;
+
+      }
+
+    });
+
+}
 
 }

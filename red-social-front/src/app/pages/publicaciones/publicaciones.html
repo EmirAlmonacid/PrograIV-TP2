@@ -28,19 +28,62 @@
 
     </div>
 
-    @for (publicacion of publicaciones; track $index) {
+    <div class="contenido-principal">
 
-    <app-publicacion-card
-        [id]="publicacion._id"
-        [titulo]="publicacion.titulo"
-        [descripcion]="publicacion.descripcion"
-        [imagen]="publicacion.imagen"
-        [likes]="publicacion.likes">
-    </app-publicacion-card>
+        <div class="feed">
 
-}
+            @for (publicacion of publicaciones; track $index) {
 
-    
+                <app-publicacion-card
+                    [id]="publicacion._id"
+                    [titulo]="publicacion.titulo"
+                    [descripcion]="publicacion.descripcion"
+                    [imagen]="publicacion.imagen"
+                    [likes]="publicacion.likes">
+                </app-publicacion-card>
+
+            }
+
+        </div>
+
+        <div class="sidebar">
+
+            <div class="usuarios-card">
+
+                <h3>
+                    Nuevos miembros
+                </h3>
+
+                @for(usuario of usuariosRecientes; track usuario._id){
+
+                    <div class="usuario-item">
+
+                        <img
+                            [src]="usuario.foto"
+                            alt="usuario">
+
+                        <div>
+
+                            <strong>
+                                {{ usuario.nombre }}
+                                {{ usuario.apellido }}
+                            </strong>
+
+                            <span>
+                                @{{ usuario.usuario }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                }
+
+            </div>
+
+        </div>
+
+    </div>
 
     @if(mostrarModal){
 
