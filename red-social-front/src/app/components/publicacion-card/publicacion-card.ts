@@ -160,7 +160,7 @@ export class PublicacionCard implements OnInit {
   }
 
   agregarComentario() {
-
+    this.cdr.detectChanges();
   const usuario =
     JSON.parse(
       localStorage.getItem(

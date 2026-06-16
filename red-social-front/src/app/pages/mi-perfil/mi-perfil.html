@@ -63,54 +63,76 @@
             </h2>
 
             <div
-    class="publicacion"
-    *ngFor="let publicacion of publicaciones">
+                class="publicacion"
+                *ngFor="let publicacion of publicaciones">
 
-    <img
-        [src]="publicacion.imagen"
-        alt="publicacion">
+                <img
+                    [src]="publicacion.imagen"
+                    alt="publicacion">
 
-            <div class="publicacion-info">
+                <div class="publicacion-info">
 
-                <div class="publicacion-top">
+                    <div class="publicacion-top">
 
-                    <h3>
-                        {{ publicacion.titulo }}
-                    </h3>
+                        <h3>
+                            {{ publicacion.titulo }}
+                        </h3>
 
-                    <button
-                        class="btn-eliminar"
-                        (click)="eliminarPublicacion(publicacion._id)">
+                        <button
+                            class="btn-eliminar"
+                            (click)="eliminarPublicacion(publicacion._id)">
 
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor">
 
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M19 7L18.133 19.142C18.058 20.189 17.186 21 16.136 21H7.864C6.814 21 5.942 20.189 5.867 19.142L5 7M10 11V17M14 11V17M4 7H20M15 7V4C15 3.448 14.552 3 14 3H10C9.448 3 9 3.448 9 4V7"/>
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M19 7L18.133 19.142C18.058 20.189 17.186 21 16.136 21H7.864C6.814 21 5.942 20.189 5.867 19.142L5 7M10 11V17M14 11V17M4 7H20M15 7V4C15 3.448 14.552 3 14 3H10C9.448 3 9 3.448 9 4V7"/>
 
-                        </svg>
+                            </svg>
 
-                    </button>
+                        </button>
+
+                    </div>
+
+                    <p>
+                        {{ publicacion.descripcion }}
+                    </p>
+
+                    <span>
+                        {{ publicacion.likes.length }} Me gusta
+                    </span>
+
+                    <div class="comentarios-perfil">
+
+                        <div class="comentarios-header">
+
+                            Comentarios ({{ publicacion.comentarios?.length || 0 }})
+
+                        </div>
+
+                        <div
+                            class="comentario-perfil"
+                            *ngFor="let comentario of publicacion.comentarios?.slice(-3)">
+
+                            <strong>
+                                &#64;{{ comentario.usuario }}
+                            </strong>
+
+                            <p>
+                                {{ comentario.texto }}
+                            </p>
+
+                        </div>
+
+                    </div>
 
                 </div>
-
-                <p>
-                    {{ publicacion.descripcion }}
-                </p>
-
-                <span>
-                    {{ publicacion.likes.length }} Me gusta
-                </span>
-
-            </div>
-
-        </div>
 
             </div>
 
@@ -118,3 +140,4 @@
 
     </div>
 
+</div>
