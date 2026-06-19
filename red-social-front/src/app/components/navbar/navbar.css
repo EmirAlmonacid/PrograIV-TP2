@@ -122,6 +122,19 @@
 
     box-shadow:
     0 10px 24px rgba(37,99,235,.18);
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:12px;
+
+    font-size:14px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
 }
 
 .login-btn:hover{
@@ -153,7 +166,8 @@
         gap:4px;
     }
 
-    .navbar-right a{
+    .navbar-right a,
+    .login-btn{
         padding:8px 12px;
         font-size:13px;
     }

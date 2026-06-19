@@ -34,19 +34,33 @@
             Mi Perfil
         </a>
 
-        <a
-            routerLink="/registro"
-            routerLinkActive="active-link">
-            Registro
-        </a>
+        @if(!estaLogueado){
 
-        <a
-            routerLink="/login"
-            class="login-btn">
-            Iniciar sesión
-        </a>
+            <a
+                routerLink="/registro"
+                routerLinkActive="active-link">
+                Registro
+            </a>
+
+            <a
+                routerLink="/login"
+                class="login-btn">
+                Iniciar sesión
+            </a>
+
+        }
+
+        @if(estaLogueado){
+
+            <button
+                type="button"
+                (click)="cerrarSesion()"
+                class="login-btn">
+                Cerrar sesión
+            </button>
+
+        }
 
     </div>
 
 </nav>
-
