@@ -22,34 +22,60 @@ export class UsuariosService {
 
   const usuarioExistente =
     await this.usuarioModel.findOne({
-      $or: [
-        { usuario: usuario.usuario },
-        { correo: usuario.correo }
-      ]
+      usuario: usuario.usuario
     });
+
+  const correoExistente =
+    await this.usuarioModel.findOne({
+      correo: usuario.correo
+    });
+
+  if (
+    usuarioExistente &&
+    correoExistente
+  ) {
+
+    return {
+      error: true,
+      mensaje:
+        'El usuario y el correo ya están registrados'
+    };
+
+  }
 
   if (usuarioExistente) {
 
     return {
       error: true,
-      mensaje: 'Usuario o correo ya existe'
+      mensaje:
+        'El usuario ya está registrado'
     };
 
   }
 
-      if (file) {
+  if (correoExistente) {
 
-      const imagenSubida =
-        await this.cloudinaryService.uploadImage(file);
+    return {
+      error: true,
+      mensaje:
+        'El correo ya está registrado'
+    };
 
-      usuario.foto = (imagenSubida as any).secure_url;
+  }
 
-    } else {
+  if (file) {
 
-      usuario.foto =
-        'https://res.cloudinary.com/drh8becix/image/upload/v1781308140/avatar_kvowju.webp';
+    const imagenSubida =
+      await this.cloudinaryService.uploadImage(file);
 
-    }
+    usuario.foto = (imagenSubida as any).secure_url;
+
+  } else {
+
+    usuario.foto =
+      'https://res.cloudinary.com/drh8becix/image/upload/v1781308140/avatar_kvowju.webp';
+
+  }
 
   const passwordEncriptada =
     await bcrypt.hash(usuario.password, 10);

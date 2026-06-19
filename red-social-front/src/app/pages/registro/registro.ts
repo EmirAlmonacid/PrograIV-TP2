@@ -179,125 +179,161 @@ export class Registro {
 
   cerrarModal() {
 
-  console.log('CERRAR MODAL');
-  console.log(this.mensajeModal);
+    console.log('CERRAR MODAL');
+    console.log(this.mensajeModal);
 
-  this.mostrarModal = false;
+    this.mostrarModal = false;
 
-  if (this.mensajeModal === 'Registro exitoso') {
+    if (this.mensajeModal === 'Registro exitoso') {
 
-    console.log('NAVEGANDO LOGIN');
+      console.log('NAVEGANDO PUBLICACIONES');
 
-    this.router.navigate(['/login']);
+      this.router.navigate(['/publicaciones']);
+
+    }
 
   }
-
-}
 
   seleccionarFoto(event: Event) {
 
-  const input = event.target as HTMLInputElement;
+    const input = event.target as HTMLInputElement;
 
-  if (input.files && input.files.length > 0) {
+    if (input.files && input.files.length > 0) {
 
-    this.fotoSeleccionada = input.files[0];
+      this.fotoSeleccionada = input.files[0];
+
+    }
 
   }
-
-}
 
   registrarse() {
 
-if (this.registroForm.invalid) {
-this.registroForm.markAllAsTouched();
-return;
-}
+    if (this.registroForm.invalid) {
+      this.registroForm.markAllAsTouched();
+      return;
+    }
 
-const formData = new FormData();
+    const formData = new FormData();
 
-formData.append(
-'nombre',
-this.registroForm.value.nombre
-);
+    formData.append(
+      'nombre',
+      this.registroForm.value.nombre
+    );
 
-formData.append(
-'apellido',
-this.registroForm.value.apellido
-);
+    formData.append(
+      'apellido',
+      this.registroForm.value.apellido
+    );
 
-formData.append(
-'correo',
-this.registroForm.value.correo
-);
+    formData.append(
+      'correo',
+      this.registroForm.value.correo
+    );
 
-formData.append(
-'usuario',
-this.registroForm.value.usuario
-);
+    formData.append(
+      'usuario',
+      this.registroForm.value.usuario
+    );
 
-formData.append(
-'password',
-this.registroForm.value.password
-);
+    formData.append(
+      'password',
+      this.registroForm.value.password
+    );
 
-formData.append(
-'fechaNacimiento',
-this.registroForm.value.fechaNacimiento
-);
+    formData.append(
+      'fechaNacimiento',
+      this.registroForm.value.fechaNacimiento
+    );
 
-formData.append(
-'descripcion',
-this.registroForm.value.descripcion
-);
+    formData.append(
+      'descripcion',
+      this.registroForm.value.descripcion
+    );
 
-if (this.fotoSeleccionada) {
+    if (this.fotoSeleccionada) {
 
+      formData.append(
+        'foto',
+        this.fotoSeleccionada
+      );
 
-formData.append(
-  'foto',
-  this.fotoSeleccionada
-);
+    }
 
+    this.usuariosService.crear(formData).subscribe({
 
-}
+      next: (respuesta: any) => {
 
-this.usuariosService.crear(formData).subscribe({
+        console.log('NEXT');
 
-  next: (respuesta: any) => {
+        if (respuesta.error) {
 
-  console.log('NEXT');
+          this.mensajeModal = respuesta.mensaje;
+          this.mostrarModal = true;
 
-  if (respuesta.error) {
+          this.cdr.detectChanges();
 
-    this.mensajeModal = respuesta.mensaje;
-    this.mostrarModal = true;
+          return;
+        }
 
-    this.cdr.detectChanges();
+        this.usuariosService.login({
+          usuario: this.registroForm.value.usuario,
+          password: this.registroForm.value.password
+        })
+        .subscribe({
 
-    return;
-  }
+          next: (respuestaLogin: any) => {
 
-  this.mensajeModal = 'Registro exitoso';
-  this.mostrarModal = true;
+            localStorage.setItem(
+              'token',
+              respuestaLogin.token
+            );
 
-  this.cdr.detectChanges();
+            localStorage.setItem(
+              'usuarioLogueado',
+              JSON.stringify(
+                respuestaLogin.usuario
+              )
+            );
 
-},
+            this.mensajeModal = 'Registro exitoso';
+            this.mostrarModal = true;
 
-  error: (error) => {
+            this.cdr.detectChanges();
+
+          },
+
+          error: (error) => {
+
+            console.error(error);
+
+            this.mensajeModal =
+              'Error al iniciar sesión';
+
+            this.mostrarModal = true;
+
+          }
+
+        });
+
+      },
+
+      error: (error) => {
 
   console.error(error);
 
   this.mensajeModal =
-    'Usuario o correo ya existe';
+    error?.error?.mensaje ||
+    error?.error?.message ||
+    'Error al registrarse';
 
   this.mostrarModal = true;
 
-}
-
-});
+  this.cdr.detectChanges();
 
 }
 
+    });
+
+  }
 
 }
