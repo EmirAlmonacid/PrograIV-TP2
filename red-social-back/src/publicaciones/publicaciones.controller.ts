@@ -21,6 +21,8 @@ export class PublicacionesController {
         private publicacionesService: PublicacionesService
     ) {}
 
+    // Crea una nueva publicación.
+    // FileInterceptor permite recibir la imagen enviada desde el frontend.
     @Post()
     @UseInterceptors(FileInterceptor('imagen'))
     crear(
@@ -35,6 +37,7 @@ export class PublicacionesController {
 
     }
 
+    // Lista publicaciones y permite ordenar y filtrar.
     @Get()
     obtenerTodas(
         @Query('orden') orden?: string,
@@ -52,6 +55,7 @@ export class PublicacionesController {
 
     }
 
+    // Elimina una publicación por id.
     @Delete(':id')
     eliminar(
         @Param('id') id: string
@@ -61,6 +65,7 @@ export class PublicacionesController {
 
     }
 
+    // Agrega un like a una publicación.
     @Post(':id/like')
     darLike(
         @Param('id') id: string,
@@ -74,6 +79,7 @@ export class PublicacionesController {
 
     }
 
+    // Quita el like del usuario indicado.
     @Delete(':id/like/:usuarioId')
     quitarLike(
         @Param('id') id: string,
@@ -87,17 +93,18 @@ export class PublicacionesController {
 
     }
 
+    // Agrega un comentario a la publicación seleccionada.
     @Post(':id/comentario')
     comentar(
         @Param('id') id: string,
         @Body() body: any
-        ) {
+    ) {
 
         return this.publicacionesService.comentar(
             id,
             body
         );
 
-}
+    }
 
 }

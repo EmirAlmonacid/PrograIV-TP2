@@ -14,74 +14,79 @@ export class PublicacionesService {
     ) {}
 
     async crear(
-    publicacion: any,
-    file?: any
-) {
+        publicacion: any,
+        file?: any
+    ) {
 
-    if (file) {
+        // Si la publicación tiene imagen, se sube a Cloudinary
+        if (file) {
 
-        const imagenSubida =
-            await this.cloudinaryService.uploadImage(file);
+            const imagenSubida =
+                await this.cloudinaryService.uploadImage(file);
 
-        publicacion.imagen =
-            (imagenSubida as any).secure_url;
+            publicacion.imagen =
+                (imagenSubida as any).secure_url;
+
+        }
+
+        return await this.publicacionModel.create(
+            publicacion
+        );
 
     }
-
-    return await this.publicacionModel.create(
-        publicacion
-    );
-
-}
 
     async obtenerTodas(
-    orden?: string,
-    usuarioId?: string,
-    offset = 0,
-    limit = 5
-) {
+        orden?: string,
+        usuarioId?: string,
+        offset = 0,
+        limit = 5
+    ) {
 
-    const filtro: any = {
-        activo: true
-    };
+        const filtro: any = {
+            activo: true
+        };
 
-    if (usuarioId) {
+        // Permite filtrar publicaciones de un usuario específico
+        if (usuarioId) {
 
-        filtro.usuarioId = usuarioId;
+            filtro.usuarioId = usuarioId;
 
-    }
+        }
 
-    const publicaciones =
-        await this.publicacionModel
-            .find(filtro);
+        const publicaciones =
+            await this.publicacionModel
+                .find(filtro);
 
-    if (orden === 'likes') {
+        // Ordena según el criterio recibido desde el frontend
+        if (orden === 'likes') {
 
-        publicaciones.sort(
-            (a: any, b: any) =>
-                b.likes.length - a.likes.length
+            publicaciones.sort(
+                (a: any, b: any) =>
+                    b.likes.length - a.likes.length
+            );
+
+        } else {
+
+            publicaciones.sort(
+                (a: any, b: any) =>
+                    new Date(b.fechaCreacion).getTime()
+                    -
+                    new Date(a.fechaCreacion).getTime()
+            );
+
+        }
+
+        // Paginación
+        return publicaciones.slice(
+            Number(offset),
+            Number(offset) + Number(limit)
         );
 
-    } else {
-
-        publicaciones.sort(
-            (a: any, b: any) =>
-                new Date(b.fechaCreacion).getTime()
-                -
-                new Date(a.fechaCreacion).getTime()
-        );
-
     }
-
-    return publicaciones.slice(
-        Number(offset),
-        Number(offset) + Number(limit)
-    );
-
-}
 
     async eliminar(id: string) {
 
+        // Baja lógica: la publicación sigue existiendo en Mongo
         return await this.publicacionModel.findByIdAndUpdate(
             id,
             {
@@ -99,6 +104,7 @@ export class PublicacionesService {
         usuarioId: string
     ) {
 
+        // $addToSet evita likes duplicados
         return await this.publicacionModel.findByIdAndUpdate(
             publicacionId,
             {
@@ -135,25 +141,26 @@ export class PublicacionesService {
     async comentar(
         publicacionId: string,
         comentario: any
-) {
+    ) {
 
-    return await this.publicacionModel.findByIdAndUpdate(
-        publicacionId,
-        {
-        $push: {
-            comentarios: {
-            usuarioId: comentario.usuarioId,
-            usuario: comentario.usuario,
-            texto: comentario.texto,
-            fecha: new Date()
+        return await this.publicacionModel.findByIdAndUpdate(
+            publicacionId,
+            {
+                $push: {
+                    comentarios: {
+                        usuarioId: comentario.usuarioId,
+                        usuario: comentario.usuario,
+                        texto: comentario.texto,
+                        fecha: new Date()
+                    }
+                }
+            },
+            {
+                new: true
             }
-        }
-        },
-        {
-        new: true
-        }
-    );
+        );
 
     }
 
 }
+

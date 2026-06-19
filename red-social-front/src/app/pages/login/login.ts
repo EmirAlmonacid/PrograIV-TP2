@@ -33,7 +33,6 @@ export class Login {
     private cdr: ChangeDetectorRef
   ) {
 
-    // Configuración del formulario de inicio de sesión
     this.loginForm = this.fb.group({
       usuario: ['', Validators.required],
       password: ['', Validators.required]
@@ -43,23 +42,22 @@ export class Login {
 
   iniciarSesion() {
 
-    // Si hay campos inválidos, muestra los errores
     if (this.loginForm.invalid) {
+
       this.loginForm.markAllAsTouched();
       return;
+
     }
 
-    // Envía las credenciales al servicio
     this.usuariosService.login({
       usuario: this.loginForm.value.usuario,
       password: this.loginForm.value.password
     })
     .subscribe({
 
-      next: (usuario: any) => {
+      next: (respuesta: any) => {
 
-        // Verifica si el usuario existe
-        if (!usuario) {
+        if (!respuesta) {
 
           this.mensajeModal =
             'Usuario o contraseña incorrectos';
@@ -71,16 +69,21 @@ export class Login {
 
         }
 
-        // Guarda la sesión del usuario
+        localStorage.setItem(
+          'token',
+          respuesta.token
+        );
+
         localStorage.setItem(
           'usuarioLogueado',
-          JSON.stringify(usuario)
+          JSON.stringify(respuesta.usuario)
         );
 
         this.mensajeModal =
           'Inicio de sesión exitoso';
 
         this.mostrarModal = true;
+
         this.cdr.detectChanges();
 
       },
@@ -104,9 +107,15 @@ export class Login {
 
     this.mostrarModal = false;
 
-    // Redirige al usuario luego de iniciar sesión
-    if (this.mensajeModal === 'Inicio de sesión exitoso') {
-      this.router.navigate(['/publicaciones']);
+    if (
+      this.mensajeModal ===
+      'Inicio de sesión exitoso'
+    ) {
+
+      this.router.navigate([
+        '/publicaciones'
+      ]);
+
     }
 
   }

@@ -2,7 +2,8 @@ import {
   Component,
   Input,
   OnInit,
-  ChangeDetectorRef,} from '@angular/core';
+  ChangeDetectorRef,
+} from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 
@@ -17,6 +18,7 @@ import { PublicacionesService } from '../../../services/publicaciones';
 })
 export class PublicacionCard implements OnInit {
 
+  // Datos que recibe desde el componente Publicaciones
   @Input()
   id!: string;
 
@@ -35,19 +37,21 @@ export class PublicacionCard implements OnInit {
   @Input()
   usuarioId!: string;
 
+  @Input()
+  comentarios: any[] = [];
+
   usuarioActual = '';
 
   tieneLike = false;
+
+  nuevoComentario = '';
 
   constructor(
     private publicacionesService: PublicacionesService,
     private cdr: ChangeDetectorRef
   ) {}
 
-      @Input()
-    comentarios: any[] = [];
-
-    nuevoComentario = '';
+  // Obtiene el usuario logueado y verifica si ya dio like
   ngOnInit() {
 
     const usuario =
@@ -143,6 +147,7 @@ export class PublicacionCard implements OnInit {
       .eliminar(this.id)
       .subscribe({
 
+        // Si se elimina correctamente, recarga la vista
         next: () => {
 
           window.location.reload();
@@ -160,45 +165,50 @@ export class PublicacionCard implements OnInit {
   }
 
   agregarComentario() {
-    this.cdr.detectChanges();
-  const usuario =
-    JSON.parse(
-      localStorage.getItem(
-        'usuarioLogueado'
-      ) || '{}'
-    );
 
-  if (
-    !usuario._id ||
-    !this.nuevoComentario.trim()
-  ) {
-    return;
+    this.cdr.detectChanges();
+
+    const usuario =
+      JSON.parse(
+        localStorage.getItem(
+          'usuarioLogueado'
+        ) || '{}'
+      );
+
+    // Evita comentarios vacíos o usuarios sin sesión iniciada
+    if (
+      !usuario._id ||
+      !this.nuevoComentario.trim()
+    ) {
+      return;
+    }
+
+    this.publicacionesService
+      .comentar(
+        this.id,
+        {
+          usuarioId: usuario._id,
+          usuario: usuario.usuario,
+          texto: this.nuevoComentario
+        }
+      )
+      .subscribe({
+
+        next: (respuesta: any) => {
+
+          // Actualiza la lista de comentarios con la respuesta del backend
+          this.comentarios =
+            [...respuesta.comentarios];
+
+          this.nuevoComentario = '';
+
+          this.cdr.detectChanges();
+
+        }
+
+      });
+
   }
 
-  this.publicacionesService
-    .comentar(
-      this.id,
-      {
-        usuarioId: usuario._id,
-        usuario: usuario.usuario,
-        texto: this.nuevoComentario
-      }
-    )
-    .subscribe({
-
-      next: (respuesta: any) => {
-
-        this.comentarios =
-          [...respuesta.comentarios];
-
-        this.nuevoComentario = '';
-
-        this.cdr.detectChanges();
-
-      }
-
-    });
-
 }
 
-}

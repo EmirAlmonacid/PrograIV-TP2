@@ -46,7 +46,7 @@ export class MiPerfil implements OnInit {
 
   }
 
- cargarPublicaciones() {
+  cargarPublicaciones() {
 
   console.log('CARGANDO PERFIL');
 

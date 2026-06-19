@@ -51,36 +51,39 @@ export class Publicaciones implements OnInit {
     private usuariosService: UsuariosService,
   ) {}
 
+
+  // Obtiene publicaciones y usuarios recientes.
   ngOnInit() {
-      console.log('INICIO');
+
+    console.log('INICIO');
 
     this.cargarPublicaciones();
 
     this.cargarUsuarios();
 
-
   }
 
   abrirModal() {
 
-  const usuario =
-    localStorage.getItem(
-      'usuarioLogueado'
-    );
+    const usuario =
+      localStorage.getItem(
+        'usuarioLogueado'
+      );
 
-  if (!usuario) {
+    // Solo usuarios logueados pueden publicar.
+    if (!usuario) {
 
-    this.router.navigate([
-      '/login'
-    ]);
+      this.router.navigate([
+        '/login'
+      ]);
 
-    return;
+      return;
+
+    }
+
+    this.mostrarModal = true;
 
   }
-
-  this.mostrarModal = true;
-
-}
 
   cerrarModal() {
 
@@ -112,96 +115,100 @@ export class Publicaciones implements OnInit {
   }
 
   crearPublicacion() {
+
     console.log(localStorage.getItem('usuarioLogueado'));
-  const usuario =
-    JSON.parse(
-      localStorage.getItem('usuarioLogueado') || '{}'
-    );
 
-  const formData = new FormData();
+    const usuario =
+      JSON.parse(
+        localStorage.getItem('usuarioLogueado') || '{}'
+      );
 
-  formData.append(
-    'titulo',
-    this.titulo
-  );
-
-  formData.append(
-    'descripcion',
-    this.descripcion
-  );
-
-  formData.append(
-    'usuarioId',
-    usuario._id
-  );
-
-  if (this.imagenSeleccionada) {
+    // FormData permite enviar texto e imagen
+    // en una misma petición.
+    const formData = new FormData();
 
     formData.append(
-      'imagen',
-      this.imagenSeleccionada
+      'titulo',
+      this.titulo
     );
+
+    formData.append(
+      'descripcion',
+      this.descripcion
+    );
+
+    formData.append(
+      'usuarioId',
+      usuario._id
+    );
+
+    if (this.imagenSeleccionada) {
+
+      formData.append(
+        'imagen',
+        this.imagenSeleccionada
+      );
+
+    }
+
+    this.publicacionesService
+      .crear(formData)
+      .subscribe({
+
+        // next se ejecuta cuando el backend responde correctamente.
+        next: () => {
+
+          this.cerrarModal();
+
+          this.cargarPublicaciones();
+
+          this.cargarUsuarios();
+
+          this.cdr.detectChanges();
+
+        },
+
+        error: (error) => {
+
+          console.log(error);
+
+        }
+
+      });
 
   }
 
-  this.publicacionesService
-    .crear(formData)
-    .subscribe({
-
-      next: () => {
-
-        this.cerrarModal();
-
-        this.cargarPublicaciones();
-
-        this.cargarUsuarios();
-
-        this.cdr.detectChanges();
-
-
-      },
-
-      error: (error) => {
-
-        console.log(error);
-
-      }
-
-    });
-
-}
-
   cargarPublicaciones() {
 
-  console.log('CARGANDO');
+    console.log('CARGANDO');
 
-  this.publicacionesService
-    .obtenerPublicaciones(
-      this.orden,
-      this.offset,
-      this.limit
-    )
-    .subscribe({
+    this.publicacionesService
+      .obtenerPublicaciones(
+        this.orden,
+        this.offset,
+        this.limit
+      )
+      .subscribe({
 
-      next: (respuesta: any[]) => {
+        next: (respuesta: any[]) => {
 
-        console.log(respuesta);
+          console.log(respuesta);
 
-        this.publicaciones = [...respuesta];
+          this.publicaciones = [...respuesta];
 
-        this.cdr.detectChanges();
+          this.cdr.detectChanges();
 
-      },
+        },
 
-      error: (error) => {
+        error: (error) => {
 
-        console.log(error);
+          console.log(error);
 
-      }
+        }
 
-    });
+      });
 
-}
+  }
 
   ordenarPorFecha() {
 
@@ -221,18 +228,18 @@ export class Publicaciones implements OnInit {
 
   cargarUsuarios() {
 
-  this.usuariosService
-    .obtenerUltimosUsuarios()
-    .subscribe({
+    this.usuariosService
+      .obtenerUltimosUsuarios()
+      .subscribe({
 
-      next: (respuesta: any[]) => {
+        next: (respuesta: any[]) => {
 
-        this.usuariosRecientes = respuesta;
+          this.usuariosRecientes = respuesta;
 
-      }
+        }
 
-    });
+      });
 
-}
+  }
 
 }

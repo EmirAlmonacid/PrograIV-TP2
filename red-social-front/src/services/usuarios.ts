@@ -6,29 +6,37 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UsuariosService {
 
-  private apiUrl = 'https://progra-iv-tp-2-back-omega.vercel.app/usuarios';
+  private apiUrl =
+    'https://progra-iv-tp-2-back-omega.vercel.app/usuarios';
 
   constructor(
     private http: HttpClient
   ) {}
 
   crear(usuario: any) {
-    return this.http.post(this.apiUrl, usuario);
+
+    return this.http.post(
+      this.apiUrl,
+      usuario
+    );
+
   }
 
   login(datos: any) {
+
     return this.http.post(
-      'https://progra-iv-tp-2-back-omega.vercel.app/usuarios/login',
+      'https://progra-iv-tp-2-back-omega.vercel.app/auth/login',
       datos
     );
+
   }
 
   obtenerUltimosUsuarios() {
 
-  return this.http.get<any[]>(
-    'https://progra-iv-tp-2-back-omega.vercel.app/usuarios/ultimos'
-  );
+    return this.http.get<any[]>(
+      'https://progra-iv-tp-2-back-omega.vercel.app/usuarios/ultimos'
+    );
 
-}
+  }
 
 }
