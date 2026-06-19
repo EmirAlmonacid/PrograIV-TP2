@@ -5,21 +5,32 @@ import { AuthService } from './auth.service';
 export class AuthController {
 
     constructor(
-    private readonly authService: AuthService,
+        private readonly authService: AuthService,
     ) {}
 
     @Post('registro')
     registro(@Body() usuario: any) {
-    return this.authService.registro(usuario);
+
+        return this.authService.registro(usuario);
+
     }
 
     @Post('login')
     login(@Body() datos: any) {
 
-    return this.authService.login(
-        datos.usuario,
-        datos.password
-    );
+        return this.authService.login(
+            datos.usuario,
+            datos.password
+        );
+
+    }
+
+    @Post('autorizar')
+    autorizar(@Body() datos: any) {
+
+        return this.authService.autorizar(
+            datos.token
+        );
 
     }
 

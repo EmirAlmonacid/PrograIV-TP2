@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { UsuariosService } from '../usuarios/usuarios.service';
@@ -45,6 +45,25 @@ export class AuthService {
             token,
             usuario: usuarioEncontrado
         };
+
+    }
+
+    async autorizar(token: string) {
+
+        try {
+
+            const payload =
+                this.jwtService.verify(token);
+
+            return payload;
+
+        } catch {
+
+            throw new UnauthorizedException(
+                'Token inválido o vencido'
+            );
+
+        }
 
     }
 
