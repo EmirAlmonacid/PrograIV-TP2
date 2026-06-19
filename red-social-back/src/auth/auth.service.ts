@@ -67,4 +67,34 @@ export class AuthService {
 
     }
 
+    async refrescar(token: string) {
+
+        try {
+
+            const payload =
+                this.jwtService.verify(token);
+
+            const nuevoPayload = {
+                id: payload.id,
+                usuario: payload.usuario,
+                perfil: payload.perfil
+            };
+
+            const nuevoToken =
+                this.jwtService.sign(nuevoPayload);
+
+            return {
+                token: nuevoToken
+            };
+
+        } catch {
+
+            throw new UnauthorizedException(
+                'Token inválido o vencido'
+            );
+
+        }
+
+    }
+
 }

@@ -28,6 +28,16 @@ export class MiPerfil implements OnInit {
 
   ngOnInit(): void {
 
+    const token =
+      localStorage.getItem('token');
+
+    if (!token) {
+
+      this.router.navigate(['/login']);
+      return;
+
+    }
+
     const usuarioGuardado =
       localStorage.getItem('usuarioLogueado');
 
@@ -48,38 +58,42 @@ export class MiPerfil implements OnInit {
 
   cargarPublicaciones() {
 
-  console.log('CARGANDO PERFIL');
+    console.log('CARGANDO PERFIL');
 
-  this.publicacionesService
-    .obtenerPublicacionesUsuario(
-      this.usuario._id
-    )
-    .subscribe({
+    this.publicacionesService
+      .obtenerPublicacionesUsuario(
+        this.usuario._id
+      )
+      .subscribe({
 
-      next: (respuesta: any[]) => {
+        next: (respuesta: any[]) => {
 
-        console.log(respuesta);
+          console.log(respuesta);
 
-        this.publicaciones = [...respuesta];
+          this.publicaciones = [...respuesta];
 
-        this.cdr.detectChanges();
+          this.cdr.detectChanges();
 
-      },
+        },
 
-      error: (error) => {
+        error: (error) => {
 
-        console.log(error);
+          console.log(error);
 
-      }
+        }
 
-    });
+      });
 
-}
+  }
 
   cerrarSesion() {
 
     localStorage.removeItem(
       'usuarioLogueado'
+    );
+
+    localStorage.removeItem(
+      'token'
     );
 
     this.router.navigate(['/login']);
@@ -88,30 +102,30 @@ export class MiPerfil implements OnInit {
 
   eliminarPublicacion(id: string) {
 
-  this.publicacionesService
-    .eliminar(id)
-    .subscribe({
+    this.publicacionesService
+      .eliminar(id)
+      .subscribe({
 
-      next: () => {
+        next: () => {
 
-        this.publicaciones =
-          this.publicaciones.filter(
-            p => p._id !== id
-          );
+          this.publicaciones =
+            this.publicaciones.filter(
+              p => p._id !== id
+            );
 
-        this.cdr.detectChanges();
+          this.cdr.detectChanges();
 
-      },
+        },
 
-      error: (error) => {
+        error: (error) => {
 
-        console.log(error);
+          console.log(error);
 
-      }
+        }
 
-    });
+      });
 
-}
+  }
 
   formatearFecha(fecha: string): string {
 

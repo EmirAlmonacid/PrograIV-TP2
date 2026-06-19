@@ -34,4 +34,13 @@ export class AuthController {
 
     }
 
+    @Post('refrescar')
+    refrescar(@Body() datos: any) {
+
+        return this.authService.refrescar(
+            datos.token
+        );
+
+    }
+
 }
