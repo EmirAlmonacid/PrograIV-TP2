@@ -107,4 +107,20 @@ export class PublicacionesController {
 
     }
 
+    @Post(':id/comentario/:index')
+        editarComentario(
+            @Param('id') id: string,
+            @Param('index') index: number,
+            @Body() body: any
+        ) {
+
+            return this.publicacionesService
+                .editarComentario(
+                    id,
+                    Number(index),
+                    body.texto
+                );
+
+        }
+
 }

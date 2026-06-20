@@ -151,7 +151,8 @@ export class PublicacionesService {
                         usuarioId: comentario.usuarioId,
                         usuario: comentario.usuario,
                         texto: comentario.texto,
-                        fecha: new Date()
+                        fecha: new Date(),
+                        editado: false
                     }
                 }
             },
@@ -161,6 +162,39 @@ export class PublicacionesService {
         );
 
     }
+
+   async editarComentario(
+    publicacionId: string,
+    comentarioIndex: number,
+    texto: string
+) {
+
+    const publicacion =
+        await this.publicacionModel.findById(
+            publicacionId
+        );
+
+    if (!publicacion) {
+        return null;
+    }
+
+    publicacion.comentarios[
+        comentarioIndex
+    ].texto = texto;
+
+    publicacion.comentarios[
+        comentarioIndex
+    ].editado = true;
+
+    publicacion.markModified(
+        'comentarios'
+    );
+
+    await publicacion.save();
+
+    return publicacion;
+
+}
 
 }
 

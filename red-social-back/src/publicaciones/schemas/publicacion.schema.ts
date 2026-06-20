@@ -42,10 +42,11 @@ export class Publicacion {
         default: []
         })
         comentarios!: {
-        usuarioId: string;
-        usuario: string;
-        texto: string;
-        fecha: Date;
+            usuarioId: string;
+            usuario: string;
+            texto: string;
+            fecha: Date;
+            editado: boolean;
         }[];
 
 }
