@@ -96,19 +96,25 @@ export class MiPerfil implements OnInit {
 
   }
 
-  cerrarSesion() {
+    cerrarSesion() {
 
-    localStorage.removeItem(
-      'usuarioLogueado'
-    );
+      localStorage.removeItem(
+        'usuarioLogueado'
+      );
 
-    localStorage.removeItem(
-      'token'
-    );
+      localStorage.removeItem(
+        'token'
+      );
 
-    this.router.navigate(['/login']);
+      window.dispatchEvent(
+        new Event('logout')
+      );
 
-  }
+        this.router.navigate([
+          '/login'
+        ]);
+
+      }
 
   eliminarPublicacion(id: string) {
 

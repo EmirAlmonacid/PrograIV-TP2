@@ -38,18 +38,24 @@ export class Navbar implements OnInit, DoCheck {
 
   cerrarSesion() {
 
-    localStorage.removeItem(
-      'usuarioLogueado'
-    );
+      localStorage.removeItem(
+        'usuarioLogueado'
+      );
 
-    localStorage.removeItem(
-      'token'
-    );
+      localStorage.removeItem(
+        'token'
+      );
 
-    this.estaLogueado = false;
+      window.dispatchEvent(
+        new Event('logout')
+      );
 
-    this.router.navigate(['/login']);
+      this.estaLogueado = false;
 
-  }
+      this.router.navigate([
+        '/login'
+      ]);
+
+    }
 
 }

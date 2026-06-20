@@ -111,7 +111,9 @@ export class Login {
       this.mensajeModal ===
       'Inicio de sesión exitoso'
     ) {
-
+      window.dispatchEvent(
+      new Event('loginExitoso')
+      );
       this.router.navigate([
         '/publicaciones'
       ]);

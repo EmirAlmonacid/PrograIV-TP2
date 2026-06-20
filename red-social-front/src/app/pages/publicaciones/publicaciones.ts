@@ -43,6 +43,7 @@ export class Publicaciones implements OnInit {
 
   usuariosRecientes: any[] = [];
 
+
   constructor(
     private publicacionesService:
     PublicacionesService,
@@ -264,5 +265,7 @@ ordenarPorLikes() {
       });
 
   }
+
+
 
 }

@@ -2,6 +2,14 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+  path: 'loading',
+  loadComponent: () =>
+    import('./pages/loading/loading')
+      .then(m => m.Loading)
+},
+
+  {
+    
     path: 'login',
     loadComponent: () =>
       import('./pages/login/login')
@@ -26,8 +34,12 @@ export const routes: Routes = [
         .then(m => m.MiPerfil)
   },
   {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
-  }
+  path: '',
+  redirectTo: 'loading',
+  pathMatch: 'full'
+},
+{
+  path: '**',
+  redirectTo: 'loading'
+}
 ];
