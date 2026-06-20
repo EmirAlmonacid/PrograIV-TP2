@@ -9,16 +9,17 @@ import { FormsModule } from '@angular/forms';
 
 import { PublicacionesService } from '../../../services/publicaciones';
 
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-publicacion-card',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './publicacion-card.html',
   styleUrls: ['./publicacion-card.css']
 })
 export class PublicacionCard implements OnInit {
 
-  // Datos que recibe desde el componente Publicaciones
   @Input()
   id!: string;
 
@@ -38,6 +39,9 @@ export class PublicacionCard implements OnInit {
   usuarioId!: string;
 
   @Input()
+  fecha!: string;
+
+  @Input()
   comentarios: any[] = [];
 
   usuarioActual = '';
@@ -51,7 +55,6 @@ export class PublicacionCard implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
-  // Obtiene el usuario logueado y verifica si ya dio like
   ngOnInit() {
 
     const usuario =
@@ -147,7 +150,6 @@ export class PublicacionCard implements OnInit {
       .eliminar(this.id)
       .subscribe({
 
-        // Si se elimina correctamente, recarga la vista
         next: () => {
 
           window.location.reload();
@@ -175,7 +177,6 @@ export class PublicacionCard implements OnInit {
         ) || '{}'
       );
 
-    // Evita comentarios vacíos o usuarios sin sesión iniciada
     if (
       !usuario._id ||
       !this.nuevoComentario.trim()
@@ -196,7 +197,6 @@ export class PublicacionCard implements OnInit {
 
         next: (respuesta: any) => {
 
-          // Actualiza la lista de comentarios con la respuesta del backend
           this.comentarios =
             [...respuesta.comentarios];
 
@@ -211,4 +211,3 @@ export class PublicacionCard implements OnInit {
   }
 
 }
-

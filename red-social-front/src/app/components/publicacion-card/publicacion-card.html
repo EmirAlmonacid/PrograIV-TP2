@@ -1,11 +1,21 @@
 <div class="card">
 
-    <img
-        class="imagen-publicacion"
-        [src]="imagen"
-        alt="publicacion">
+    @if(imagen){
+
+        <img
+            class="imagen-publicacion"
+            [src]="imagen"
+            alt="publicacion">
+
+    }
 
     <div class="contenido">
+
+        <div class="fecha-publicacion">
+
+            🕒 {{ fecha | date:'dd/MM/yyyy - HH:mm' }}
+
+        </div>
 
         <h2>
             {{ titulo }}
@@ -19,8 +29,7 @@
 
             <div class="contador-likes">
 
-                {{ likes.length }}
-                Me gusta
+                ❤️ {{ likes.length }}
 
             </div>
 
@@ -33,7 +42,7 @@
                         type="button"
                         (click)="eliminarPublicacion()">
 
-                        Eliminar
+                        🗑️ Eliminar
 
                     </button>
 
@@ -46,7 +55,7 @@
                         type="button"
                         (click)="darLike()">
 
-                        Me gusta
+                        ❤️ Me gusta
 
                     </button>
 
@@ -59,7 +68,7 @@
                         type="button"
                         (click)="quitarLike()">
 
-                        Quitar me gusta
+                        💔 Quitar
 
                     </button>
 
@@ -71,7 +80,7 @@
 
         <div class="comentarios-header">
 
-            Comentarios ({{ comentarios.length }})
+            💬 Comentarios ({{ comentarios.length }})
 
         </div>
 
@@ -105,10 +114,11 @@
                     [(ngModel)]="nuevoComentario">
 
                 <button
+                    class="btn-comentar"
                     type="button"
                     (click)="agregarComentario()">
 
-                    Comentar
+                    ✈️ Enviar
 
                 </button>
 

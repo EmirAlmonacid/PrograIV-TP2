@@ -16,6 +16,10 @@
     0 10px 30px rgba(15,23,42,.08);
 
     transition:.25s;
+
+    
+    overflow: hidden;
+
 }
 
 .card:hover{

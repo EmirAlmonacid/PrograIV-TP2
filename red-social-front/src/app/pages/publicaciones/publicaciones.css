@@ -395,6 +395,46 @@ app-publicacion-card{
     box-shadow:0 16px 32px rgba(37,99,235,.38);
 }
 
+.btn-cargar-mas{
+
+    display:block;
+
+    width:280px;
+
+    margin:20px auto 0;
+
+    padding:12px 20px;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:14px;
+    font-weight:700;
+
+    color:white;
+
+    background:linear-gradient(
+        135deg,
+        #08152f,
+        #2563eb
+    );
+
+    transition:.25s;
+
+    box-shadow:
+    0 10px 25px rgba(37,99,235,.20);
+
+}
+
+.btn-cargar-mas:hover{
+
+    transform:translateY(-2px);
+
+}
+
 @media(max-width:1024px){
     .contenido-principal{
         grid-template-columns:1fr;
@@ -427,4 +467,6 @@ app-publicacion-card{
         padding:24px;
         border-radius:20px;
     }
+
+    
 }

@@ -180,51 +180,74 @@ export class Publicaciones implements OnInit {
 
   cargarPublicaciones() {
 
-    console.log('CARGANDO');
+  console.log('CARGANDO');
 
-    this.publicacionesService
-      .obtenerPublicaciones(
-        this.orden,
-        this.offset,
-        this.limit
-      )
-      .subscribe({
+  this.publicacionesService
+    .obtenerPublicaciones(
+      this.orden,
+      this.offset,
+      this.limit
+    )
+    .subscribe({
 
-        next: (respuesta: any[]) => {
+      next: (respuesta: any[]) => {
 
-          console.log(respuesta);
+        console.log(respuesta);
+
+        if(this.offset === 0){
 
           this.publicaciones = [...respuesta];
 
-          this.cdr.detectChanges();
+        } else {
 
-        },
-
-        error: (error) => {
-
-          console.log(error);
+          this.publicaciones = [
+            ...this.publicaciones,
+            ...respuesta
+          ];
 
         }
 
-      });
+        this.cdr.detectChanges();
 
-  }
+      },
+
+      error: (error) => {
+
+        console.log(error);
+
+      }
+
+    });
+
+}
+
+cargarMas() {
+
+  this.offset += this.limit;
+
+  this.cargarPublicaciones();
+
+}
 
   ordenarPorFecha() {
 
-    this.orden = 'fecha';
+  this.orden = 'fecha';
 
-    this.cargarPublicaciones();
+  this.offset = 0;
 
-  }
+  this.cargarPublicaciones();
 
-  ordenarPorLikes() {
+}
 
-    this.orden = 'likes';
+ordenarPorLikes() {
 
-    this.cargarPublicaciones();
+  this.orden = 'likes';
 
-  }
+  this.offset = 0;
+
+  this.cargarPublicaciones();
+
+}
 
   cargarUsuarios() {
 

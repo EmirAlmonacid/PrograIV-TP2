@@ -3,6 +3,8 @@ import {
   Controller,
   Get,
   Post,
+  Put,
+  Param,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -46,4 +48,23 @@ obtenerUltimos() {
   return this.usuariosService.obtenerUltimos();
 
 }
+
+    @Put(':id')
+    @UseInterceptors(
+      FileInterceptor('foto')
+    )
+    actualizar(
+      @Param('id') id: string,
+      @Body() datos: any,
+      @UploadedFile() foto?: any
+    ) {
+
+      return this.usuariosService.actualizar(
+        id,
+        datos,
+        foto
+      );
+
+    }
+
 }

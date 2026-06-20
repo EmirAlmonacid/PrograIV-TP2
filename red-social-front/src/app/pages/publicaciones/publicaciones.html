@@ -40,11 +40,19 @@
                     [descripcion]="publicacion.descripcion"
                     [imagen]="publicacion.imagen"
                     [likes]="publicacion.likes"
+                    [usuarioId]="publicacion.usuarioId"
                     [comentarios]="publicacion.comentarios"
-                    [usuarioId]="publicacion.usuarioId">
+                    [fecha]="publicacion.fechaCreacion">
                 </app-publicacion-card>
 
             }
+            <button
+                class="btn-cargar-mas"
+                (click)="cargarMas()">
+
+                Cargar más publicaciones
+
+            </button>
 
         </div>
 

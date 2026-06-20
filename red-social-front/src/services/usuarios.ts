@@ -39,4 +39,16 @@ export class UsuariosService {
 
   }
 
+  actualizar(
+    id: string,
+    datos: FormData
+  ) {
+
+    return this.http.put(
+      `${this.apiUrl}/${id}`,
+      datos
+    );
+
+  }
+
 }

@@ -128,4 +128,32 @@ export class UsuariosService {
 
 }
 
+async actualizar(
+  id: string,
+  datos: any,
+  file?: any
+) {
+
+  if (file) {
+
+    const imagenSubida =
+      await this.cloudinaryService
+        .uploadImage(file);
+
+    datos.foto =
+      (imagenSubida as any)
+      .secure_url;
+
+  }
+
+  return await this.usuarioModel
+    .findByIdAndUpdate(
+      id,
+      datos,
+      { new: true }
+    );
+
+}
+
+
 }

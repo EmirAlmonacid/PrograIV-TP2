@@ -20,6 +20,11 @@ export class MiPerfil implements OnInit {
 
   publicaciones: any[] = [];
 
+  modoEdicion = false;
+
+  fotoSeleccionada:
+  File | null = null;
+
   constructor(
     private router: Router,
     private publicacionesService: PublicacionesService,
@@ -133,5 +138,47 @@ export class MiPerfil implements OnInit {
       .toLocaleDateString('es-AR');
 
   }
+
+  editarPerfil() {
+
+  this.modoEdicion = true;
+
+}
+
+guardarPerfil() {
+
+  const formData =
+    new FormData();
+
+  formData.append(
+    'nombre',
+    this.usuario.nombre
+  );
+
+  formData.append(
+    'apellido',
+    this.usuario.apellido
+  );
+
+  formData.append(
+    'descripcion',
+    this.usuario.descripcion
+  );
+
+  formData.append(
+    'fechaNacimiento',
+    this.usuario.fechaNacimiento
+  );
+
+  if (this.fotoSeleccionada) {
+
+    formData.append(
+      'foto',
+      this.fotoSeleccionada
+    );
+
+  }
+
+}
 
 }
