@@ -1,15 +1,23 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Navbar } from '../../components/navbar/navbar';
 import { PublicacionesService } from '../../../services/publicaciones';
+import { UsuariosService } from '../../../services/usuarios';
 
 @Component({
   selector: 'app-mi-perfil',
   imports: [
     CommonModule,
-    Navbar
+    Navbar,
+    FormsModule
   ],
   templateUrl: './mi-perfil.html',
   styleUrl: './mi-perfil.css'
@@ -28,6 +36,7 @@ export class MiPerfil implements OnInit {
   constructor(
     private router: Router,
     private publicacionesService: PublicacionesService,
+    private usuariosService: UsuariosService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -63,8 +72,6 @@ export class MiPerfil implements OnInit {
 
   cargarPublicaciones() {
 
-    console.log('CARGANDO PERFIL');
-
     this.publicacionesService
       .obtenerPublicacionesUsuario(
         this.usuario._id
@@ -72,8 +79,6 @@ export class MiPerfil implements OnInit {
       .subscribe({
 
         next: (respuesta: any[]) => {
-
-          console.log(respuesta);
 
           this.publicaciones = [...respuesta];
 
@@ -141,44 +146,94 @@ export class MiPerfil implements OnInit {
 
   editarPerfil() {
 
-  this.modoEdicion = true;
-
-}
-
-guardarPerfil() {
-
-  const formData =
-    new FormData();
-
-  formData.append(
-    'nombre',
-    this.usuario.nombre
-  );
-
-  formData.append(
-    'apellido',
-    this.usuario.apellido
-  );
-
-  formData.append(
-    'descripcion',
-    this.usuario.descripcion
-  );
-
-  formData.append(
-    'fechaNacimiento',
-    this.usuario.fechaNacimiento
-  );
-
-  if (this.fotoSeleccionada) {
-
-    formData.append(
-      'foto',
-      this.fotoSeleccionada
-    );
+    this.modoEdicion = true;
 
   }
 
-}
+  seleccionarFoto(event: Event) {
+
+    const input =
+      event.target as HTMLInputElement;
+
+    if (
+      input.files &&
+      input.files.length > 0
+    ) {
+
+      this.fotoSeleccionada =
+        input.files[0];
+
+    }
+
+  }
+
+  guardarPerfil() {
+
+    const formData =
+      new FormData();
+
+    formData.append(
+      'nombre',
+      this.usuario.nombre
+    );
+
+    formData.append(
+      'apellido',
+      this.usuario.apellido
+    );
+
+    formData.append(
+      'descripcion',
+      this.usuario.descripcion
+    );
+
+    formData.append(
+      'fechaNacimiento',
+      this.usuario.fechaNacimiento
+    );
+
+    if (this.fotoSeleccionada) {
+
+      formData.append(
+        'foto',
+        this.fotoSeleccionada
+      );
+
+    }
+
+    this.usuariosService
+      .actualizar(
+        this.usuario._id,
+        formData
+      )
+      .subscribe({
+
+        next: (usuarioActualizado: any) => {
+
+          this.usuario =
+            usuarioActualizado;
+
+          localStorage.setItem(
+            'usuarioLogueado',
+            JSON.stringify(
+              usuarioActualizado
+            )
+          );
+
+          this.modoEdicion = false;
+
+          this.cdr.detectChanges();
+
+        },
+
+        error: (error) => {
+
+          console.log(error);
+
+        }
+
+      });
+
+  }
 
 }

@@ -4,20 +4,24 @@
 
         <div class="banner"></div>
 
-        <div class="perfil-header">
+       <div class="perfil-header">
 
-            <img
-                class="foto-perfil"
-                [src]="usuario.foto"
-                alt="Foto perfil">
+    <img
+        class="foto-perfil"
+        [src]="usuario.foto"
+        alt="Foto perfil">
 
-            <button
-                class="logout-btn"
-                (click)="cerrarSesion()">
+    <div class="acciones-perfil">
 
-                Cerrar sesión
+        <button
+            class="logout-btn"
+            (click)="cerrarSesion()">
 
-            </button>
+            Cerrar sesión
+
+        </button>
+
+        @if(!modoEdicion){
 
             <button
                 class="editar-btn"
@@ -25,45 +29,115 @@
 
                 ✏️ Editar perfil
 
-                </button>
-
-                <button>
-                💾 Guardar cambios
             </button>
 
-        </div>
+        }
+
+        @if(modoEdicion){
+
+            <button
+                class="guardar-btn"
+                (click)="guardarPerfil()">
+
+                💾 Guardar cambios
+
+            </button>
+
+        }
+
+    </div>
+
+</div>
 
         <div class="perfil-info">
 
-            <h1>
-                {{ usuario.nombre }} {{ usuario.apellido }}
-            </h1>
+    @if(!modoEdicion){
 
-            <span class="usuario">
-                &#64;{{ usuario.usuario }}
-            </span>
+        <h1>
+            {{ usuario.nombre }}
+            {{ usuario.apellido }}
+        </h1>
 
-            <p class="descripcion">
-                {{ usuario.descripcion }}
-            </p>
+        <span class="usuario">
+            &#64;{{ usuario.usuario }}
+        </span>
+
+        <p class="descripcion">
+            {{ usuario.descripcion }}
+        </p>
+
+    }
+
+    @if(modoEdicion){
+
+        <div class="editor-perfil">
+
+            <input
+                type="text"
+                [(ngModel)]="usuario.nombre"
+                placeholder="Nombre">
+
+            <input
+                type="text"
+                [(ngModel)]="usuario.apellido"
+                placeholder="Apellido">
+
+            <textarea
+                [(ngModel)]="usuario.descripcion"
+                placeholder="Descripción">
+            </textarea>
+
+            <input
+                type="date"
+                [(ngModel)]="usuario.fechaNacimiento">
+
+            <input
+                type="file"
+                accept="image/*"
+                (change)="seleccionarFoto($event)">
 
         </div>
+
+    }
+
+</div>
 
         <div class="estadisticas">
 
             <div class="dato">
-                <span class="titulo">Correo</span>
-                <span>{{ usuario.correo }}</span>
+
+                <span class="titulo">
+                    Correo
+                </span>
+
+                <span>
+                    {{ usuario.correo }}
+                </span>
+
             </div>
 
             <div class="dato">
-                <span class="titulo">Fecha nacimiento</span>
-                <span>{{ formatearFecha(usuario.fechaNacimiento) }}</span>
+
+                <span class="titulo">
+                    Fecha nacimiento
+                </span>
+
+                <span>
+                    {{ formatearFecha(usuario.fechaNacimiento) }}
+                </span>
+
             </div>
 
             <div class="dato">
-                <span class="titulo">Perfil</span>
-                <span>{{ usuario.perfil }}</span>
+
+                <span class="titulo">
+                    Perfil
+                </span>
+
+                <span>
+                    {{ usuario.perfil }}
+                </span>
+
             </div>
 
         </div>
@@ -78,9 +152,13 @@
                 class="publicacion"
                 *ngFor="let publicacion of publicaciones">
 
-                <img
-                    [src]="publicacion.imagen"
-                    alt="publicacion">
+                @if(publicacion.imagen){
+
+                    <img
+                        [src]="publicacion.imagen"
+                        alt="publicacion">
+
+                }
 
                 <div class="publicacion-info">
 
@@ -117,14 +195,16 @@
                     </p>
 
                     <span>
-                        {{ publicacion.likes.length }} Me gusta
+                        {{ publicacion.likes.length }}
+                        Me gusta
                     </span>
 
                     <div class="comentarios-perfil">
 
                         <div class="comentarios-header">
 
-                            Comentarios ({{ publicacion.comentarios?.length || 0 }})
+                            Comentarios
+                            ({{ publicacion.comentarios?.length || 0 }})
 
                         </div>
 

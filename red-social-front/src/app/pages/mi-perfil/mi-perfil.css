@@ -317,8 +317,206 @@
     0 10px 20px rgba(220,38,38,.25);
 }
 
+
 .btn-eliminar:active{
     transform:scale(.96);
+}
+.acciones-perfil{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-left:auto;
+}
+
+.editar-btn,
+.guardar-btn{
+
+    border:none;
+
+    padding:12px 18px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    transition:.25s;
+}
+
+.editar-btn{
+
+    background:#eef4ff;
+
+    color:#2563eb;
+
+    border:1px solid #dbeafe;
+}
+
+.editar-btn:hover{
+
+    background:#dbeafe;
+
+    transform:translateY(-2px);
+}
+
+.guardar-btn{
+
+    background:linear-gradient(
+        135deg,
+        #16a34a,
+        #22c55e
+    );
+
+    color:white;
+
+    box-shadow:
+    0 10px 25px rgba(34,197,94,.20);
+}
+
+.guardar-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+    0 15px 30px rgba(34,197,94,.28);
+}
+
+.editor-perfil{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+    margin-top:10px;
+}
+
+.editor-perfil input,
+.editor-perfil textarea{
+
+    width:100%;
+
+    border:1px solid #dbe4f0;
+
+    border-radius:12px;
+
+    padding:12px 14px;
+
+    font-size:15px;
+
+    background:white;
+
+    transition:.2s;
+}
+
+.editor-perfil input:focus,
+.editor-perfil textarea:focus{
+
+    outline:none;
+
+    border-color:#2563eb;
+
+    box-shadow:
+    0 0 0 4px rgba(37,99,235,.10);
+}
+
+.editor-perfil textarea{
+
+    min-height:110px;
+
+    resize:vertical;
+}
+
+.editor-perfil input[type="file"]{
+
+    border:2px dashed #cbd5e1;
+
+    background:#f8fbff;
+
+    padding:18px;
+
+    cursor:pointer;
+}
+
+.editor-perfil input[type="file"]:hover{
+
+    border-color:#2563eb;
+
+    background:#eef4ff;
+}
+
+.comentarios-perfil{
+
+    margin-top:18px;
+
+    border-top:1px solid #eef2f7;
+
+    padding-top:15px;
+}
+
+.comentarios-header{
+
+    font-size:13px;
+
+    font-weight:700;
+
+    color:#64748b;
+
+    margin-bottom:12px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.5px;
+}
+
+.comentario-perfil{
+
+    background:#f8fbff;
+
+    border:1px solid #e6edf8;
+
+    border-radius:12px;
+
+    padding:10px 12px;
+
+    margin-bottom:10px;
+
+    transition:.2s;
+}
+
+.comentario-perfil:hover{
+
+    background:#f3f8ff;
+
+    border-color:#d6e4ff;
+}
+
+.comentario-perfil strong{
+
+    display:block;
+
+    color:#2563eb;
+
+    font-size:13px;
+
+    margin-bottom:5px;
+}
+
+.comentario-perfil p{
+
+    margin:0;
+
+    color:#475569;
+
+    font-size:14px;
+
+    line-height:1.5;
 }
 
 @media(max-width:768px){
