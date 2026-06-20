@@ -86,7 +86,10 @@
 
         <div class="comentarios">
 
-            @for(comentario of comentarios; track $index){
+            @for(
+                    comentario of comentarios.slice(0, comentariosVisibles);
+                    track $index
+                    ){
 
                 <div class="comentario">
 
@@ -94,16 +97,72 @@
                         &#64;{{ comentario.usuario }}
                     </strong>
 
-                    <p>
-                        {{ comentario.texto }}
-                    </p>
+                    @if(comentarioEditando === $index){
+
+    <div class="editar-comentario">
+
+        <input
+            type="text"
+            [(ngModel)]="textoEditado">
+
+        <button
+            class="btn-guardar-comentario"
+            (click)="guardarComentario($index)">
+
+            💾 Guardar
+
+        </button>
+
+    </div>
+
+} @else {
+
+            <p>
+                {{ comentario.texto }}
+
+                @if(comentario.editado){
+
+                    <span class="comentario-editado">
+                        (editado)
+                    </span>
+
+                }
+
+            </p>
+                @if(comentario.usuarioId === usuarioActual){
+
+                <button
+                    class="btn-editar-comentario"
+                    (click)="editarComentario(
+                        $index,
+                        comentario.texto
+                    )">
+
+                    ✏️ Editar
+
+                </button>
+
+}
+
+
+        }
 
                 </div>
 
             }
 
-        </div>
+            </div>
+                        @if(comentarios.length > comentariosVisibles){
 
+                <button
+                    class="btn-cargar-mas"
+                    (click)="cargarMasComentarios()">
+
+                    Ver más comentarios
+
+                </button>
+
+            }
         @if(usuarioActual){
 
             <div class="nuevo-comentario">

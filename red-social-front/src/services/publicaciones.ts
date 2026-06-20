@@ -86,4 +86,19 @@ export class PublicacionesService {
 
 }
 
+editarComentario(
+  publicacionId: string,
+  index: number,
+  texto: string
+) {
+
+  return this.http.post(
+    `${this.apiUrl}/${publicacionId}/comentario/${index}`,
+    {
+      texto
+    }
+  );
+
+}
+
 }

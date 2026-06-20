@@ -50,6 +50,12 @@ export class PublicacionCard implements OnInit {
 
   nuevoComentario = '';
 
+  comentarioEditando: number | null = null;
+
+  textoEditado = '';
+
+  comentariosVisibles = 3;
+
   constructor(
     private publicacionesService: PublicacionesService,
     private cdr: ChangeDetectorRef
@@ -209,5 +215,54 @@ export class PublicacionCard implements OnInit {
       });
 
   }
+
+  editarComentario(
+  index: number,
+  texto: string
+) {
+
+  this.comentarioEditando =
+    index;
+
+  this.textoEditado =
+    texto;
+
+}
+
+guardarComentario(
+  index: number
+) {
+
+  this.publicacionesService
+    .editarComentario(
+      this.id,
+      index,
+      this.textoEditado
+    )
+    .subscribe({
+
+      next: (respuesta: any) => {
+
+        this.comentarios =
+          [...respuesta.comentarios];
+
+        this.comentarioEditando =
+          null;
+
+        this.textoEditado = '';
+
+        this.cdr.detectChanges();
+
+      }
+
+    });
+
+}
+
+cargarMasComentarios() {
+
+  this.comentariosVisibles += 3;
+
+}
 
 }
