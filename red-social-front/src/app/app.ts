@@ -2,6 +2,8 @@ import { Component, signal, OnInit, ChangeDetectorRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Navbar } from './components/navbar/navbar';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth';
+
 
 @Component({
   selector: 'app-root',
@@ -18,9 +20,14 @@ export class App implements OnInit {
 
   temporizadorSesion: any;
 
+  segundosRestantes = 20;
+
   constructor(
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService,
+    
+
 )  {}
 
       ngOnInit() {
@@ -63,17 +70,32 @@ export class App implements OnInit {
     this.temporizadorSesion
   );
 
-  let segundos = 0;
+  this.segundosRestantes = 10;
+  this.segundosRestantes = 20;
 
+  localStorage.setItem(
+    'segundosRestantes',
+    this.segundosRestantes.toString()
+  );
   const contador =
     setInterval(() => {
 
-      segundos++;
+      this.segundosRestantes--;
 
-      console.log(
-        'SEGUNDOS:',
-        segundos
+      localStorage.setItem(
+        'segundosRestantes',
+        this.segundosRestantes.toString()
       );
+
+      if (
+        this.segundosRestantes <= 0
+      ) {
+
+        clearInterval(
+          contador
+        );
+
+      }
 
     }, 1000);
 
@@ -84,29 +106,65 @@ export class App implements OnInit {
         contador
       );
 
-      console.log(
-        'MOSTRANDO MODAL'
-      );
-
       this.mostrarModalSesion =
         true;
-      
+
       this.cdr.detectChanges();
 
-    }, 5000);
+    }, 20000);
 
 }
 
   extenderSesion() {
 
-    this.mostrarModalSesion =
-      false;
+  const token =
+    localStorage.getItem('token');
 
-    this.cdr.detectChanges();
-
-    this.iniciarContador();
-
+  if (!token) {
+    return;
   }
+
+  this.authService
+    .refrescar(token)
+    .subscribe({
+
+      next: (respuesta: any) => {
+
+        localStorage.setItem(
+          'token',
+          respuesta.token
+        );
+
+        this.mostrarModalSesion =
+          false;
+
+        this.iniciarContador();
+
+        this.cdr.detectChanges();
+
+      },
+
+      error: (error) => {
+
+        console.log(error);
+
+        localStorage.removeItem(
+          'token'
+        );
+
+        localStorage.removeItem(
+          'usuarioLogueado'
+        );
+
+        this.router.navigate([
+          '/login'
+        ]);
+
+      }
+
+    });
+
+}
 
   cerrarSesionPorVencimiento() {
 

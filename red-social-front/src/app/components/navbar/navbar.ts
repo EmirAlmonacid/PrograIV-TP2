@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck } from '@angular/core';
+import { Component, OnInit, DoCheck, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -11,13 +11,40 @@ export class Navbar implements OnInit, DoCheck {
 
   estaLogueado = false;
 
+  tiempoRestante = '00:00';
+
   constructor(
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
 
     this.verificarSesion();
+    
+    setInterval(() => {
+
+  const segundos =
+    Number(
+      localStorage.getItem(
+        'segundosRestantes'
+      ) || 0
+    );
+
+  const minutos =
+    Math.floor(segundos / 60);
+
+  const resto =
+    segundos % 60;
+
+  this.tiempoRestante =
+    `${minutos
+      .toString()
+      .padStart(2,'0')}:${resto
+      .toString()
+      .padStart(2,'0')}`;
+      this.cdr.detectChanges();
+}, 1000);
 
   }
 

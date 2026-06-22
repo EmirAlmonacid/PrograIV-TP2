@@ -52,6 +52,13 @@
 
         @if(estaLogueado){
 
+            <span class="contador-sesion">
+
+                🕒 {{ tiempoRestante }}
+
+            </span>
+
+            
             <button
                 type="button"
                 (click)="cerrarSesion()"

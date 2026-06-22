@@ -196,5 +196,37 @@ export class PublicacionesService {
 
 }
 
+async obtenerComentarios(
+    publicacionId: string,
+    offset = 0,
+    limit = 3
+) {
+
+    const publicacion =
+        await this.publicacionModel.findById(
+            publicacionId
+        );
+
+    if (!publicacion) {
+        return [];
+    }
+
+    const comentarios =
+        [...publicacion.comentarios];
+
+    comentarios.sort(
+        (a: any, b: any) =>
+            new Date(b.fecha).getTime()
+            -
+            new Date(a.fecha).getTime()
+    );
+
+    return comentarios.slice(
+        Number(offset),
+        Number(offset) + Number(limit)
+    );
+
+}
+
 }
 

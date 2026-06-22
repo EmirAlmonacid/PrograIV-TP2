@@ -123,4 +123,22 @@ export class PublicacionesController {
 
         }
 
+    @Get(':id/comentarios')
+obtenerComentarios(
+    @Param('id') id: string,
+    @Query('offset') offset?: number,
+    @Query('limit') limit?: number
+) {
+
+    return this.publicacionesService
+        .obtenerComentarios(
+            id,
+            offset,
+            limit
+        );
+
 }
+    
+
+}
+
