@@ -63,6 +63,8 @@ export class PublicacionCard implements OnInit {
 
   ngOnInit() {
 
+    // Obtiene el usuario logueado y verifica
+    // si ya dio like a la publicación.
     const usuario =
       JSON.parse(
         localStorage.getItem(
@@ -82,6 +84,8 @@ export class PublicacionCard implements OnInit {
 
   darLike() {
 
+    // Agrega un like a la publicación
+    // realizada por el usuario actual.
     const usuario =
       JSON.parse(
         localStorage.getItem(
@@ -117,6 +121,8 @@ export class PublicacionCard implements OnInit {
 
   quitarLike() {
 
+    // Elimina el like previamente
+    // realizado por el usuario.
     const usuario =
       JSON.parse(
         localStorage.getItem(
@@ -152,6 +158,8 @@ export class PublicacionCard implements OnInit {
 
   eliminarPublicacion() {
 
+    // Elimina la publicación seleccionada
+    // y actualiza la lista recargando la vista.
     this.publicacionesService
       .eliminar(this.id)
       .subscribe({
@@ -174,6 +182,8 @@ export class PublicacionCard implements OnInit {
 
   agregarComentario() {
 
+    // Crea un nuevo comentario asociado
+    // al usuario actualmente logueado.
     this.cdr.detectChanges();
 
     const usuario =
@@ -217,52 +227,59 @@ export class PublicacionCard implements OnInit {
   }
 
   editarComentario(
-  index: number,
-  texto: string
-) {
+    index: number,
+    texto: string
+  ) {
 
-  this.comentarioEditando =
-    index;
+    // Habilita el modo edición para
+    // el comentario seleccionado.
+    this.comentarioEditando =
+      index;
 
-  this.textoEditado =
-    texto;
+    this.textoEditado =
+      texto;
+
+  }
+
+  guardarComentario(
+    index: number
+  ) {
+
+    // Guarda los cambios realizados
+    // sobre un comentario existente.
+    this.publicacionesService
+      .editarComentario(
+        this.id,
+        index,
+        this.textoEditado
+      )
+      .subscribe({
+
+        next: (respuesta: any) => {
+
+          this.comentarios =
+            [...respuesta.comentarios];
+
+          this.comentarioEditando =
+            null;
+
+          this.textoEditado = '';
+
+          this.cdr.detectChanges();
+
+        }
+
+      });
+
+  }
+
+  cargarMasComentarios() {
+
+    // Incrementa la cantidad de comentarios
+    // visibles en grupos de tres.
+    this.comentariosVisibles += 3;
+
+  }
 
 }
 
-guardarComentario(
-  index: number
-) {
-
-  this.publicacionesService
-    .editarComentario(
-      this.id,
-      index,
-      this.textoEditado
-    )
-    .subscribe({
-
-      next: (respuesta: any) => {
-
-        this.comentarios =
-          [...respuesta.comentarios];
-
-        this.comentarioEditando =
-          null;
-
-        this.textoEditado = '';
-
-        this.cdr.detectChanges();
-
-      }
-
-    });
-
-}
-
-cargarMasComentarios() {
-
-  this.comentariosVisibles += 3;
-
-}
-
-}

@@ -260,6 +260,7 @@ ordenarPorLikes() {
 
           this.usuariosRecientes = respuesta;
 
+          this.cdr.detectChanges();
         }
 
       });

@@ -323,3 +323,25 @@
         height:68px;
     }
 }
+
+.archivo-seleccionado{
+
+    margin-top:8px;
+
+    padding:6px 10px;
+
+    border-radius:8px;
+
+    background:#ecfdf5;
+
+    border:1px solid #bbf7d0;
+
+    color:#15803d;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    word-break:break-word;
+
+}

@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
-    })
-    export class AuthService {
+})
+export class AuthService {
 
     private apiUrl =
         'https://progra-iv-tp-2-back-omega.vercel.app/auth';
@@ -15,20 +15,22 @@ import { HttpClient } from '@angular/common/http';
 
     autorizar(token: string) {
 
+        // Envía el token al backend para verificar que sea válido y que no haya expirado.
         return this.http.post(
-        `${this.apiUrl}/autorizar`,
-        { token }
+            `${this.apiUrl}/autorizar`,
+            { token }
         );
 
     }
 
     refrescar(token: string) {
 
+        // Solicita un nuevo token utilizando
         return this.http.post(
-        `${this.apiUrl}/refrescar`,
-        { token }
+            `${this.apiUrl}/refrescar`,
+            { token }
         );
 
     }
 
-    }
+}
