@@ -179,20 +179,24 @@ export class Registro {
 
   cerrarModal() {
 
-    console.log('CERRAR MODAL');
-    console.log(this.mensajeModal);
+  console.log('CERRAR MODAL');
+  console.log(this.mensajeModal);
 
-    this.mostrarModal = false;
+  this.mostrarModal = false;
 
-    if (this.mensajeModal === 'Registro exitoso') {
+  if (this.mensajeModal === 'Registro exitoso') {
 
-      console.log('NAVEGANDO PUBLICACIONES');
+    window.dispatchEvent(
+      new Event('loginExitoso')
+    );
 
-      this.router.navigate(['/publicaciones']);
+    console.log('NAVEGANDO PUBLICACIONES');
 
-    }
+    this.router.navigate(['/publicaciones']);
 
   }
+
+}
 
   seleccionarFoto(event: Event) {
 
