@@ -1,4 +1,4 @@
-    import { Component, OnInit } from '@angular/core';
+    import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
     import { CommonModule } from '@angular/common';
     import { Router } from '@angular/router';
 
@@ -24,12 +24,13 @@
     constructor(
 
         private usuariosService: UsuariosService,
-        private router: Router
+        private router: Router,
+        private cdr: ChangeDetectorRef,
 
     ) {}
 
     ngOnInit() {
-
+        this.cdr.detectChanges();
         const usuario = localStorage.getItem(
         'usuarioLogueado'
         );
@@ -65,7 +66,7 @@
     }
 
     cargarUsuarios() {
-
+        this.cdr.detectChanges();
         this.usuariosService
         .obtenerTodos()
         .subscribe({
@@ -73,7 +74,7 @@
             next: (usuarios: any) => {
 
             this.usuarios = usuarios;
-
+                this.cdr.detectChanges();
             },
 
             error: console.error

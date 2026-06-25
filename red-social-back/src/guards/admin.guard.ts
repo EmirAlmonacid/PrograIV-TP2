@@ -2,7 +2,7 @@
     CanActivate,
     ExecutionContext,
     Injectable,
-    UnauthorizedException
+    UnauthorizedException,
     } from '@nestjs/common';
 
     import { JwtService } from '@nestjs/jwt';
@@ -40,41 +40,37 @@
             ''
         );
 
-       try {
+        try {
 
-  console.log('TOKEN RECIBIDO:');
-  console.log(token);
+        const payload =
+            this.jwtService.verify(
+            token
+            );
 
-  const payload =
-    this.jwtService.verify(token);
+        if (
+            payload.perfil !==
+            'administrador'
+        ) {
 
-  console.log('PAYLOAD:');
-  console.log(payload);
+            throw new UnauthorizedException(
+            'No autorizado'
+            );
 
-  if (
-    payload.perfil !==
-    'administrador'
-  ) {
+        }
 
-    throw new UnauthorizedException(
-      'No autorizado'
-    );
+        request.usuario =
+            payload;
 
-  }
+        return true;
 
-  request.usuario = payload;
+        } catch {
 
-  return true;
+        throw new UnauthorizedException(
+            'Token inválido'
+        );
 
-} catch (error) {
+        }
 
-  console.log('ERROR VERIFY:');
-  console.log(error);
-
-  throw new UnauthorizedException(
-    'Token inválido'
-  );
-
-}}
+    }
 
     }
