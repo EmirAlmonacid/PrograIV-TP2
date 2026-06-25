@@ -180,6 +180,7 @@ export class PublicacionCard implements OnInit {
 
   }
 
+
   agregarComentario() {
 
     // Crea un nuevo comentario asociado

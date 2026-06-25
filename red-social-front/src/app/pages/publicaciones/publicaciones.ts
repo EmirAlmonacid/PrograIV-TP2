@@ -41,6 +41,10 @@ export class Publicaciones implements OnInit {
 
   imagenSeleccionada: File | null = null;
 
+  tituloInvalido = false;
+
+  descripcionInvalida = false;
+
   usuariosRecientes: any[] = [];
 
 
@@ -96,6 +100,10 @@ export class Publicaciones implements OnInit {
 
     this.imagenSeleccionada = null;
 
+    this.tituloInvalido = false;
+
+  this.descripcionInvalida = false;
+
   }
 
   seleccionarImagen(event: Event) {
@@ -117,68 +125,77 @@ export class Publicaciones implements OnInit {
 
   crearPublicacion() {
 
-    console.log(localStorage.getItem('usuarioLogueado'));
+  this.titulo = this.titulo.slice(0,30).trim();
 
-    const usuario =
-      JSON.parse(
-        localStorage.getItem('usuarioLogueado') || '{}'
-      );
+this.descripcion = this.descripcion.slice(0,50).trim();
 
-    // FormData permite enviar texto e imagen
-    // en una misma petición.
-    const formData = new FormData();
+if(
+    !this.titulo ||
+    !this.descripcion
+){
+    this.tituloInvalido = !this.titulo;
+    this.descripcionInvalida = !this.descripcion;
+    return;
+}
 
-    formData.append(
-      'titulo',
-      this.titulo
+  console.log(localStorage.getItem('usuarioLogueado'));
+
+  const usuario =
+    JSON.parse(
+      localStorage.getItem('usuarioLogueado') || '{}'
     );
 
-    formData.append(
-      'descripcion',
-      this.descripcion
-    );
+  const formData = new FormData();
+
+  formData.append(
+    'titulo',
+    this.titulo.trim()
+  );
+
+  formData.append(
+    'descripcion',
+    this.descripcion.trim()
+  );
+
+  formData.append(
+    'usuarioId',
+    usuario._id
+  );
+
+  if (this.imagenSeleccionada) {
 
     formData.append(
-      'usuarioId',
-      usuario._id
+      'imagen',
+      this.imagenSeleccionada
     );
-
-    if (this.imagenSeleccionada) {
-
-      formData.append(
-        'imagen',
-        this.imagenSeleccionada
-      );
-
-    }
-
-    this.publicacionesService
-      .crear(formData)
-      .subscribe({
-
-        // next se ejecuta cuando el backend responde correctamente.
-        next: () => {
-
-          this.cerrarModal();
-
-          this.cargarPublicaciones();
-
-          this.cargarUsuarios();
-
-          this.cdr.detectChanges();
-
-        },
-
-        error: (error) => {
-
-          console.log(error);
-
-        }
-
-      });
 
   }
 
+  this.publicacionesService
+    .crear(formData)
+    .subscribe({
+
+      next: () => {
+
+        this.cerrarModal();
+
+        this.cargarPublicaciones();
+
+        this.cargarUsuarios();
+
+        this.cdr.detectChanges();
+
+      },
+
+      error: (error) => {
+
+        console.log(error);
+
+      }
+
+    });
+
+}
   cargarPublicaciones() {
 
   console.log('CARGANDO');

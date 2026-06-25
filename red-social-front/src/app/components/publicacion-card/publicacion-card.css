@@ -46,6 +46,7 @@
 }
 
 .contenido h2{
+
     margin:0 0 10px 0;
 
     font-size:24px;
@@ -53,9 +54,17 @@
     font-weight:800;
 
     color:#0f172a;
+
+    white-space: normal;
+
+    word-break: break-word;
+
+    overflow-wrap: break-word;
+
 }
 
 .contenido p{
+
     margin:0;
 
     color:#64748b;
@@ -63,6 +72,13 @@
     line-height:1.7;
 
     font-size:15px;
+
+    white-space: normal;
+
+    word-break: break-word;
+
+    overflow-wrap: break-word;
+
 }
 
 .footer{

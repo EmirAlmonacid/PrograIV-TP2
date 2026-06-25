@@ -45,17 +45,21 @@ export class Usuario {
   descripcion!: string;
 
   @Prop({
-  default:
-    'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg',
-})
-foto!: string;
-
+    default:
+      'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg',
+  })
+  foto!: string;
 
   @Prop({
-  enum: ['usuario', 'administrador'],
-  default: 'usuario'
-})
-perfil!: string;
+    enum: ['usuario', 'administrador'],
+    default: 'usuario'
+  })
+  perfil!: string;
+
+  @Prop({
+    default: true
+  })
+  activo!: boolean;
 
 }
 

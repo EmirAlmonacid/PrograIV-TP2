@@ -163,7 +163,7 @@ export class PublicacionesService {
 
     }
 
-   async editarComentario(
+    async editarComentario(
     publicacionId: string,
     comentarioIndex: number,
     texto: string

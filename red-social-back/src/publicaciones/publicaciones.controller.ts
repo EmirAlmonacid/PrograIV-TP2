@@ -21,8 +21,7 @@ export class PublicacionesController {
         private publicacionesService: PublicacionesService
     ) {}
 
-    // Crea una nueva publicación.
-    // FileInterceptor permite recibir la imagen enviada desde el frontend.
+    // Crea una nueva publicación y recibe una imagen si fue enviada.
     @Post()
     @UseInterceptors(FileInterceptor('imagen'))
     crear(
@@ -37,7 +36,7 @@ export class PublicacionesController {
 
     }
 
-    // Lista publicaciones y permite ordenar y filtrar.
+    // Obtiene publicaciones con filtros, orden y paginación.
     @Get()
     obtenerTodas(
         @Query('orden') orden?: string,
@@ -55,7 +54,7 @@ export class PublicacionesController {
 
     }
 
-    // Elimina una publicación por id.
+    // Realiza la baja lógica de una publicación.
     @Delete(':id')
     eliminar(
         @Param('id') id: string
@@ -65,7 +64,7 @@ export class PublicacionesController {
 
     }
 
-    // Agrega un like a una publicación.
+    // Agrega un like a la publicación.
     @Post(':id/like')
     darLike(
         @Param('id') id: string,
@@ -79,7 +78,7 @@ export class PublicacionesController {
 
     }
 
-    // Quita el like del usuario indicado.
+    // Elimina el like del usuario indicado.
     @Delete(':id/like/:usuarioId')
     quitarLike(
         @Param('id') id: string,
@@ -93,7 +92,7 @@ export class PublicacionesController {
 
     }
 
-    // Agrega un comentario a la publicación seleccionada.
+    // Agrega un comentario a la publicación.
     @Post(':id/comentario')
     comentar(
         @Param('id') id: string,
@@ -107,38 +106,37 @@ export class PublicacionesController {
 
     }
 
+    // Modifica el texto de un comentario existente.
     @Post(':id/comentario/:index')
-        editarComentario(
-            @Param('id') id: string,
-            @Param('index') index: number,
-            @Body() body: any
-        ) {
+    editarComentario(
+        @Param('id') id: string,
+        @Param('index') index: number,
+        @Body() body: any
+    ) {
 
-            return this.publicacionesService
-                .editarComentario(
-                    id,
-                    Number(index),
-                    body.texto
-                );
+        return this.publicacionesService.editarComentario(
+            id,
+            Number(index),
+            body.texto
+        );
 
-        }
+    }
 
+    // Obtiene los comentarios de una publicación con paginación.
     @Get(':id/comentarios')
-obtenerComentarios(
-    @Param('id') id: string,
-    @Query('offset') offset?: number,
-    @Query('limit') limit?: number
-) {
+    obtenerComentarios(
+        @Param('id') id: string,
+        @Query('offset') offset?: number,
+        @Query('limit') limit?: number
+    ) {
 
-    return this.publicacionesService
-        .obtenerComentarios(
+        return this.publicacionesService.obtenerComentarios(
             id,
             offset,
             limit
         );
 
-}
-    
+    }
 
 }
 

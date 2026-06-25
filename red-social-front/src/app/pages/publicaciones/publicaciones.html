@@ -46,6 +46,7 @@
                 </app-publicacion-card>
 
             }
+
             <button
                 class="btn-cargar-mas"
                 (click)="cargarMas()">
@@ -108,8 +109,26 @@
                     <label>Título</label>
 
                     <input
+                        #tituloInput="ngModel"
                         type="text"
-                        [(ngModel)]="titulo">
+                        name="titulo"
+                        [(ngModel)]="titulo"
+                        maxlength="30"
+                        required
+                        (input)="titulo = titulo.slice(0,30)"
+                        [class.input-error]="tituloInput.touched && titulo.trim() === ''">
+
+                    @if(tituloInput.touched && titulo.trim() === ''){
+
+
+                    }
+
+                    <small class="contador">
+
+                        {{ titulo.length }}/30
+
+                    </small>
+
 
                 </div>
 
@@ -118,7 +137,36 @@
                     <label>Descripción</label>
 
                     <textarea
-                        [(ngModel)]="descripcion"></textarea>
+                        #descripcionInput="ngModel"
+                        name="descripcion"
+                        [(ngModel)]="descripcion"
+                        maxlength="50"
+                        required
+                        (input)="descripcion = descripcion.slice(0,50)"
+                        [class.input-error]="descripcionInput.touched && descripcion.trim() === ''">
+                    </textarea>
+
+                    @if(descripcionInput.touched && descripcion.trim() === ''){
+
+                        <small class="mensaje-error">
+                            Campo obligatorio
+                        </small>
+
+                    }
+
+                    <small class="contador">
+
+                        {{ descripcion.length }}/50
+
+                    </small>
+
+                    @if(descripcionInvalida){
+
+                        <small class="mensaje-error">
+                            Campo obligatorio
+                        </small>
+
+                    }
 
                 </div>
 
@@ -157,7 +205,9 @@
 
                             </span>
 
-                            <small>JPG, PNG o WEBP — máx. 5 MB</small>
+                            <small>
+                                JPG, PNG o WEBP — máx. 5 MB
+                            </small>
 
                         </div>
 
@@ -170,13 +220,17 @@
                     <button
                         class="btn-cancelar"
                         (click)="cerrarModal()">
+
                         Cancelar
+
                     </button>
 
                     <button
                         class="btn-publicar"
                         (click)="crearPublicacion()">
+
                         Publicar
+
                     </button>
 
                 </div>
@@ -188,3 +242,4 @@
     }
 
 </div>
+

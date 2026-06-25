@@ -18,13 +18,12 @@
         </div>
 
         <h2>
-            {{ titulo }}
-        </h2>
+                {{ titulo }}
+            </h2>
 
-        <p>
-            {{ descripcion }}
-        </p>
-
+            <p>
+                {{ descripcion }}
+            </p>
         <div class="footer">
 
             <div class="contador-likes">
@@ -102,8 +101,9 @@
     <div class="editar-comentario">
 
         <input
-            type="text"
-            [(ngModel)]="textoEditado">
+        type="text"
+        formControlName="titulo"
+        maxlength="20">
 
         <button
             class="btn-guardar-comentario"
@@ -170,7 +170,8 @@
                 <input
                     type="text"
                     placeholder="Escribí un comentario..."
-                    [(ngModel)]="nuevoComentario">
+                    [(ngModel)]="nuevoComentario"
+                    maxlength="20">
 
                 <button
                     class="btn-comentar"

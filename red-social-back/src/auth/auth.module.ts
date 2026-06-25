@@ -12,7 +12,7 @@ import { UsuariosModule } from '../usuarios/usuarios.module';
     JwtModule.register({
       secret: 'programacion4',
       signOptions: {
-        expiresIn: '2m'
+        expiresIn: '15m'
       }
     })
   ],

@@ -486,6 +486,40 @@ app-publicacion-card{
     color:white;
 }
 
+.input-error{
+
+    border:2px solid #ef4444 !important;
+
+}
+
+.mensaje-error{
+
+    display:block;
+
+    margin-top:6px;
+
+    color:#ef4444;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+.contador{
+
+    display:block;
+
+    margin-top:6px;
+
+    text-align:right;
+
+    color:#64748b;
+
+    font-size:12px;
+
+}
+
 @media(max-width:1024px){
     .contenido-principal{
         grid-template-columns:1fr;

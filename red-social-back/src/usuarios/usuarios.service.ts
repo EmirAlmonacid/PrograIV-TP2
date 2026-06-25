@@ -16,75 +16,75 @@ export class UsuariosService {
   ) {}
 
   async crear(
-  usuario: any,
-  file?: any,
-) {
-
-  const usuarioExistente =
-    await this.usuarioModel.findOne({
-      usuario: usuario.usuario
-    });
-
-  const correoExistente =
-    await this.usuarioModel.findOne({
-      correo: usuario.correo
-    });
-
-  if (
-    usuarioExistente &&
-    correoExistente
+    usuario: any,
+    file?: any,
   ) {
 
-    return {
-      error: true,
-      mensaje:
-        'El usuario y el correo ya están registrados'
-    };
+    const usuarioExistente =
+      await this.usuarioModel.findOne({
+        usuario: usuario.usuario
+      });
+
+    const correoExistente =
+      await this.usuarioModel.findOne({
+        correo: usuario.correo
+      });
+
+    if (
+      usuarioExistente &&
+      correoExistente
+    ) {
+
+      return {
+        error: true,
+        mensaje:
+          'El usuario y el correo ya están registrados'
+      };
+
+    }
+
+    if (usuarioExistente) {
+
+      return {
+        error: true,
+        mensaje:
+          'El usuario ya está registrado'
+      };
+
+    }
+
+    if (correoExistente) {
+
+      return {
+        error: true,
+        mensaje:
+          'El correo ya está registrado'
+      };
+
+    }
+
+    if (file) {
+
+      const imagenSubida =
+        await this.cloudinaryService.uploadImage(file);
+
+      usuario.foto = (imagenSubida as any).secure_url;
+
+    } else {
+
+      usuario.foto =
+        'https://res.cloudinary.com/drh8becix/image/upload/v1781308140/avatar_kvowju.webp';
+
+    }
+
+    const passwordEncriptada =
+      await bcrypt.hash(usuario.password, 10);
+
+    usuario.password = passwordEncriptada;
+
+    return await this.usuarioModel.create(usuario);
 
   }
-
-  if (usuarioExistente) {
-
-    return {
-      error: true,
-      mensaje:
-        'El usuario ya está registrado'
-    };
-
-  }
-
-  if (correoExistente) {
-
-    return {
-      error: true,
-      mensaje:
-        'El correo ya está registrado'
-    };
-
-  }
-
-  if (file) {
-
-    const imagenSubida =
-      await this.cloudinaryService.uploadImage(file);
-
-    usuario.foto = (imagenSubida as any).secure_url;
-
-  } else {
-
-    usuario.foto =
-      'https://res.cloudinary.com/drh8becix/image/upload/v1781308140/avatar_kvowju.webp';
-
-  }
-
-  const passwordEncriptada =
-    await bcrypt.hash(usuario.password, 10);
-
-  usuario.password = passwordEncriptada;
-
-  return await this.usuarioModel.create(usuario);
-
-}
 
   async login(usuario: string, password: string) {
 
@@ -97,6 +97,13 @@ export class UsuariosService {
 
     if (!usuarioEncontrado) {
       return null;
+    }
+
+    if (!usuarioEncontrado.activo) {
+      return {
+        error: true,
+        mensaje: 'Usuario deshabilitado'
+      };
     }
 
     const passwordCorrecta =
@@ -119,41 +126,68 @@ export class UsuariosService {
 
   async obtenerUltimos() {
 
-  return await this.usuarioModel
-    .find()
-    .sort({
-      _id: -1
-    })
-    .limit(10);
-
-}
-
-async actualizar(
-  id: string,
-  datos: any,
-  file?: any
-) {
-
-  if (file) {
-
-    const imagenSubida =
-      await this.cloudinaryService
-        .uploadImage(file);
-
-    datos.foto =
-      (imagenSubida as any)
-      .secure_url;
+    return await this.usuarioModel
+      .find()
+      .sort({
+        _id: -1
+      })
+      .limit(10);
 
   }
 
-  return await this.usuarioModel
-    .findByIdAndUpdate(
+  async actualizar(
+    id: string,
+    datos: any,
+    file?: any
+  ) {
+
+    if (file) {
+
+      const imagenSubida =
+        await this.cloudinaryService
+          .uploadImage(file);
+
+      datos.foto =
+        (imagenSubida as any)
+          .secure_url;
+
+    }
+
+    return await this.usuarioModel
+      .findByIdAndUpdate(
+        id,
+        datos,
+        { new: true }
+      );
+
+  }
+
+  async deshabilitar(id: string) {
+
+    return await this.usuarioModel.findByIdAndUpdate(
       id,
-      datos,
-      { new: true }
+      {
+        activo: false
+      },
+      {
+        new: true
+      }
     );
 
-}
+  }
 
+  async habilitar(id: string) {
+
+    return await this.usuarioModel.findByIdAndUpdate(
+      id,
+      {
+        activo: true
+      },
+      {
+        new: true
+      }
+    );
+
+  }
 
 }
