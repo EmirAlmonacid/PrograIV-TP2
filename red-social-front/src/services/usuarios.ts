@@ -31,6 +31,14 @@ export class UsuariosService {
 
   }
 
+  obtenerTodos() {
+
+    return this.http.get<any[]>(
+      this.apiUrl
+    );
+
+  }
+
   obtenerUltimosUsuarios() {
 
     return this.http.get<any[]>(
@@ -47,6 +55,27 @@ export class UsuariosService {
     return this.http.put(
       `${this.apiUrl}/${id}`,
       datos
+    );
+
+  }
+
+  deshabilitar(
+    id: string
+  ) {
+
+    return this.http.delete(
+      `${this.apiUrl}/${id}`
+    );
+
+  }
+
+  habilitar(
+    id: string
+  ) {
+
+    return this.http.post(
+      `${this.apiUrl}/habilitar/${id}`,
+      {}
     );
 
   }

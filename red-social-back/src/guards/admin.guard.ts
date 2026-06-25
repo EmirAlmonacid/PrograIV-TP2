@@ -40,37 +40,41 @@
             ''
         );
 
-        try {
+       try {
 
-        const payload =
-            this.jwtService.verify(
-            token
-            );
+  console.log('TOKEN RECIBIDO:');
+  console.log(token);
 
-        if (
-            payload.perfil !==
-            'administrador'
-        ) {
+  const payload =
+    this.jwtService.verify(token);
 
-            throw new UnauthorizedException(
-            'No autorizado'
-            );
+  console.log('PAYLOAD:');
+  console.log(payload);
 
-        }
+  if (
+    payload.perfil !==
+    'administrador'
+  ) {
 
-        request.usuario =
-            payload;
+    throw new UnauthorizedException(
+      'No autorizado'
+    );
 
-        return true;
+  }
 
-        } catch {
+  request.usuario = payload;
 
-        throw new UnauthorizedException(
-            'Token inválido'
-        );
+  return true;
 
-        }
+} catch (error) {
 
-    }
+  console.log('ERROR VERIFY:');
+  console.log(error);
+
+  throw new UnauthorizedException(
+    'Token inválido'
+  );
+
+}}
 
     }
