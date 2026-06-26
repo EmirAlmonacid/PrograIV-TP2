@@ -33,7 +33,15 @@
             routerLinkActive="active-link">
             Mi Perfil
         </a>
+        @if(esAdministrador){
 
+            <a
+                routerLink="/dashboard/usuarios"
+                routerLinkActive="active-link">
+                Dashboard
+            </a>
+
+}
         @if(!estaLogueado){
 
             <a

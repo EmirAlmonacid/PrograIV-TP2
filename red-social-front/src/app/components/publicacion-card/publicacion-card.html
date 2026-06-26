@@ -34,7 +34,10 @@
 
             <div class="acciones-publicacion">
 
-                @if(usuarioId === usuarioActual){
+                @if(
+                            usuarioId === usuarioActual ||
+                            esAdministrador
+                        ){
 
                     <button
                         class="btn-eliminar"

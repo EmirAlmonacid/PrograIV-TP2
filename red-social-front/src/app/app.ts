@@ -72,7 +72,17 @@ export class App implements OnInit {
       this.temporizadorSesion
     );
 
-    this.segundosRestantes = 600;
+    const tiempoGuardado =
+      Number(
+        localStorage.getItem(
+          'segundosRestantes'
+        )
+      );
+
+    this.segundosRestantes =
+      tiempoGuardado > 0
+        ? tiempoGuardado
+        : 600;
 
     localStorage.setItem(
       'segundosRestantes',

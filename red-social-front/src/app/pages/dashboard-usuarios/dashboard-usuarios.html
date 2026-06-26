@@ -1,14 +1,203 @@
-
 <div class="contenedor">
 
     <h2>Dashboard de Usuarios</h2>
 
+    <form
+        [formGroup]="registroForm"
+        (ngSubmit)="crearUsuario()"
+        class="formulario">
+
+        <h3>Nuevo Usuario</h3>
+
+        <div class="fila">
+
+            <div class="campo">
+                <input
+                    type="text"
+                    placeholder="Nombre"
+                    formControlName="nombre"
+                    [class.error-input]="registroForm.get('nombre')?.invalid && registroForm.get('nombre')?.touched">
+                <span class="error-msg" *ngIf="registroForm.get('nombre')?.touched && registroForm.get('nombre')?.errors?.['required']">
+                    El nombre es obligatorio.
+                </span>
+                <span class="error-msg" *ngIf="registroForm.get('nombre')?.touched && registroForm.get('nombre')?.errors?.['minlength']">
+                    Mínimo 2 caracteres.
+                </span>
+                <span class="error-msg" *ngIf="registroForm.get('nombre')?.touched && registroForm.get('nombre')?.errors?.['maxlength']">
+                    Máximo 25 caracteres.
+                </span>
+                <span class="error-msg" *ngIf="registroForm.get('nombre')?.touched && registroForm.get('nombre')?.errors?.['pattern']">
+                    Solo se permiten letras.
+                </span>
+            </div>
+
+            <div class="campo">
+                <input
+                    type="text"
+                    placeholder="Apellido"
+                    formControlName="apellido"
+                    [class.error-input]="registroForm.get('apellido')?.invalid && registroForm.get('apellido')?.touched">
+                <span class="error-msg" *ngIf="registroForm.get('apellido')?.touched && registroForm.get('apellido')?.errors?.['required']">
+                    El apellido es obligatorio.
+                </span>
+                <span class="error-msg" *ngIf="registroForm.get('apellido')?.touched && registroForm.get('apellido')?.errors?.['minlength']">
+                    Mínimo 2 caracteres.
+                </span>
+                <span class="error-msg" *ngIf="registroForm.get('apellido')?.touched && registroForm.get('apellido')?.errors?.['maxlength']">
+                    Máximo 25 caracteres.
+                </span>
+                <span class="error-msg" *ngIf="registroForm.get('apellido')?.touched && registroForm.get('apellido')?.errors?.['pattern']">
+                    Solo se permiten letras.
+                </span>
+            </div>
+
+        </div>
+
+        <div class="fila">
+
+            <div class="campo">
+                <input
+                    type="email"
+                    placeholder="Correo"
+                    formControlName="correo"
+                    [class.error-input]="registroForm.get('correo')?.invalid && registroForm.get('correo')?.touched">
+                <span class="error-msg" *ngIf="registroForm.get('correo')?.touched && registroForm.get('correo')?.errors?.['required']">
+                    El correo es obligatorio.
+                </span>
+                <span class="error-msg" *ngIf="registroForm.get('correo')?.touched && registroForm.get('correo')?.errors?.['email']">
+                    Ingresá un correo válido.
+                </span>
+                <span class="error-msg" *ngIf="registroForm.get('correo')?.touched && registroForm.get('correo')?.errors?.['maxlength']">
+                    Máximo 50 caracteres.
+                </span>
+            </div>
+
+            <div class="campo">
+                <input
+                    type="text"
+                    placeholder="Usuario"
+                    formControlName="usuario"
+                    [class.error-input]="registroForm.get('usuario')?.invalid && registroForm.get('usuario')?.touched">
+                <span class="error-msg" *ngIf="registroForm.get('usuario')?.touched && registroForm.get('usuario')?.errors?.['required']">
+                    El usuario es obligatorio.
+                </span>
+                <span class="error-msg" *ngIf="registroForm.get('usuario')?.touched && registroForm.get('usuario')?.errors?.['minlength']">
+                    Mínimo 4 caracteres.
+                </span>
+                <span class="error-msg" *ngIf="registroForm.get('usuario')?.touched && registroForm.get('usuario')?.errors?.['maxlength']">
+                    Máximo 20 caracteres.
+                </span>
+            </div>
+
+        </div>
+
+        <div class="fila">
+
+            <div class="campo">
+                <input
+                    type="password"
+                    placeholder="Contraseña"
+                    formControlName="password"
+                    [class.error-input]="registroForm.get('password')?.invalid && registroForm.get('password')?.touched">
+                <span class="error-msg" *ngIf="registroForm.get('password')?.touched && registroForm.get('password')?.errors?.['required']">
+                    La contraseña es obligatoria.
+                </span>
+                <span class="error-msg" *ngIf="registroForm.get('password')?.touched && registroForm.get('password')?.errors?.['pattern']">
+                    Mínimo 8 caracteres, una mayúscula y un número.
+                </span>
+            </div>
+
+            <div class="campo">
+                <input
+                    type="password"
+                    placeholder="Repetir contraseña"
+                    formControlName="repetirPassword"
+                    [class.error-input]="
+                        (registroForm.get('repetirPassword')?.touched && registroForm.get('repetirPassword')?.errors?.['required']) ||
+                        (registroForm.get('repetirPassword')?.touched && registroForm.errors?.['passwordsMismatch'])">
+                <span class="error-msg" *ngIf="registroForm.get('repetirPassword')?.touched && registroForm.get('repetirPassword')?.errors?.['required']">
+                    Repetí la contraseña.
+                </span>
+                <span class="error-msg" *ngIf="registroForm.get('repetirPassword')?.touched && registroForm.errors?.['passwordsMismatch']">
+                    Las contraseñas no coinciden.
+                </span>
+            </div>
+
+        </div>
+
+        <div class="fila">
+
+            <div class="campo">
+                <input
+                    type="date"
+                    formControlName="fechaNacimiento"
+                    [class.error-input]="registroForm.get('fechaNacimiento')?.invalid && registroForm.get('fechaNacimiento')?.touched">
+                <span class="error-msg" *ngIf="registroForm.get('fechaNacimiento')?.touched && registroForm.get('fechaNacimiento')?.errors?.['required']">
+                    La fecha de nacimiento es obligatoria.
+                </span>
+                <span class="error-msg" *ngIf="registroForm.get('fechaNacimiento')?.touched && registroForm.get('fechaNacimiento')?.errors?.['menorDeEdad']">
+                    Debés tener al menos 13 años.
+                </span>
+                <span class="error-msg" *ngIf="registroForm.get('fechaNacimiento')?.touched && registroForm.get('fechaNacimiento')?.errors?.['edadInvalida']">
+                    Ingresá una fecha válida.
+                </span>
+            </div>
+
+            <div class="campo">
+                <input
+                    type="file"
+                    (change)="seleccionarFoto($event)">
+            </div>
+
+        </div>
+
+        <div class="campo">
+            <textarea
+                rows="4"
+                placeholder="Descripción"
+                formControlName="descripcion"
+                [class.error-input]="registroForm.get('descripcion')?.invalid && registroForm.get('descripcion')?.touched">
+            </textarea>
+            <span class="error-msg" *ngIf="registroForm.get('descripcion')?.touched && registroForm.get('descripcion')?.errors?.['required']">
+                La descripción es obligatoria.
+            </span>
+            <span class="error-msg" *ngIf="registroForm.get('descripcion')?.touched && registroForm.get('descripcion')?.errors?.['maxlength']">
+                Máximo 150 caracteres.
+            </span>
+        </div>
+
+        <div class="perfil">
+
+            <label>
+                <input
+                    type="radio"
+                    value="usuario"
+                    formControlName="perfil">
+                Usuario
+            </label>
+
+            <label>
+                <input
+                    type="radio"
+                    value="administrador"
+                    formControlName="perfil">
+                Administrador
+            </label>
+
+        </div>
+
+        <button
+            type="submit"
+            class="crear">
+            Crear Usuario
+        </button>
+
+    </form>
+
     <table>
 
         <thead>
-
             <tr>
-
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Usuario</th>
@@ -16,53 +205,29 @@
                 <th>Perfil</th>
                 <th>Estado</th>
                 <th>Acciones</th>
-
             </tr>
-
         </thead>
 
         <tbody>
-
             <tr *ngFor="let usuario of usuarios">
-
                 <td>{{ usuario.nombre }}</td>
                 <td>{{ usuario.apellido }}</td>
                 <td>{{ usuario.usuario }}</td>
                 <td>{{ usuario.correo }}</td>
                 <td>{{ usuario.perfil }}</td>
-
                 <td>
-
-                    <span *ngIf="usuario.activo">
-                        Activo
-                    </span>
-
-                    <span *ngIf="!usuario.activo">
-                        Deshabilitado
-                    </span>
-
+                    <span *ngIf="usuario.activo">Activo</span>
+                    <span *ngIf="!usuario.activo">Deshabilitado</span>
                 </td>
-
                 <td>
-
-                    <button
-                        *ngIf="usuario.activo"
-                        (click)="deshabilitar(usuario._id)"
-                    >
+                    <button *ngIf="usuario.activo" (click)="deshabilitar(usuario._id)">
                         Deshabilitar
                     </button>
-
-                    <button
-                        *ngIf="!usuario.activo"
-                        (click)="habilitar(usuario._id)"
-                    >
+                    <button *ngIf="!usuario.activo" (click)="habilitar(usuario._id)">
                         Habilitar
                     </button>
-
                 </td>
-
             </tr>
-
         </tbody>
 
     </table>

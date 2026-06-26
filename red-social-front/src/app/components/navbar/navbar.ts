@@ -11,6 +11,8 @@ export class Navbar implements OnInit, DoCheck {
 
   estaLogueado = false;
 
+  esAdministrador = false;
+
   tiempoRestante = '00:00';
 
   constructor(
@@ -56,12 +58,29 @@ export class Navbar implements OnInit, DoCheck {
 
   verificarSesion() {
 
-    const token =
-      localStorage.getItem('token');
+  const token =
+    localStorage.getItem('token');
 
-    this.estaLogueado = !!token;
+  this.estaLogueado = !!token;
+
+  const usuario =
+    localStorage.getItem(
+      'usuarioLogueado'
+    );
+
+  if (usuario) {
+
+    this.esAdministrador =
+      JSON.parse(usuario).perfil ===
+      'administrador';
+
+  } else {
+
+    this.esAdministrador = false;
 
   }
+
+}
 
   cerrarSesion() {
 

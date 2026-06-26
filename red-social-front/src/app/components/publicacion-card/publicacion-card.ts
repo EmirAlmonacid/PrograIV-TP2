@@ -46,6 +46,8 @@ export class PublicacionCard implements OnInit {
 
   usuarioActual = '';
 
+  esAdministrador = false;
+
   tieneLike = false;
 
   nuevoComentario = '';
@@ -63,22 +65,26 @@ export class PublicacionCard implements OnInit {
 
   ngOnInit() {
 
-    // Obtiene el usuario logueado y verifica
-    // si ya dio like a la publicación.
-    const usuario =
-      JSON.parse(
-        localStorage.getItem(
-          'usuarioLogueado'
-        ) || '{}'
-      );
+      // Obtiene el usuario logueado y verifica
+      // si ya dio like a la publicación.
+      const usuario =
+    JSON.parse(
+      localStorage.getItem(
+        'usuarioLogueado'
+      ) || '{}'
+    );
 
-    this.usuarioActual =
-      usuario._id;
+  this.usuarioActual =
+    usuario._id;
 
-    this.tieneLike =
-      this.likes.includes(
-        this.usuarioActual
-      );
+  this.esAdministrador =
+    usuario.perfil ===
+    'administrador';
+
+  this.tieneLike =
+    this.likes.includes(
+      this.usuarioActual
+    );
 
   }
 
