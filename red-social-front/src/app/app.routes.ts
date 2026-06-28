@@ -38,6 +38,12 @@ export const routes: Routes = [
         .then(m => m.DashboardUsuarios)
   },
   {
+    path: 'dashboard/estadisticas',
+    loadComponent: () =>
+      import('./pages/dashboard-estadisticas/dashboard-estadisticas')
+        .then(m => m.DashboardEstadisticas)
+  },
+  {
     path: '',
     redirectTo: 'loading',
     pathMatch: 'full'

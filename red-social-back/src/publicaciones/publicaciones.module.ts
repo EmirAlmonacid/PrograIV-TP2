@@ -9,6 +9,11 @@ import {
   PublicacionSchema
 } from './schemas/publicacion.schema';
 
+import {
+  Usuario,
+  UsuarioSchema
+} from '../usuarios/schemas/usuario.schema';
+
 import { CloudinaryModule } from '../cloudinary/cloudinary.module';
 
 @Module({
@@ -17,6 +22,10 @@ import { CloudinaryModule } from '../cloudinary/cloudinary.module';
       {
         name: Publicacion.name,
         schema: PublicacionSchema
+      },
+      {
+        name: Usuario.name,
+        schema: UsuarioSchema
       }
     ]),
     CloudinaryModule

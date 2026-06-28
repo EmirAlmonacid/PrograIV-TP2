@@ -3,15 +3,20 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { Publicacion } from './schemas/publicacion.schema';
+import { Usuario } from '../usuarios/schemas/usuario.schema';
 
 @Injectable()
 export class PublicacionesService {
 
     constructor(
-        @InjectModel(Publicacion.name)
-        private publicacionModel: Model<Publicacion>,
-        private readonly cloudinaryService: CloudinaryService
-    ) {}
+    @InjectModel(Publicacion.name)
+    private publicacionModel: Model<Publicacion>,
+
+    @InjectModel(Usuario.name)
+    private usuarioModel: Model<Usuario>,
+
+    private readonly cloudinaryService: CloudinaryService
+) {}
 
     async crear(
         publicacion: any,
@@ -225,6 +230,103 @@ async obtenerComentarios(
         Number(offset),
         Number(offset) + Number(limit)
     );
+
+}
+
+async obtenerEstadisticasPublicaciones() {
+
+    const publicaciones =
+        await this.publicacionModel.find({
+            activo: true
+        });
+
+    const usuarios =
+        await this.usuarioModel.find();
+
+    const estadisticas: any[] = [];
+
+    for (const usuario of usuarios) {
+
+        const cantidad =
+            publicaciones.filter(
+                (publicacion: any) =>
+                    publicacion.usuarioId ===
+                    usuario._id.toString()
+            ).length;
+
+        estadisticas.push({
+
+            usuario: usuario.usuario,
+
+            cantidad: cantidad
+
+        });
+
+    }
+
+    return estadisticas;
+
+}
+
+async obtenerEstadisticasComentarios() {
+
+    const publicaciones =
+        await this.publicacionModel.find({
+            activo: true
+        });
+
+    return publicaciones.map(
+        (publicacion: any) => ({
+
+            titulo: publicacion.titulo,
+
+            comentarios:
+                publicacion.comentarios.length
+
+        })
+    );
+
+}
+
+async obtenerEstadisticasComentariosPorDia() {
+
+    const publicaciones =
+        await this.publicacionModel.find({
+            activo: true
+        });
+
+    const estadisticas: any = {};
+
+    for (const publicacion of publicaciones) {
+
+        for (const comentario of publicacion.comentarios) {
+
+            const fecha =
+                new Date(comentario.fecha)
+                .toLocaleDateString();
+
+            if (!estadisticas[fecha]) {
+
+                estadisticas[fecha] = 0;
+
+            }
+
+            estadisticas[fecha]++;
+
+        }
+
+    }
+
+    return Object.keys(
+        estadisticas
+    ).map(fecha => ({
+
+        fecha,
+
+        cantidad:
+            estadisticas[fecha]
+
+    }));
 
 }
 

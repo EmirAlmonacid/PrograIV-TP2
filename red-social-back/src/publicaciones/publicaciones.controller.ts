@@ -35,6 +35,29 @@ export class PublicacionesController {
         );
 
     }
+    @Get('estadisticas/publicaciones')
+        obtenerEstadisticasPublicaciones() {
+
+            return this.publicacionesService
+                .obtenerEstadisticasPublicaciones();
+
+    }
+
+    @Get('estadisticas/comentarios')
+        obtenerEstadisticasComentarios() {
+
+            return this.publicacionesService
+                .obtenerEstadisticasComentarios();
+
+        }
+
+        @Get('estadisticas/comentarios-dia')
+    obtenerEstadisticasComentariosPorDia() {
+
+        return this.publicacionesService
+            .obtenerEstadisticasComentariosPorDia();
+
+    }
 
     // Obtiene publicaciones con filtros, orden y paginación.
     @Get()
@@ -138,5 +161,6 @@ export class PublicacionesController {
 
     }
 
+    
 }
 
