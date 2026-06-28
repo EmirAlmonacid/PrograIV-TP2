@@ -101,4 +101,28 @@ editarComentario(
 
 }
 
+obtenerEstadisticasPublicaciones() {
+
+  return this.http.get<any[]>(
+    `${this.apiUrl}/estadisticas/publicaciones`
+  );
+
+}
+
+obtenerEstadisticasComentarios() {
+
+  return this.http.get<any[]>(
+    `${this.apiUrl}/estadisticas/comentarios`
+  );
+
+}
+
+obtenerEstadisticasComentariosPorDia() {
+
+  return this.http.get<any[]>(
+    `${this.apiUrl}/estadisticas/comentarios-dia`
+  );
+
+}
+
 }
