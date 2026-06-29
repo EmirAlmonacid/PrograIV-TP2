@@ -232,9 +232,9 @@ async obtenerComentarios(
     );
 
 }
-
 async obtenerEstadisticasPublicaciones() {
 
+    // Obtiene todas las publicaciones activas y los usuarios registrados.
     const publicaciones =
         await this.publicacionModel.find({
             activo: true
@@ -243,8 +243,10 @@ async obtenerEstadisticasPublicaciones() {
     const usuarios =
         await this.usuarioModel.find();
 
+    // Almacena la cantidad de publicaciones realizadas por cada usuario.
     const estadisticas: any[] = [];
 
+    // Recorre todos los usuarios para contar sus publicaciones.
     for (const usuario of usuarios) {
 
         const cantidad =
@@ -254,6 +256,7 @@ async obtenerEstadisticasPublicaciones() {
                     usuario._id.toString()
             ).length;
 
+        // Guarda el usuario junto con la cantidad de publicaciones para el gráfico.
         estadisticas.push({
 
             usuario: usuario.usuario,
@@ -270,11 +273,13 @@ async obtenerEstadisticasPublicaciones() {
 
 async obtenerEstadisticasComentarios() {
 
+    // Obtiene las publicaciones activas para calcular sus comentarios.
     const publicaciones =
         await this.publicacionModel.find({
             activo: true
         });
 
+    // Devuelve el título de cada publicación y la cantidad de comentarios recibidos.
     return publicaciones.map(
         (publicacion: any) => ({
 
@@ -290,11 +295,11 @@ async obtenerEstadisticasComentarios() {
 
 async obtenerEstadisticasComentariosPorDia() {
 
+    // Obtiene las publicaciones activas para analizar los comentarios.
     const publicaciones =
         await this.publicacionModel.find({
             activo: true
         });
-
     const estadisticas: any = {};
 
     for (const publicacion of publicaciones) {
@@ -305,18 +310,21 @@ async obtenerEstadisticasComentariosPorDia() {
                 new Date(comentario.fecha)
                 .toLocaleDateString();
 
+            // Si la fecha aún no existe, inicializa el contador.
             if (!estadisticas[fecha]) {
 
                 estadisticas[fecha] = 0;
 
             }
 
+            // Incrementa la cantidad de comentarios correspondientes a esa fecha.
             estadisticas[fecha]++;
 
         }
 
     }
 
+    // Convierte el resultado en un arreglo para ser utilizado por Chart.js.
     return Object.keys(
         estadisticas
     ).map(fecha => ({

@@ -20,6 +20,7 @@ export class UsuariosService {
     file?: any,
   ) {
 
+    // Verifica que el nombre de usuario y el correo no se encuentren registrados.
     const usuarioExistente =
       await this.usuarioModel.findOne({
         usuario: usuario.usuario
@@ -63,6 +64,7 @@ export class UsuariosService {
 
     }
 
+    // Si el usuario cargó una imagen, se almacena en Cloudinary.
     if (file) {
 
       const imagenSubida =
@@ -72,11 +74,13 @@ export class UsuariosService {
 
     } else {
 
+      // Asigna una imagen por defecto cuando no se selecciona una foto.
       usuario.foto =
         'https://res.cloudinary.com/drh8becix/image/upload/v1781308140/avatar_kvowju.webp';
 
     }
 
+    // Encripta la contraseña antes de guardarla en la base de datos.
     const passwordEncriptada =
       await bcrypt.hash(usuario.password, 10);
 
@@ -88,6 +92,8 @@ export class UsuariosService {
 
   async login(usuario: string, password: string) {
 
+    // Permite iniciar sesión utilizando
+    // el nombre de usuario o el correo.
     const usuarioEncontrado = await this.usuarioModel.findOne({
       $or: [
         { usuario: usuario },
@@ -99,6 +105,8 @@ export class UsuariosService {
       return null;
     }
 
+    // Verifica que la cuenta
+    // se encuentre habilitada.
     if (!usuarioEncontrado.activo) {
       return {
         error: true,
@@ -106,6 +114,7 @@ export class UsuariosService {
       };
     }
 
+    // Compara la contraseña ingresada con la almacenada de forma encriptada.
     const passwordCorrecta =
       await bcrypt.compare(
         password,
@@ -120,10 +129,13 @@ export class UsuariosService {
 
   }
 
+  // Devuelve el listado completo de usuarios registrados.
   async obtenerTodos() {
     return await this.usuarioModel.find();
   }
 
+  // Obtiene los diez usuarios
+  // registrados más recientemente.
   async obtenerUltimos() {
 
     return await this.usuarioModel
@@ -141,6 +153,8 @@ export class UsuariosService {
     file?: any
   ) {
 
+    // Si se carga una nueva imagen,
+    // reemplaza la foto de perfil.
     if (file) {
 
       const imagenSubida =
@@ -162,6 +176,7 @@ export class UsuariosService {
 
   }
 
+  // Deshabilita la cuenta del usuario sin eliminar el registro de la base de datos.
   async deshabilitar(id: string) {
 
     return await this.usuarioModel.findByIdAndUpdate(
@@ -176,6 +191,7 @@ export class UsuariosService {
 
   }
 
+  // Reactiva una cuenta previamente deshabilitada.
   async habilitar(id: string) {
 
     return await this.usuarioModel.findByIdAndUpdate(

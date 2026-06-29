@@ -22,7 +22,7 @@ export class UsuariosController {
     private readonly usuariosService: UsuariosService,
   ) {}
 
-  
+  // Registra un nuevo usuario y permite cargar una foto de perfil.
   @Post()
   @UseInterceptors(FileInterceptor('foto'))
   crear(
@@ -37,6 +37,7 @@ export class UsuariosController {
 
   }
 
+  // Verifica las credenciales del usuario para iniciar sesión.
   @Post('login')
   login(@Body() datos: any) {
 
@@ -47,6 +48,7 @@ export class UsuariosController {
 
   }
 
+  // Solo un administrador puede obtener el listado completo de usuarios.
   @UseGuards(AdminGuard)
   @Get()
   obtenerTodos() {
@@ -55,6 +57,7 @@ export class UsuariosController {
 
   }
 
+  // Devuelve los últimos usuarios registrados.
   @Get('ultimos')
   obtenerUltimos() {
 
@@ -62,6 +65,7 @@ export class UsuariosController {
 
   }
 
+  // Actualiza los datos del usuario
   @Put(':id')
   @UseInterceptors(
     FileInterceptor('foto')
@@ -80,6 +84,7 @@ export class UsuariosController {
 
   }
 
+  // Solo un administrador puede deshabilitar
   @UseGuards(AdminGuard)
   @Delete(':id')
   deshabilitar(
@@ -90,6 +95,7 @@ export class UsuariosController {
 
   }
 
+  // Vuelve a habilitar un usuario previamente deshabilitado.
   @Post('habilitar/:id')
   habilitar(
     @Param('id') id: string

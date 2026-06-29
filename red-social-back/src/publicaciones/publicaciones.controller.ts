@@ -35,23 +35,27 @@ export class PublicacionesController {
         );
 
     }
-    @Get('estadisticas/publicaciones')
-        obtenerEstadisticasPublicaciones() {
 
-            return this.publicacionesService
-                .obtenerEstadisticasPublicaciones();
+    // Obtiene estadísticas de publicaciones por usuario.
+    @Get('estadisticas/publicaciones')
+    obtenerEstadisticasPublicaciones() {
+
+        return this.publicacionesService
+            .obtenerEstadisticasPublicaciones();
 
     }
 
+    // Obtiene la cantidad de comentarios por publicación.
     @Get('estadisticas/comentarios')
-        obtenerEstadisticasComentarios() {
+    obtenerEstadisticasComentarios() {
 
-            return this.publicacionesService
-                .obtenerEstadisticasComentarios();
+        return this.publicacionesService
+            .obtenerEstadisticasComentarios();
 
-        }
+    }
 
-        @Get('estadisticas/comentarios-dia')
+    // Obtiene la cantidad de comentarios realizados por día.
+    @Get('estadisticas/comentarios-dia')
     obtenerEstadisticasComentariosPorDia() {
 
         return this.publicacionesService
@@ -59,7 +63,7 @@ export class PublicacionesController {
 
     }
 
-    // Obtiene publicaciones con filtros, orden y paginación.
+    // Obtiene publicaciones aplicando filtros, orden y paginación.
     @Get()
     obtenerTodas(
         @Query('orden') orden?: string,
@@ -77,7 +81,7 @@ export class PublicacionesController {
 
     }
 
-    // Realiza la baja lógica de una publicación.
+    // Deshabilita una publicación mediante baja lógica.
     @Delete(':id')
     eliminar(
         @Param('id') id: string
@@ -87,7 +91,7 @@ export class PublicacionesController {
 
     }
 
-    // Agrega un like a la publicación.
+    // Registra un nuevo like del usuario sobre la publicación.
     @Post(':id/like')
     darLike(
         @Param('id') id: string,
@@ -101,7 +105,7 @@ export class PublicacionesController {
 
     }
 
-    // Elimina el like del usuario indicado.
+    // Elimina el like realizado por el usuario.
     @Delete(':id/like/:usuarioId')
     quitarLike(
         @Param('id') id: string,
@@ -115,7 +119,7 @@ export class PublicacionesController {
 
     }
 
-    // Agrega un comentario a la publicación.
+    // Agrega un comentario a una publicación.
     @Post(':id/comentario')
     comentar(
         @Param('id') id: string,
@@ -129,7 +133,7 @@ export class PublicacionesController {
 
     }
 
-    // Modifica el texto de un comentario existente.
+    // Actualiza el contenido de un comentario existente.
     @Post(':id/comentario/:index')
     editarComentario(
         @Param('id') id: string,
@@ -145,7 +149,7 @@ export class PublicacionesController {
 
     }
 
-    // Obtiene los comentarios de una publicación con paginación.
+    // Devuelve los comentarios de una publicación con paginación.
     @Get(':id/comentarios')
     obtenerComentarios(
         @Param('id') id: string,
@@ -161,6 +165,4 @@ export class PublicacionesController {
 
     }
 
-    
 }
-

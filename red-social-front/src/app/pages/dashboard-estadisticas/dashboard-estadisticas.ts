@@ -21,6 +21,7 @@
 
     ngAfterViewInit(): void {
 
+        // Carga los tres gráficos del dashboard al iniciar la vista.
         this.cargarGraficoPublicaciones();
 
         this.cargarGraficoComentarios();
@@ -37,6 +38,7 @@
 
             next: (datos: any[]) => {
 
+            // Muestra la cantidad de publicaciones realizadas por cada usuario.
             new Chart('graficoPublicaciones', {
 
                 type: 'bar',
@@ -79,6 +81,7 @@
 
             next: (datos: any[]) => {
 
+            // Representa la cantidad de comentarios recibidos por cada publicación.
             new Chart('graficoComentarios', {
 
                 type: 'bar',
@@ -121,6 +124,7 @@
 
             next: (datos: any[]) => {
 
+            // Grafica la evolución diaria de los comentarios realizados.
             new Chart('graficoComentariosDia', {
 
                 type: 'line',
