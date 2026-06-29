@@ -59,44 +59,58 @@ export class Login {
 
       next: (respuesta: any) => {
 
-        if (!respuesta) {
+  if (!respuesta) {
 
-          this.mensajeModal =
-            'Usuario o contraseña incorrectos';
+    this.mensajeModal =
+      'Usuario o contraseña incorrectos';
 
-          this.mostrarModal = true;
+    this.mostrarModal = true;
 
-          this.cdr.detectChanges();
-          return;
+    this.cdr.detectChanges();
 
-        }
+    return;
 
-        localStorage.setItem(
-          'token',
-          respuesta.token
-        );
+  }
 
-        const expiracion =
-          Date.now() + 10 * 60 * 1000;
+  if (respuesta.error) {
 
-        localStorage.setItem(
-          'expiracionToken',
-          expiracion.toString()
-        );
+    this.mensajeModal =
+      respuesta.mensaje;
 
-        localStorage.setItem(
-          'usuarioLogueado',
-          JSON.stringify(respuesta.usuario)
-        );
+    this.mostrarModal = true;
 
-        this.mensajeModal =
-          'Inicio de sesión exitoso';
+    this.cdr.detectChanges();
 
-        this.mostrarModal = true;
+    return;
 
-        this.cdr.detectChanges();
+    }
 
-      },
+    localStorage.setItem(
+      'token',
+      respuesta.token
+    );
+
+    const expiracion =
+      Date.now() + 10 * 60 * 1000;
+
+    localStorage.setItem(
+      'expiracionToken',
+      expiracion.toString()
+    );
+
+    localStorage.setItem(
+      'usuarioLogueado',
+      JSON.stringify(respuesta.usuario)
+    );
+
+    this.mensajeModal =
+      'Inicio de sesión exitoso';
+
+    this.mostrarModal = true;
+
+    this.cdr.detectChanges();
+
+  },
 
       error: (error) => {
 
