@@ -8,6 +8,7 @@
 
     transform(valor: number): string {
 
+        // Formatea valores grandes utilizando K (miles) y M (millones).
         if (valor == null) {
         return '0';
         }

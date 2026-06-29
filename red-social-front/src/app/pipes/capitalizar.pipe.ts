@@ -8,6 +8,7 @@
 
     transform(texto: string): string {
 
+        // Convierte la primera letra en mayúscula y el resto en minúscula.
         if (!texto) {
         return '';
         }

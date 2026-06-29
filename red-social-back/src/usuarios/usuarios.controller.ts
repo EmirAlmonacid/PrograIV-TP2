@@ -96,6 +96,7 @@ export class UsuariosController {
   }
 
   // Vuelve a habilitar un usuario previamente deshabilitado.
+  @UseGuards(AdminGuard)
   @Post('habilitar/:id')
   habilitar(
     @Param('id') id: string

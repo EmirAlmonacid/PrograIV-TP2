@@ -8,6 +8,7 @@
 
     transform(fecha: string | Date): string {
 
+        // Calcula el tiempo transcurrido entre la fecha de la publicación y la fecha actual.
         const fechaPublicacion = new Date(fecha);
         const ahora = new Date();
 
@@ -26,6 +27,7 @@
         const dias =
         Math.floor(horas / 24);
 
+        // Devuelve el tiempo en el formato más adecuado según la diferencia calculada.
         if (segundos < 60) {
         return 'Hace unos segundos';
         }
@@ -46,6 +48,7 @@
         return `Hace ${dias} días`;
         }
 
+        // Si la publicación tiene más de un mes, muestra la fecha completa.
         return fechaPublicacion.toLocaleDateString();
 
     }
