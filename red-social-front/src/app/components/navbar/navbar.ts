@@ -1,9 +1,10 @@
 import { Component, OnInit, DoCheck, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { DeshabilitadoVisualDirective } from '../../directives/deshabilitado-visual.directive';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, DeshabilitadoVisualDirective],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })

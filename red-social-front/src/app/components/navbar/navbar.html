@@ -29,9 +29,13 @@
         </a>
 
         <a
+            appDeshabilitadoVisual
+            [deshabilitado]="!estaLogueado"
             routerLink="/perfil"
             routerLinkActive="active-link">
+
             Mi Perfil
+
         </a>
         @if(esAdministrador){
 

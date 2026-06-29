@@ -15,8 +15,12 @@
 
             🕒 {{ fecha | date:'dd/MM/yyyy - HH:mm' }}
 
-        </div>
+            <br>
+            <br>
 
+            {{ fecha | fechaRelativa }}
+
+        </div>
         <h2>
                 {{ titulo }}
             </h2>
@@ -28,7 +32,7 @@
 
             <div class="contador-likes">
 
-                ❤️ {{ likes.length }}
+                ❤️ {{ likes.length | contador }}
 
             </div>
 
@@ -40,13 +44,16 @@
                         ){
 
                     <button
-                        class="btn-eliminar"
-                        type="button"
-                        (click)="eliminarPublicacion()">
+                    class="btn-eliminar"
+                    type="button"
+                    (click)="abrirModalEliminar()">
 
-                        🗑️ Eliminar
+                    🗑️ Eliminar
 
-                    </button>
+                </button>
+
+             
+            
 
                 }
 
@@ -96,7 +103,7 @@
                 <div class="comentario">
 
                     <strong>
-                        &#64;{{ comentario.usuario }}
+                        &#64;{{ comentario.usuario | capitalizar }}
                     </strong>
 
                     @if(comentarioEditando === $index){
@@ -192,3 +199,53 @@
     </div>
 
 </div>
+
+@if(mostrarModalEliminar){
+
+<div class="modal-fondo">
+
+    <div class="modal">
+
+        <h3>
+
+            ¿Eliminar publicación?
+
+        </h3>
+
+        <p>
+
+            Esta acción no se puede deshacer.
+
+        </p>
+
+        <div class="acciones-modal">
+
+            <div class="acciones-modal">
+
+            <button
+                class="btn-cancelar-modal"
+                type="button"
+                (click)="cancelarEliminar()">
+
+                Cancelar
+
+            </button>
+
+            <button
+                class="btn-eliminar-modal"
+                type="button"
+                (click)="confirmarEliminar()">
+
+                Eliminar
+
+            </button>
+
+        </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+}

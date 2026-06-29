@@ -11,10 +11,22 @@ import { PublicacionesService } from '../../../services/publicaciones';
 
 import { CommonModule } from '@angular/common';
 
+import { CapitalizarPipe } from '../../pipes/capitalizar.pipe';
+
+import { ContadorPipe } from '../../pipes/contador.pipe.ts';
+
+import { FechaRelativaPipe } from '../../pipes/fecha-relativa.pipe';
+
+import { ConfirmarAccionDirective } from '../../directives/confirmar-accion.directive';
+
+
+
 @Component({
   selector: 'app-publicacion-card',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, CapitalizarPipe, ContadorPipe, FechaRelativaPipe,
+    ConfirmarAccionDirective
+  ],
   templateUrl: './publicacion-card.html',
   styleUrls: ['./publicacion-card.css']
 })
@@ -57,6 +69,8 @@ export class PublicacionCard implements OnInit {
   textoEditado = '';
 
   comentariosVisibles = 3;
+
+  mostrarModalEliminar = false;
 
   constructor(
     private publicacionesService: PublicacionesService,
@@ -162,29 +176,37 @@ export class PublicacionCard implements OnInit {
 
   }
 
-  eliminarPublicacion() {
+ abrirModalEliminar() {
 
-    // Elimina la publicación seleccionada
-    // y actualiza la lista recargando la vista.
+    this.mostrarModalEliminar = true;
+
+}
+
+confirmarEliminar() {
+
     this.publicacionesService
-      .eliminar(this.id)
-      .subscribe({
+        .eliminar(this.id)
+        .subscribe({
 
-        next: () => {
+            next: () => {
 
-          window.location.reload();
+                this.mostrarModalEliminar = false;
 
-        },
+                window.location.reload();
 
-        error: (error) => {
+            },
 
-          console.log(error);
+            error: console.log
 
-        }
+        });
 
-      });
+}
 
-  }
+cancelarEliminar() {
+
+    this.mostrarModalEliminar = false;
+
+}
 
 
   agregarComentario() {

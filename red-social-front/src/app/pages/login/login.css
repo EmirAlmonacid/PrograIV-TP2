@@ -345,3 +345,37 @@
     }
 
 }
+
+.password-container{
+
+    position:relative;
+
+}
+
+.btn-password{
+
+    position:absolute;
+
+    right:12px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    border:none;
+
+    background:transparent;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    color:#64748b;
+
+}
+
+.btn-password:hover{
+
+    color:#08152f;
+
+}

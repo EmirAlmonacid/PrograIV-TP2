@@ -124,11 +124,26 @@
                         Contraseña
                     </label>
 
+                    <div class="password-container">
+
                     <input
+                        #passwordInput
                         type="password"
                         formControlName="password"
                         placeholder="Ingresá tu contraseña"
                         [class.error-input]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+
+                    <button
+                        appMostrarPassword
+                        [input]="passwordInput"
+                        type="button"
+                        class="btn-password">
+
+                        👁
+
+                    </button>
+
+                </div>
 
                     @if(
                         loginForm.get('password')?.invalid &&

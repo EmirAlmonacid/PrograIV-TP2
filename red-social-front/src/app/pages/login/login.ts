@@ -1,6 +1,7 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsuariosService } from '../../../services/usuarios';
+import { MostrarPasswordDirective } from '../../directives/mostrar-password.directive';
 
 import {
   FormBuilder,
@@ -16,6 +17,7 @@ import { Navbar } from '../../components/navbar/navbar';
   imports: [
     Navbar,
     ReactiveFormsModule,
+    MostrarPasswordDirective
   ],
   templateUrl: './login.html',
   styleUrl: './login.css'
@@ -69,10 +71,13 @@ export class Login {
 
         }
 
-        localStorage.setItem(
-          'token',
-          respuesta.token
-        );
+        const expiracion =
+        Date.now() + 10 * 60 * 1000;
+
+      localStorage.setItem(
+        'expiracionToken',
+        expiracion.toString()
+      );
 
         localStorage.setItem(
           'usuarioLogueado',
