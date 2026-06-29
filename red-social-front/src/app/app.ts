@@ -19,7 +19,6 @@ export class App implements OnInit {
 
   temporizadorSesion: any;
 
-  segundosRestantes = 600;
 
   constructor(
     private router: Router,
@@ -34,9 +33,9 @@ export class App implements OnInit {
       'logout',
       () => {
 
-        clearTimeout(
-          this.temporizadorSesion
-        );
+        clearInterval(
+        this.temporizadorSesion
+      );
 
         this.mostrarModalSesion =
           false;
@@ -66,57 +65,33 @@ export class App implements OnInit {
 
   }
 
-  iniciarContador() {
+ iniciarContador() {
 
-    clearTimeout(
-      this.temporizadorSesion
-    );
+  clearInterval(
+    this.temporizadorSesion
+  );
 
-    const tiempoGuardado =
-      Number(
-        localStorage.getItem(
-          'segundosRestantes'
-        )
-      );
+  this.temporizadorSesion =
+    setInterval(() => {
 
-    this.segundosRestantes =
-      tiempoGuardado > 0
-        ? tiempoGuardado
-        : 600;
-
-    localStorage.setItem(
-      'segundosRestantes',
-      this.segundosRestantes.toString()
-    );
-
-    const contador =
-      setInterval(() => {
-
-        this.segundosRestantes--;
-
-        localStorage.setItem(
-          'segundosRestantes',
-          this.segundosRestantes.toString()
+      const expiracion =
+        Number(
+          localStorage.getItem(
+            'expiracionToken'
+          )
         );
 
-        if (
-          this.segundosRestantes <= 0
-        ) {
+      const segundosRestantes =
+        Math.floor(
+          (expiracion - Date.now()) / 1000
+        );
 
-          clearInterval(
-            contador
-          );
-
-        }
-
-      }, 1000);
-
-    // Al finalizar el tiempo muestra el modal de renovación.
-    this.temporizadorSesion =
-      setTimeout(() => {
+      if (
+        segundosRestantes <= 0
+      ) {
 
         clearInterval(
-          contador
+          this.temporizadorSesion
         );
 
         this.mostrarModalSesion =
@@ -124,9 +99,12 @@ export class App implements OnInit {
 
         this.cdr.detectChanges();
 
-      }, 600000);
+      }
 
-  }
+    }, 1000);
+
+}
+
 
   extenderSesion() {
 
@@ -148,6 +126,14 @@ export class App implements OnInit {
             'token',
             respuesta.token
           );
+
+          const expiracion =
+          Date.now() + 10 * 60 * 1000;
+
+        localStorage.setItem(
+          'expiracionToken',
+          expiracion.toString()
+        );
 
           this.mostrarModalSesion =
             false;
@@ -181,8 +167,10 @@ export class App implements OnInit {
   }
 
   cerrarSesionPorVencimiento() {
-
-    clearTimeout(
+    localStorage.removeItem(
+  'expiracionToken'
+);
+    clearInterval(
       this.temporizadorSesion
     );
 

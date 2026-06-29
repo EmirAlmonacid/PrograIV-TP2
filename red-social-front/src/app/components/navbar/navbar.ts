@@ -4,7 +4,11 @@ import { DeshabilitadoVisualDirective } from '../../directives/deshabilitado-vis
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive, DeshabilitadoVisualDirective],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    DeshabilitadoVisualDirective
+  ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
@@ -24,30 +28,40 @@ export class Navbar implements OnInit, DoCheck {
   ngOnInit(): void {
 
     this.verificarSesion();
-    
+
     setInterval(() => {
 
-  const segundos =
-    Number(
-      localStorage.getItem(
-        'segundosRestantes'
-      ) || 0
-    );
+      const expiracion =
+        Number(
+          localStorage.getItem(
+            'expiracionToken'
+          )
+        );
 
-  const minutos =
-    Math.floor(segundos / 60);
+      const segundos =
+        Math.max(
+          0,
+          Math.floor(
+            (expiracion - Date.now()) / 1000
+          )
+        );
 
-  const resto =
-    segundos % 60;
+      const minutos =
+        Math.floor(segundos / 60);
 
-  this.tiempoRestante =
-    `${minutos
-      .toString()
-      .padStart(2,'0')}:${resto
-      .toString()
-      .padStart(2,'0')}`;
+      const resto =
+        segundos % 60;
+
+      this.tiempoRestante =
+        `${minutos
+          .toString()
+          .padStart(2, '0')}:${resto
+          .toString()
+          .padStart(2, '0')}`;
+
       this.cdr.detectChanges();
-}, 1000);
+
+    }, 1000);
 
   }
 
@@ -59,50 +73,54 @@ export class Navbar implements OnInit, DoCheck {
 
   verificarSesion() {
 
-  const token =
-    localStorage.getItem('token');
+    const token =
+      localStorage.getItem('token');
 
-  this.estaLogueado = !!token;
+    this.estaLogueado = !!token;
 
-  const usuario =
-    localStorage.getItem(
-      'usuarioLogueado'
-    );
-
-  if (usuario) {
-
-    this.esAdministrador =
-      JSON.parse(usuario).perfil ===
-      'administrador';
-
-  } else {
-
-    this.esAdministrador = false;
-
-  }
-
-}
-
-  cerrarSesion() {
-
-      localStorage.removeItem(
+    const usuario =
+      localStorage.getItem(
         'usuarioLogueado'
       );
 
-      localStorage.removeItem(
-        'token'
-      );
+    if (usuario) {
 
-      window.dispatchEvent(
-        new Event('logout')
-      );
+      this.esAdministrador =
+        JSON.parse(usuario).perfil ===
+        'administrador';
 
-      this.estaLogueado = false;
+    } else {
 
-      this.router.navigate([
-        '/login'
-      ]);
+      this.esAdministrador = false;
 
     }
+
+  }
+
+  cerrarSesion() {
+
+    localStorage.removeItem(
+      'usuarioLogueado'
+    );
+
+    localStorage.removeItem(
+      'token'
+    );
+
+    localStorage.removeItem(
+      'expiracionToken'
+    );
+
+    window.dispatchEvent(
+      new Event('logout')
+    );
+
+    this.estaLogueado = false;
+
+    this.router.navigate([
+      '/login'
+    ]);
+
+  }
 
 }

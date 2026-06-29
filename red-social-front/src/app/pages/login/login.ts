@@ -71,13 +71,18 @@ export class Login {
 
         }
 
-        const expiracion =
-        Date.now() + 10 * 60 * 1000;
+        localStorage.setItem(
+          'token',
+          respuesta.token
+        );
 
-      localStorage.setItem(
-        'expiracionToken',
-        expiracion.toString()
-      );
+        const expiracion =
+          Date.now() + 10 * 60 * 1000;
+
+        localStorage.setItem(
+          'expiracionToken',
+          expiracion.toString()
+        );
 
         localStorage.setItem(
           'usuarioLogueado',
